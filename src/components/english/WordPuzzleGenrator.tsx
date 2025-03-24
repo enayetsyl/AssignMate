@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 
 /* --------------------------------------------
    1) Define a function to create and fill the grid
 -------------------------------------------- */
 function createEmptyGrid(size: number): string[][] {
-  return Array.from({ length: size }, () => Array(size).fill(""));
+  return Array.from({ length: size }, () => Array(size).fill(''));
 }
 
 /* --------------------------------------------
@@ -56,7 +56,7 @@ function canPlaceWord(
       return false;
     }
     // Collision check: either empty or matching letter
-    if (grid[r][c] !== "" && grid[r][c] !== word[i]) {
+    if (grid[r][c] !== '' && grid[r][c] !== word[i]) {
       return false;
     }
   }
@@ -125,7 +125,7 @@ function generatePuzzle(
   // Fill empty cells with random letters
   for (let r = 0; r < gridSize; r++) {
     for (let c = 0; c < gridSize; c++) {
-      if (grid[r][c] === "") {
+      if (grid[r][c] === '') {
         // A-Z or a-z
         const charCode = 65 + Math.floor(Math.random() * 26); // 'A'
         const letter = String.fromCharCode(charCode);
@@ -138,11 +138,11 @@ function generatePuzzle(
 }
 
 const WordPuzzleGenerator: React.FC = () => {
-  const [word, setWord] = useState("");
+  const [word, setWord] = useState('');
   const [imageURL, setImageURL] = useState<string | null>(null);
   const [puzzle, setPuzzle] = useState<string[][]>([]);
-  const [letterCase, setLetterCase] = useState<"uppercase" | "lowercase">(
-    "uppercase"
+  const [letterCase, setLetterCase] = useState<'uppercase' | 'lowercase'>(
+    'uppercase'
   );
 
   // Handle image file input
@@ -164,12 +164,12 @@ const WordPuzzleGenerator: React.FC = () => {
 
     // Convert the user's word to uppercase or lowercase
     const finalWord =
-      letterCase === "uppercase" ? word.toUpperCase() : word.toLowerCase();
+      letterCase === 'uppercase' ? word.toUpperCase() : word.toLowerCase();
 
     const newPuzzle = generatePuzzle(
       finalWord,
       12,
-      letterCase === "uppercase"
+      letterCase === 'uppercase'
     );
     setPuzzle(newPuzzle);
   };
@@ -228,8 +228,8 @@ const WordPuzzleGenerator: React.FC = () => {
                   type="radio"
                   name="letterCase"
                   value="uppercase"
-                  checked={letterCase === "uppercase"}
-                  onChange={() => setLetterCase("uppercase")}
+                  checked={letterCase === 'uppercase'}
+                  onChange={() => setLetterCase('uppercase')}
                 />
                 <span>Uppercase</span>
               </label>
@@ -238,8 +238,8 @@ const WordPuzzleGenerator: React.FC = () => {
                   type="radio"
                   name="letterCase"
                   value="lowercase"
-                  checked={letterCase === "lowercase"}
-                  onChange={() => setLetterCase("lowercase")}
+                  checked={letterCase === 'lowercase'}
+                  onChange={() => setLetterCase('lowercase')}
                 />
                 <span>Lowercase</span>
               </label>
