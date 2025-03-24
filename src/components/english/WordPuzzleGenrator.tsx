@@ -270,7 +270,10 @@ const WordPuzzleGenerator: React.FC = () => {
             {/* Display the Puzzle */}
             {puzzle.length > 0 && (
               <div className="overflow-x-auto">
-                <CardTitle className='text-center text-2xl text-amber-400'>See how many times you can find word "{word}''.</CardTitle>
+                <CardTitle className="text-center text-2xl text-amber-400">
+  See how many times you can find word &quot;{word}&quot;.
+</CardTitle>
+
                 <table className="mx-auto my-4 border-collapse">
                   <tbody>
                     {puzzle.map((row, rowIndex) => (

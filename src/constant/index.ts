@@ -18,8 +18,8 @@ export const menuItems: MenuItem[] = [
     href: '/english',
     items: [
       { label: 'One Word Puzzle', href: '/english/single-word-puzzle' },
-      { label: 'Multi Word Puzzle Hard', href: '/english/multi-word-puzzle' },
-      { label: 'Placeholder 3', href: '/english/placeholder-3' },
+      { label: 'Multi Word Puzzle Easy', href: '/english/multi-word-puzzle-easy' },
+      { label: 'Multi Word Puzzle Hard', href: '/english/multi-word-puzzle-hard' },
       { label: 'Placeholder 4', href: '/english/placeholder-4' },
       { label: 'Placeholder 5', href: '/english/placeholder-5' },
     ],

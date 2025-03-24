@@ -12,7 +12,7 @@ const COLORS = [
   'bg-emerald-200', 'bg-sky-200', 'bg-slate-200', 'bg-gray-200', 'bg-stone-200'
 ];
 
-const MultiWordPuzzleGenerator = () => {
+const MultiWordPuzzleGeneratorHard = () => {
   const [words, setWords] = useState<string[]>([]);
   const [images, setImages] = useState<string[]>([]);
   const [grid, setGrid] = useState<string[][]>([]);
@@ -54,7 +54,7 @@ const MultiWordPuzzleGenerator = () => {
     if (!showAnswers || printMode !== 'answer') return '';
     const entries = Object.entries(answers);
     for (let i = 0; i < entries.length; i++) {
-      const [_, positions] = entries[i];
+      const [, positions] = entries[i];
       if (positions.some(([r, c]) => r === row && c === col)) {
         return COLORS[i % COLORS.length];
       }
@@ -152,7 +152,7 @@ const MultiWordPuzzleGenerator = () => {
               {printMode === 'puzzle' && (
                 <div className="w-1/4 space-y-1">
                   <ul>
-                    {words.map((word, i) => (
+                    {words.map((word) => (
                       <li key={word} className="flex items-center gap-2">
                         <input type="checkbox" />
                         <span className="font-kids text-lg">{word}</span>
@@ -205,7 +205,7 @@ const MultiWordPuzzleGenerator = () => {
   );
 };
 
-export default MultiWordPuzzleGenerator;
+export default MultiWordPuzzleGeneratorHard;
 
 // Path definitions
 export type Direction = number[][];
