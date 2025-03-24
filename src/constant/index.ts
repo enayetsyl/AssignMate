@@ -17,8 +17,8 @@ export const menuItems: MenuItem[] = [
     title: 'English',
     href: '/english',
     items: [
-      { label: 'Puzzle One Word', href: '/english/single-word-puzzle' },
-      { label: 'Placeholder 2', href: '/english/placeholder-2' },
+      { label: 'One Word Puzzle', href: '/english/single-word-puzzle' },
+      { label: 'Multi Word Puzzle Hard', href: '/english/multi-word-puzzle' },
       { label: 'Placeholder 3', href: '/english/placeholder-3' },
       { label: 'Placeholder 4', href: '/english/placeholder-4' },
       { label: 'Placeholder 5', href: '/english/placeholder-5' },

@@ -11,6 +11,7 @@ import {
   CardDescription,
   CardContent,
 } from '@/components/ui/card';
+import Image from 'next/image';
 
 /* --------------------------------------------
    1) Define a function to create and fill the grid
@@ -269,7 +270,7 @@ const WordPuzzleGenerator: React.FC = () => {
             {/* Display the Puzzle */}
             {puzzle.length > 0 && (
               <div className="overflow-x-auto">
-                <CardTitle className='text-center text-2xl text-amber-400'>See how many times you can find word "{word}".</CardTitle>
+                <CardTitle className='text-center text-2xl text-amber-400'>See how many times you can find word "{word}''.</CardTitle>
                 <table className="mx-auto my-4 border-collapse">
                   <tbody>
                     {puzzle.map((row, rowIndex) => (
@@ -292,10 +293,12 @@ const WordPuzzleGenerator: React.FC = () => {
             {/* Display the Uploaded Image (if any) */}
             {imageURL && (
               <div className="mt-4 text-center">
-                <img
+                <Image
                   src={imageURL}
                   alt="Puzzle Illustration"
                   className="inline-block max-h-20"
+                  height={20}
+                  width={20}
                 />
               </div>
             )}

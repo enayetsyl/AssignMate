@@ -119,4 +119,17 @@
   body {
     @apply bg-background text-foreground;
   }
+  .font-kids {
+    font-family: var(--font-kids);
+  }
 }
+
+@layer utilities {
+  .bg-answer-0 { background-color: #fde68a; } /* yellow */
+  .bg-answer-1 { background-color: #a7f3d0; } /* green */
+  .bg-answer-2 { background-color: #bfdbfe; } /* blue */
+  .bg-answer-3 { background-color: #fbcfe8; } /* pink */
+  .bg-answer-4 { background-color: #ddd6fe; } /* purple */
+  .bg-answer-5 { background-color: #fecaca; } /* red */
+}
+
