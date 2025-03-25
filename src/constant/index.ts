@@ -22,7 +22,7 @@ export const menuItems: MenuItem[] = [
       { label: 'Multi Word Puzzle Medium', href: '/english/multi-word-puzzle-medium' },
       { label: 'Multi Word Puzzle Hard', href: '/english/multi-word-puzzle-hard' },
       { label: 'Multi Word Puzzle Stone', href: '/english/multi-word-puzzle-stone' },
-      { label: 'Placeholder 5', href: '/english/placeholder-5' },
+      { label: 'Word Rearrange', href: '/english/word-rearrange' },
     ],
   },
   {
