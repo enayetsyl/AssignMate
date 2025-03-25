@@ -1,10 +1,10 @@
-import SimpleMazeGenerator from '@/components/science/SimpleMazeGenerator'
-import React from 'react'
+import SimpleMazeGenerator from '@/components/science/SimpleMazeGenerator';
+import React from 'react';
 
 const SimpleMaze = () => {
   return (
     <SimpleMazeGenerator/>
-  )
-}
+  );
+};
 
-export default SimpleMaze
+export default SimpleMaze;

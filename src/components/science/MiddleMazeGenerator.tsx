@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect } from 'react';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 //
 // ─── TYPES ─────────────────────────────────────────────────────────────────────
@@ -52,10 +52,10 @@ function generateMaze(width: number, height: number): Maze {
     visited[cy][cx] = true;
 
     const directions = [
-      { dx: 0, dy: -1, wall: "horizontal" as const, wy: cy },
-      { dx: 0, dy: 1,  wall: "horizontal" as const, wy: cy + 1 },
-      { dx: -1, dy: 0, wall: "vertical"   as const, wx: cx },
-      { dx: 1,  dy: 0, wall: "vertical"   as const, wx: cx + 1 },
+      { dx: 0, dy: -1, wall: 'horizontal' as const, wy: cy },
+      { dx: 0, dy: 1,  wall: 'horizontal' as const, wy: cy + 1 },
+      { dx: -1, dy: 0, wall: 'vertical'   as const, wx: cx },
+      { dx: 1,  dy: 0, wall: 'vertical'   as const, wx: cx + 1 },
     ];
 
     shuffle(directions);
@@ -69,7 +69,7 @@ function generateMaze(width: number, height: number): Maze {
         !visited[ny][nx]
       ) {
         // Remove the wall between (cx, cy) and (nx, ny)
-        if (dir.wall === "horizontal") {
+        if (dir.wall === 'horizontal') {
           horizontalWalls[dir.wy][cx] = false;
         } else {
           verticalWalls[cy][dir.wx] = false;
@@ -197,7 +197,7 @@ const MazeSVG = ({
   const centerCol = Math.floor(width / 2);
 
   // Build a polyline string if we are showing the answer
-  let solutionPolyline = "";
+  let solutionPolyline = '';
   if (showAnswer && solutionPath.length > 0) {
     solutionPolyline = solutionPath
       .map(([r, c]) => {
@@ -205,7 +205,7 @@ const MazeSVG = ({
         const y = (r + 0.5) * cellSize;
         return `${x},${y}`;
       })
-      .join(" ");
+      .join(' ');
   }
 
   return (

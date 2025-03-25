@@ -42,7 +42,7 @@ export const menuItems: MenuItem[] = [
     items: [
       { label: 'Simple Maze', href: '/science/simple-maze' },
       { label: 'Middle Maze', href: '/science/middle-maze' },
-      { label: 'Placeholder 2', href: '/science/placeholder-2' },
+      { label: 'Circular Maze', href: '/science/circular-maze' },
       { label: 'Placeholder 3', href: '/science/placeholder-3' },
       { label: 'Placeholder 4', href: '/science/placeholder-4' },
       { label: 'Placeholder 5', href: '/science/placeholder-5' },

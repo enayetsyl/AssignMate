@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect } from 'react';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 type Maze = {
   horizontalWalls: boolean[][];
@@ -41,10 +41,10 @@ function generateMaze(width: number, height: number): Maze {
     visited[cy][cx] = true;
 
     const directions = [
-      { dx: 0, dy: -1, wall: "horizontal" as const, wy: cy },
-      { dx: 0, dy: 1, wall: "horizontal" as const, wy: cy + 1 },
-      { dx: -1, dy: 0, wall: "vertical" as const, wx: cx },
-      { dx: 1, dy: 0, wall: "vertical" as const, wx: cx + 1 },
+      { dx: 0, dy: -1, wall: 'horizontal' as const, wy: cy },
+      { dx: 0, dy: 1, wall: 'horizontal' as const, wy: cy + 1 },
+      { dx: -1, dy: 0, wall: 'vertical' as const, wx: cx },
+      { dx: 1, dy: 0, wall: 'vertical' as const, wx: cx + 1 },
     ];
 
     shuffle(directions);
@@ -60,7 +60,7 @@ function generateMaze(width: number, height: number): Maze {
         !visited[ny][nx]
       ) {
         // Remove the wall
-        if (dir.wall === "horizontal") {
+        if (dir.wall === 'horizontal') {
           horizontalWalls[dir.wy][cx] = false;
         } else {
           verticalWalls[cy][dir.wx] = false;
@@ -174,7 +174,7 @@ const MazeSVG = ({
   const svgHeight = height * cellSize;
 
   // Build a polyline string for the solution path if showAnswer is true
-  let solutionPolyline = "";
+  let solutionPolyline = '';
   if (showAnswer && solutionPath.length > 0) {
     solutionPolyline = solutionPath
       .map(([r, c]) => {
@@ -183,7 +183,7 @@ const MazeSVG = ({
         const y = (r + 0.5) * cellSize;
         return `${x},${y}`;
       })
-      .join(" ");
+      .join(' ');
   }
 
   return (

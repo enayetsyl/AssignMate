@@ -1,10 +1,8 @@
-import MathGridzGenerator from '@/components/math/MathGridzGenerator'
-import React from 'react'
+import MathPuzzle from '@/components/math/MathTriangleGenerator';
+
 
 const MathGridz = () => {
-  return (
-    <MathGridzGenerator/>
-  )
-}
+  return <MathPuzzle/>;
+};
 
-export default MathGridz
+export default MathGridz;
