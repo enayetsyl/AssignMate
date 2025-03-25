@@ -1,10 +1,10 @@
-import ImageCountGenerator from '@/components/math/ImageCountGenerator'
-import React from 'react'
+import ImageCountGenerator from '@/components/math/ImageCountGenerator';
+import React from 'react';
 
 const ImageCount = () => {
   return (
    <ImageCountGenerator/>
-  )
-}
+  );
+};
 
-export default ImageCount
+export default ImageCount;

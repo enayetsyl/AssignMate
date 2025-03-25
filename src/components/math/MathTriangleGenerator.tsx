@@ -1,5 +1,5 @@
-"use client";
-import React, { useState } from "react";
+'use client';
+import React, { useState } from 'react';
 
 export default function TriArrowSVGPage() {
   //
@@ -10,12 +10,12 @@ export default function TriArrowSVGPage() {
     left: number | null;
     right: number | null;
 
-    arrowLeftOp: "+" | "-";
+    arrowLeftOp: '+' | '-';
     arrowLeftVal: number;
-    arrowRightOp: "+" | "-";
+    arrowRightOp: '+' | '-';
     arrowRightVal: number;
 
-    arrowHorizontalOp: "+" | "-";
+    arrowHorizontalOp: '+' | '-';
     arrowHorizontalVal: number;
 
     solution: {
@@ -37,29 +37,29 @@ export default function TriArrowSVGPage() {
     const topNumber = getRandomInt(1, 20);
 
     // Top → Left arrow
-    const arrowLeftOp = Math.random() < 0.5 ? "+" : "-";
+    const arrowLeftOp = Math.random() < 0.5 ? '+' : '-';
     const arrowLeftVal = getRandomInt(1, 10);
     const leftNumber =
-      arrowLeftOp === "+"
+      arrowLeftOp === '+'
         ? topNumber + arrowLeftVal
         : topNumber - arrowLeftVal;
 
     // Top → Right arrow
-    const arrowRightOp = Math.random() < 0.5 ? "+" : "-";
+    const arrowRightOp = Math.random() < 0.5 ? '+' : '-';
     const arrowRightVal = getRandomInt(1, 10);
     const rightNumber =
-      arrowRightOp === "+"
+      arrowRightOp === '+'
         ? topNumber + arrowRightVal
         : topNumber - arrowRightVal;
 
     // Left → Right arrow (horizontal)
-    let arrowHorizontalOp: "+" | "-";
+    let arrowHorizontalOp: '+' | '-';
     let arrowHorizontalVal: number;
     if (leftNumber > rightNumber) {
-      arrowHorizontalOp = "-";
+      arrowHorizontalOp = '-';
       arrowHorizontalVal = leftNumber - rightNumber;
     } else {
-      arrowHorizontalOp = "+";
+      arrowHorizontalOp = '+';
       arrowHorizontalVal = rightNumber - leftNumber;
     }
 
@@ -262,11 +262,11 @@ function PuzzleArrows({
   leftCircle: { x: number; y: number };
   rightCircle: { x: number; y: number };
   radius: number;
-  arrowLeftOp: "+" | "-";
+  arrowLeftOp: '+' | '-';
   arrowLeftVal: number;
-  arrowRightOp: "+" | "-";
+  arrowRightOp: '+' | '-';
   arrowRightVal: number;
-  arrowHorizontalOp: "+" | "-";
+  arrowHorizontalOp: '+' | '-';
   arrowHorizontalVal: number;
   top: number | null;
   left: number | null;
@@ -431,7 +431,7 @@ function PuzzleArrows({
         fontSize="10"
         fill="black"
       >
-        {top ?? ""}
+        {top ?? ''}
       </text>
 
       {/* Bottom-left circle */}
@@ -451,7 +451,7 @@ function PuzzleArrows({
         fontSize="10"
         fill="black"
       >
-        {left === null ? "" : left}
+        {left === null ? '' : left}
       </text>
 
       {/* Bottom-right circle */}
@@ -471,7 +471,7 @@ function PuzzleArrows({
         fontSize="10"
         fill="black"
       >
-        {right === null ? "" : right}
+        {right === null ? '' : right}
       </text>
     </>
   );
