@@ -29,7 +29,7 @@ export const menuItems: MenuItem[] = [
     title: 'Math',
     href: '/math',
     items: [
-      { label: 'Placeholder 1', href: '/math/placeholder-1' },
+      { label: 'Math Gridz', href: '/math/math-gridz' },
       { label: 'Placeholder 2', href: '/math/placeholder-2' },
       { label: 'Placeholder 3', href: '/math/placeholder-3' },
       { label: 'Placeholder 4', href: '/math/placeholder-4' },
@@ -40,7 +40,8 @@ export const menuItems: MenuItem[] = [
     title: 'Science',
     href: '/science',
     items: [
-      { label: 'Placeholder 1', href: '/science/placeholder-1' },
+      { label: 'Simple Maze', href: '/science/simple-maze' },
+      { label: 'Middle Maze', href: '/science/middle-maze' },
       { label: 'Placeholder 2', href: '/science/placeholder-2' },
       { label: 'Placeholder 3', href: '/science/placeholder-3' },
       { label: 'Placeholder 4', href: '/science/placeholder-4' },
