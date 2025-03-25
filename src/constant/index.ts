@@ -30,7 +30,7 @@ export const menuItems: MenuItem[] = [
     href: '/math',
     items: [
       { label: 'Math Gridz', href: '/math/math-gridz' },
-      { label: 'Placeholder 2', href: '/math/placeholder-2' },
+      { label: 'Image Count', href: '/math/image-count' },
       { label: 'Placeholder 3', href: '/math/placeholder-3' },
       { label: 'Placeholder 4', href: '/math/placeholder-4' },
       { label: 'Placeholder 5', href: '/math/placeholder-5' },

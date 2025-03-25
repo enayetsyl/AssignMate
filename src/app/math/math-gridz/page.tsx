@@ -1,8 +1,9 @@
-import MathPuzzle from '@/components/math/MathTriangleGenerator';
+import TriangularMathPuzzlesPage from "@/components/math/MathTriangleGenerator";
+
 
 
 const MathGridz = () => {
-  return <MathPuzzle/>;
+  return <TriangularMathPuzzlesPage/>
 };
 
 export default MathGridz;

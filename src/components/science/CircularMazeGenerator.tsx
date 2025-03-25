@@ -514,7 +514,7 @@ const PrintableCircularMazeGenerator = () => {
           </div>
 
           {/* Heading */}
-          <div className="flex ">
+          <div className="flex gap-4 ">
             <Label htmlFor="heading">Maze Heading:</Label>
             <Input
               id="heading"
@@ -527,7 +527,7 @@ const PrintableCircularMazeGenerator = () => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 py-4">
           <Button onClick={generateNewMaze}>Generate New Maze</Button>
           <Button
             onClick={() => {
