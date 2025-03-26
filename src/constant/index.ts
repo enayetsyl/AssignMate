@@ -29,7 +29,7 @@ export const menuItems: MenuItem[] = [
     title: 'Math',
     href: '/math',
     items: [
-      { label: 'Math Gridz', href: '/math/math-gridz' },
+      { label: 'Math Triangle', href: '/math/math-triangle' },
       { label: 'Image Count', href: '/math/image-count' },
       { label: 'Placeholder 3', href: '/math/placeholder-3' },
       { label: 'Placeholder 4', href: '/math/placeholder-4' },
