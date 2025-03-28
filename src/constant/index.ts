@@ -30,7 +30,8 @@ export const menuItems: MenuItem[] = [
     href: '/math',
     items: [
       { label: 'Math Triangle', href: '/math/math-triangle' },
-      { label: 'Image Count', href: '/math/image-count' },
+      { label: 'Image Count Horizontal', href: '/math/image-count' },
+      { label: 'Image Count Vertical', href: '/math/image-count-vertical' },
       { label: 'Left Right', href: '/math/left-right' },
       { label: 'Placeholder 4', href: '/math/placeholder-4' },
       { label: 'Placeholder 5', href: '/math/placeholder-5' },

@@ -21,121 +21,117 @@ function getShapePlaceholder(shape: string) {
   switch (shape) {
     case 'circle':
       return (
-        <svg width="64" height="64">
-          <circle cx="32" cy="32" r="30" {...shapeProps} />
+        <svg width="32" height="32">
+          <circle cx="16" cy="16" r="14" {...shapeProps} />
         </svg>
       );
     case 'triangle':
       return (
-        <svg width="64" height="64">
-          <polygon points="32,2 2,62 62,62" {...shapeProps} />
+        <svg width="32" height="32">
+          <polygon points="16,1 1,31 31,31" {...shapeProps} />
         </svg>
       );
     case 'square':
       return (
-        <svg width="64" height="64">
-          <rect x="2" y="2" width="60" height="60" {...shapeProps} />
+        <svg width="32" height="32">
+          <rect x="1" y="1" width="30" height="30" {...shapeProps} />
         </svg>
       );
     case 'rectangle':
-      // Example: wider shape
       return (
-        <svg width="80" height="64">
-          <rect x="2" y="2" width="76" height="60" {...shapeProps} />
+        <svg width="40" height="32">
+          <rect x="1" y="1" width="38" height="30" {...shapeProps} />
         </svg>
       );
     case 'pentagon':
       return (
-        <svg width="64" height="64">
-          <polygon points="32,2 2,24 12,62 52,62 62,24" {...shapeProps} />
+        <svg width="32" height="32">
+          <polygon points="16,1 1,12 6,31 26,31 31,12" {...shapeProps} />
         </svg>
       );
     case 'hexagon':
       return (
-        <svg width="64" height="64">
-          <polygon points="32,2 10,16 10,48 32,62 54,48 54,16" {...shapeProps} />
+        <svg width="32" height="32">
+          <polygon points="16,1 5,8 5,24 16,31 27,24 27,8" {...shapeProps} />
         </svg>
       );
     case 'heptagon':
       return (
-        <svg width="64" height="64">
-          <polygon points="32,2 11,14 2,36 13,58 51,58 62,36 53,14" {...shapeProps} />
+        <svg width="32" height="32">
+          <polygon points="16,1 6,7 1,18 7,29 26,29 31,18 27,7" {...shapeProps} />
         </svg>
       );
     case 'octagon':
       return (
-        <svg width="64" height="64">
-          <polygon points="20,2 44,2 62,20 62,44 44,62 20,62 2,44 2,20" {...shapeProps} />
+        <svg width="32" height="32">
+          <polygon points="10,1 22,1 31,10 31,22 22,31 10,31 1,22 1,10" {...shapeProps} />
         </svg>
       );
     case 'nonagon':
       return (
-        <svg width="64" height="64">
-          <polygon points="32,2 12,8 2,26 7,46 22,60 42,60 57,46 62,26 52,8" {...shapeProps} />
+        <svg width="32" height="32">
+          <polygon points="16,1 6,4 1,13 4,23 11,30 21,30 29,23 31,13 26,4" {...shapeProps} />
         </svg>
       );
     case 'decagon':
       return (
-        <svg width="64" height="64">
-          <polygon points="32,2 14,8 2,22 2,42 14,56 32,62 50,56 62,42 62,22 50,8" {...shapeProps} />
+        <svg width="32" height="32">
+          <polygon points="16,1 7,4 1,11 1,21 7,28 16,31 25,28 31,21 31,11 25,4" {...shapeProps} />
         </svg>
       );
     case 'oval':
       return (
-        <svg width="64" height="64">
-          <ellipse cx="32" cy="32" rx="20" ry="28" {...shapeProps} />
+        <svg width="32" height="32">
+          <ellipse cx="16" cy="16" rx="10" ry="14" {...shapeProps} />
         </svg>
       );
     case 'rhombus':
       return (
-        <svg width="64" height="64">
-          <polygon points="32,2 62,32 32,62 2,32" {...shapeProps} />
+        <svg width="32" height="32">
+          <polygon points="16,1 31,16 16,31 1,16" {...shapeProps} />
         </svg>
       );
     case 'parallelogram':
       return (
-        <svg width="64" height="64">
-          <polygon points="12,2 62,2 52,62 2,62" {...shapeProps} />
+        <svg width="32" height="32">
+          <polygon points="6,1 31,1 26,31 1,31" {...shapeProps} />
         </svg>
       );
     case 'trapezium':
       return (
-        <svg width="64" height="64">
-          <polygon points="10,2 54,2 62,62 2,62" {...shapeProps} />
+        <svg width="32" height="32">
+          <polygon points="5,1 27,1 31,31 1,31" {...shapeProps} />
         </svg>
       );
     case 'trapezoid':
       return (
-        <svg width="64" height="64">
-          <polygon points="14,2 50,2 62,62 2,62" {...shapeProps} />
+        <svg width="32" height="32">
+          <polygon points="7,1 25,1 31,31 1,31" {...shapeProps} />
         </svg>
       );
     case 'kite':
       return (
-        <svg width="64" height="64">
-          <polygon points="32,2 52,32 32,62 12,32" {...shapeProps} />
+        <svg width="32" height="32">
+          <polygon points="16,1 26,16 16,31 6,16" {...shapeProps} />
         </svg>
       );
     case 'star':
       return (
-        <svg width="64" height="64">
-          <polygon
-            points="32,2 39,22 62,22 43,36 50,58 32,46 14,58 21,36 2,22 25,22"
-            {...shapeProps}
-          />
+        <svg width="32" height="32">
+          <polygon points="16,1 20,11 31,11 22,18 25,29 16,23 7,29 11,18 1,11 13,11" {...shapeProps} />
         </svg>
       );
     default:
-      // Fallback to a circle if no valid shape is selected
       return (
-        <svg width="64" height="64">
-          <circle cx="32" cy="32" r="30" {...shapeProps} />
+        <svg width="32" height="32">
+          <circle cx="16" cy="16" r="14" {...shapeProps} />
         </svg>
       );
   }
 }
 
-export default function ImageCountGenerator() {
+
+export default function ImageCountVerticalGenerator() {
   const [imageTypes, setImageTypes] = useState<ImageType[]>([]);
   const [showWorksheet, setShowWorksheet] = useState(false);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
@@ -270,11 +266,11 @@ export default function ImageCountGenerator() {
         <div>
           {/* Worksheet Preview */}
           <div
-            className="worksheet mx-auto relative"
+            className="worksheet mx-auto relative flex"
             style={{ width: '210mm', height: '297mm', background: 'white' }}
           >
-            {/* Top 75%: Grid of Images */}
-            <div className="grid-section relative" style={{ height: '75%' }}>
+            {/* Grid Section (85% width) */}
+            <div className="grid-section relative" style={{ width: '85%', height: '100%' }}>
               <div className="grid grid-cols-10 grid-rows-10 gap-1 p-2 w-full h-full">
                 {generateGrid().map((url, index) => (
                   <div key={index} className="relative w-full h-full">
@@ -292,34 +288,31 @@ export default function ImageCountGenerator() {
               </div>
             </div>
 
-           {/* Bottom 25%: Counting Section */}
-<div
-  className="counting-section flex flex-col justify-center items-center"
-  style={{ height: '25%', background: '#e6ffe6' }}
->
-  <h2 className="text-center font-bold mb-2">
-    Count the images and write the correct number
-  </h2>
-  <div className="grid grid-cols-5 grid-rows-3 gap-1 p-2 w-full h-full">
-    {imageTypes.map((_, index) => (
-      <div key={index} className="flex items-center flex-wrap gap-2">
-        {/* Render the bottom image if there's a valid URL */}
-        {imageUrls[index] && (
-          <Image
-            src={imageUrls[index]}
-            alt="bottom image"
-            width={40}
-            height={40}
-            unoptimized
-          />
-        )}
-        {/* Render the selected shape placeholder */}
-        {getShapePlaceholder(selectedShape)}
-      </div>
-    ))}
-  </div>
-</div>
-
+            {/* Counting Section (15% width, moved to the right) */}
+            <div
+              className="counting-section flex flex-col "
+              style={{ width: '15%', height: '100%', background: '#e6ffe6' }}
+            >
+              <h2 className="text-center font-bold mb-2">
+                Count and Write
+              </h2>
+              <div className="grid grid-cols-1 grid-rows-10 gap-1 p-2 ">
+                {imageTypes.map((_, index) => (
+                  <div key={index} className="flex items-center justify-center flex-wrap gap-2">
+                    {imageUrls[index] && (
+                      <Image
+                        src={imageUrls[index]}
+                        alt="bottom image"
+                        width={40}
+                        height={40}
+                        unoptimized
+                      />
+                    )}
+                    {getShapePlaceholder(selectedShape)}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Buttons and Note */}
