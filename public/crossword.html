@@ -1,0 +1,10 @@
+<link href="/crosswords.css" rel="stylesheet" />
+<div id="grid"></div>
+<div id="clues"></div>
+
+<script src="/crosswords.js"></script>
+<script>
+  const def = { /* your crossword JSON */ };
+  const model = window.crosswords.compileCrossword(def);
+  window.crosswords.newCrosswordController(model, document.getElementById("grid"), document.getElementById("clues"));
+</script>

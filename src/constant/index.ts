@@ -23,7 +23,8 @@ export const menuItems: MenuItem[] = [
       { label: 'Multi Word Puzzle Hard', href: '/english/multi-word-puzzle-hard' },
       { label: 'Multi Word Puzzle Stone', href: '/english/multi-word-puzzle-stone' },
       { label: 'Word Rearrange', href: '/english/word-rearrange' },
-      { label: 'Image CrossWord Puzzle', href: '/english/image-crossword-puzzle' },
+      { label: 'Image CrossWord Puzzle Horizontal', href: '/english/image-horizontal-crossword-puzzle' },
+      { label: 'Image CrossWord Puzzle Vertical', href: '/english/image-vertical-crossword-puzzle' },
     ],
   },
   {
