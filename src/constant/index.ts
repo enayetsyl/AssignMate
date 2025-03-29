@@ -26,6 +26,7 @@ export const menuItems: MenuItem[] = [
       { label: 'Image CrossWord Puzzle Horizontal', href: '/english/image-horizontal-crossword-puzzle' },
       { label: 'Image CrossWord Puzzle Vertical', href: '/english/image-vertical-crossword-puzzle' },
       { label: 'Image CrossWord Puzzle Vertical & Horizontal', href: '/english/image-v-and-h-crossword-puzzle' },
+      { label: 'Image CrossWord Puzzle Mixed', href: '/english/image-mixed-crossword-puzzle' },
     ],
   },
   {
