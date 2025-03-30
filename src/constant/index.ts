@@ -6,8 +6,8 @@ export const menuItems: MenuItem[] = [
     title: 'Bangla',
     href: '/bangla',
     items: [
-      { label: 'Puzzle One Word', href: '/bangla/single-word-puzzle' },
-      { label: 'Placeholder 2', href: '/bangla/placeholder-2' },
+      { label: 'Bangla Image CrossWord Puzzle Mixed', href: '/bangla/bangla-image-mixed-crossword-puzzle' },
+      { label: 'Single Word Puzzle', href: '/bangla/single-word-puzzle' },
       { label: 'Placeholder 3', href: '/bangla/placeholder-3' },
       { label: 'Placeholder 4', href: '/bangla/placeholder-4' },
       { label: 'Placeholder 5', href: '/bangla/placeholder-5' },

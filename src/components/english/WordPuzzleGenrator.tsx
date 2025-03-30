@@ -295,13 +295,34 @@ const WordPuzzleGenerator: React.FC = () => {
 
             {/* Display the Uploaded Image (if any) */}
             {imageURL && (
-              <div className="mt-4 text-center">
+              <div className="mt-4 text-center flex justify-center items-center gap-5">
                 <Image
                   src={imageURL}
                   alt="Puzzle Illustration"
                   className="inline-block max-h-20"
-                  height={20}
-                  width={20}
+                  height={40}
+                  width={40}
+                />
+                <Image
+                  src={imageURL}
+                  alt="Puzzle Illustration"
+                  className="inline-block max-h-20"
+                  height={40}
+                  width={40}
+                />
+                <Image
+                  src={imageURL}
+                  alt="Puzzle Illustration"
+                  className="inline-block max-h-20"
+                  height={40}
+                  width={40}
+                />
+                <Image
+                  src={imageURL}
+                  alt="Puzzle Illustration"
+                  className="inline-block max-h-20"
+                  height={40}
+                  width={40}
                 />
               </div>
             )}
