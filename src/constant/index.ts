@@ -10,6 +10,7 @@ export const menuItems: MenuItem[] = [
       { label: 'Single Word Puzzle', href: '/bangla/single-word-puzzle' },
       { label: 'Multi Word Puzzle Easy', href: '/bangla/multi-word-puzzle-easy' },
       { label: 'Multi Word Puzzle Medium', href: '/bangla/multi-word-puzzle-medium' },
+      { label: 'Multi Word Puzzle Hard', href: '/bangla/multi-word-puzzle-hard' },
       { label: 'Placeholder 3', href: '/bangla/placeholder-3' },
       { label: 'Placeholder 4', href: '/bangla/placeholder-4' },
       { label: 'Placeholder 5', href: '/bangla/placeholder-5' },
