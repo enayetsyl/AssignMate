@@ -12,7 +12,7 @@ export const menuItems: MenuItem[] = [
       { label: 'Multi Word Puzzle Medium', href: '/bangla/multi-word-puzzle-medium' },
       { label: 'Multi Word Puzzle Hard', href: '/bangla/multi-word-puzzle-hard' },
       { label: 'Multi Word Puzzle Stone', href: '/bangla/multi-word-puzzle-stone' },
-      { label: 'Placeholder 3', href: '/bangla/placeholder-3' },
+      { label: 'Word Rearrange', href: '/bangla/word-rearrange' },
       { label: 'Placeholder 4', href: '/bangla/placeholder-4' },
       { label: 'Placeholder 5', href: '/bangla/placeholder-5' },
     ],
