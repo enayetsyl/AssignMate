@@ -8,6 +8,8 @@ export const menuItems: MenuItem[] = [
     items: [
       { label: 'Bangla Image CrossWord Puzzle Mixed', href: '/bangla/bangla-image-mixed-crossword-puzzle' },
       { label: 'Single Word Puzzle', href: '/bangla/single-word-puzzle' },
+      { label: 'Multi Word Puzzle Easy', href: '/bangla/multi-word-puzzle-easy' },
+      { label: 'Multi Word Puzzle Medium', href: '/bangla/multi-word-puzzle-medium' },
       { label: 'Placeholder 3', href: '/bangla/placeholder-3' },
       { label: 'Placeholder 4', href: '/bangla/placeholder-4' },
       { label: 'Placeholder 5', href: '/bangla/placeholder-5' },

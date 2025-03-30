@@ -156,7 +156,7 @@ function generatePuzzle(
 /* --------------------------------------------
    7) The main component: WordPuzzleGenerator
 -------------------------------------------- */
-const WordPuzzleGenerator: React.FC = () => {
+const BanglaSingleWordPuzzleGenerator: React.FC = () => {
   const [word, setWord] = useState('');
   const [imageURL, setImageURL] = useState<string | null>(null);
   const [puzzle, setPuzzle] = useState<string[][]>([]);
@@ -444,4 +444,4 @@ const WordPuzzleGenerator: React.FC = () => {
   );
 };
 
-export default WordPuzzleGenerator;
+export default BanglaSingleWordPuzzleGenerator;
