@@ -14,6 +14,7 @@ export const menuItems: MenuItem[] = [
       { label: 'Multi Word Puzzle Stone', href: '/bangla/multi-word-puzzle-stone' },
       { label: 'Image CrossWord Puzzle Horizontal', href: '/bangla/image-horizontal-crossword-puzzle' },
       { label: 'Image CrossWord Puzzle Vertical', href: '/bangla/image-vertical-crossword-puzzle' },
+      { label: 'Image CrossWord Puzzle Horizontal and Vertical', href: '/bangla/image-v-and-h-crossword-puzzle' },
       { label: 'Word Rearrange', href: '/bangla/word-rearrange' },
       { label: 'Placeholder 4', href: '/bangla/placeholder-4' },
       { label: 'Placeholder 5', href: '/bangla/placeholder-5' },

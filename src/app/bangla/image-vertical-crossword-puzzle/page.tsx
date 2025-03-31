@@ -1,10 +1,10 @@
-import BanglaImageVerticalCrossWordPuzzleGenerator from '@/components/bangla/BanglaImageVerticalCrossWordPuzzleGenerator'
-import React from 'react'
+import BanglaImageVerticalCrossWordPuzzleGenerator from '@/components/bangla/BanglaImageVerticalCrossWordPuzzleGenerator';
+import React from 'react';
 
 const ImageVerticalCrossWordPuzzle = () => {
   return (
     <BanglaImageVerticalCrossWordPuzzleGenerator/>
-  )
-}
+  );
+};
 
-export default ImageVerticalCrossWordPuzzle
+export default ImageVerticalCrossWordPuzzle;
