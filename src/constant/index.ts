@@ -6,7 +6,7 @@ export const menuItems: MenuItem[] = [
     title: 'Bangla',
     href: '/bangla',
     items: [
-      { label: 'Bangla Image CrossWord Puzzle Mixed', href: '/bangla/bangla-image-mixed-crossword-puzzle' },
+      
       { label: 'Single Word Puzzle', href: '/bangla/single-word-puzzle' },
       { label: 'Multi Word Puzzle Easy', href: '/bangla/multi-word-puzzle-easy' },
       { label: 'Multi Word Puzzle Medium', href: '/bangla/multi-word-puzzle-medium' },
@@ -15,8 +15,9 @@ export const menuItems: MenuItem[] = [
       { label: 'Image CrossWord Puzzle Horizontal', href: '/bangla/image-horizontal-crossword-puzzle' },
       { label: 'Image CrossWord Puzzle Vertical', href: '/bangla/image-vertical-crossword-puzzle' },
       { label: 'Image CrossWord Puzzle Horizontal and Vertical', href: '/bangla/image-v-and-h-crossword-puzzle' },
+      { label: 'Bangla Image CrossWord Puzzle Mixed', href: '/bangla/image-mixed-crossword-puzzle' },
       { label: 'Word Rearrange', href: '/bangla/word-rearrange' },
-      { label: 'Placeholder 4', href: '/bangla/placeholder-4' },
+      
       { label: 'Placeholder 5', href: '/bangla/placeholder-5' },
     ],
   },
@@ -44,6 +45,7 @@ export const menuItems: MenuItem[] = [
       { label: 'Image Count Horizontal', href: '/math/image-count' },
       { label: 'Image Count Vertical', href: '/math/image-count-vertical' },
       { label: 'Left Right', href: '/math/left-right' },
+      { label: 'Fingerprint Math', href: '/math/fingerprint-math' },
       { label: 'Placeholder 4', href: '/math/placeholder-4' },
       { label: 'Placeholder 5', href: '/math/placeholder-5' },
     ],

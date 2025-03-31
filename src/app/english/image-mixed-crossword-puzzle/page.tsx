@@ -1,5 +1,5 @@
 
-import ImageMixedCrossWordPuzzleGenerator from '@/components/english/ImageMixedCrossWordPuzzleGenerator';
+import ImageMixedCrossWordPuzzleGenerator from '@/components/bangla/BanglaImageMixedCrossWordPuzzleGenerator';
 import React from 'react';
 
 const ImageMixedCrossWordPuzzle = () => {
