@@ -214,7 +214,7 @@ function polarToCartesian(
   cy: number,
   radius: number,
   angle: number
-) {
+): { x: number; y: number }  {
   return {
     x: cx + radius * Math.cos(angle),
     y: cy + radius * Math.sin(angle),
@@ -240,7 +240,7 @@ function describeArc(
 interface CircularMazeSVGProps {
   grid: PolarCell[][];
   solutionPath: [number, number][];
-  exit: { ring: number; index: number };
+  exit: ExitPoint;
   showAnswer: boolean;
   startImage?: string;
   endImage?: string;
@@ -264,7 +264,7 @@ const CircularMazeSVG = ({
   const cx = svgSize / 2;
   const cy = svgSize / 2;
 
-  const wallPaths: JSX.Element[] = [];
+  const wallPaths: React.ReactNode[] = [];
   grid.forEach((ringCells, r) => {
     const count = r === 0 ? 1 : r * 6;
     const theta = (2 * Math.PI) / (r === 0 ? 1 : count);
@@ -410,20 +410,24 @@ const CircularMazeSVG = ({
 // ───────────────────────────────────────────────
 // MAIN COMPONENT
 // ───────────────────────────────────────────────
+type DifficultyLevel = 'easy' | 'medium' | 'hard' | 'iron';
+type ExitPoint = { ring: number; index: number };
+type PolarPath = [number, number][];
 
 const PrintableCircularMazeGenerator = () => {
-  const difficultyMapping: Record<string, number> = {
+  const difficultyMapping: Record<DifficultyLevel, number> = {
     easy: 5,
     medium: 7,
     hard: 9,
     iron: 10,
   };
 
-  const [difficulty, setDifficulty] = useState('medium');
+  const [difficulty, setDifficulty] = useState<DifficultyLevel>('medium');
+
   const [heading, setHeading] = useState('Go from green to red');
   const [grid, setGrid] = useState<PolarCell[][] | null>(null);
-  const [exit, setExit] = useState<{ ring: number; index: number } | null>(null);
-  const [solutionPath, setSolutionPath] = useState<[number, number][]>([]);
+  const [exit, setExit] = useState<ExitPoint | null>(null);
+  const [solutionPath, setSolutionPath] = useState<PolarPath>([]);
   const [showAnswer, setShowAnswer] = useState(false);
   const [startImage, setStartImage] = useState<string | null>(null);
   const [endImage, setEndImage] = useState<string | null>(null);
@@ -500,7 +504,7 @@ const PrintableCircularMazeGenerator = () => {
           {/* Difficulty */}
           <div className="flex items-center gap-2">
             <Label htmlFor="difficulty">Difficulty:</Label>
-            <Select value={difficulty} onValueChange={(value: string) => setDifficulty(value)}>
+            <Select value={difficulty} onValueChange={(value: DifficultyLevel) => setDifficulty(value)}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select Difficulty" />
               </SelectTrigger>

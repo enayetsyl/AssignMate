@@ -378,7 +378,8 @@ function generatePuzzle(operators: string[], difficulty: Difficulty): Puzzle {
   // 5) Hide circles based on hideCount
   //    We'll systematically pick which circles to hide. For "hard" we hide all 3.
   //    For easy, hide 1 random circle. For medium, hide 2 random circles.
-  let circles = [topNumber, leftNumber, rightNumber];
+  let circles: (number | null)[] = [topNumber, leftNumber, rightNumber];
+
   if (hideCount === 3) {
     // Hard => hide all
     circles = [null, null, null];
@@ -867,7 +868,7 @@ function Node({
       // A diamond shape
       const half = size / 2;
       // Points: top, right, bottom, left
-      const points = [
+      const points: [number, number][] = [
         [x, y - half],
         [x + half, y],
         [x, y + half],
@@ -882,7 +883,7 @@ function Node({
       const slant = size / 4;
       // We'll define something like a skewed rectangle
       // top-left, top-right, bottom-right, bottom-left
-      const points = [
+      const points: [number, number][] = [
         [x - half, y - half],
         [x + half, y - half],
         [x + half + slant, y + half],
@@ -898,7 +899,7 @@ function Node({
       // top width ~ size/2, bottom width ~ size
       const topHalf = size / 4;
       const bottomHalf = size / 2;
-      const points = [
+      const points: [number, number][] = [
         [x - topHalf, y - half],
         [x + topHalf, y - half],
         [x + bottomHalf, y + half],
@@ -911,7 +912,7 @@ function Node({
       // 4 points: top, left, right, bottom
       // We'll do a simple symmetrical kite
       const half = size / 2;
-      const points = [
+      const points: [number, number][] = [
         [x, y - half],
         [x + half / 2, y],
         [x, y + half],

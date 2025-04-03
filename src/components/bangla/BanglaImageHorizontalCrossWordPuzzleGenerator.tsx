@@ -79,15 +79,6 @@ const BanglaImageHorizontalCrossWordPuzzleGenerator: React.FC = () => {
     return merged;
   }
 
-  // scrambleWord: বাংলা শব্দকে গ্রাফিম ক্লাস্টারে ভাগ করে, তারপর সেগুলোকে শাফল করে
-  function scrambleWord(word: string): string[] {
-    const graphemes = splitIntoGraphemes(word);
-    for (let i = graphemes.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [graphemes[i], graphemes[j]] = [graphemes[j], graphemes[i]];
-    }
-    return graphemes;
-  }
 
   // ফর্ম সাবমিশন হ্যান্ডলার: যাচাই করে ও প্রতিটি পাজলের জন্য গ্রিড তথ্য তৈরি করে
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {

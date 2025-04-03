@@ -53,7 +53,7 @@ export default function Dynamic2DGridPage() {
  * and (4 * horizontalCount + 1) columns, because each
  * additional block shares the border with its neighbor.
  */
-function generate2DGrid(horizontalCount, verticalCount) {
+function generate2DGrid(horizontalCount: number, verticalCount: number): number[][]  {
   // Our single 5×5 "border" pattern
   const singleGrid = [
     [1,1,1,1,1],
@@ -97,7 +97,11 @@ function generate2DGrid(horizontalCount, verticalCount) {
  *  - 1 => draw a border
  *  - 0 => empty
  */
-function Grid({ pattern }) {
+type GridProps = {
+  pattern: number[][];
+};
+
+function Grid({ pattern }: GridProps) {
   return (
     <div>
       {pattern.map((row, rowIndex) => (
@@ -113,3 +117,4 @@ function Grid({ pattern }) {
     </div>
   );
 }
+
