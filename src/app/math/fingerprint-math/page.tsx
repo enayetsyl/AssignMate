@@ -44,7 +44,7 @@ function MathQuestion() {
   // Admin fields (hidden on print)
   const [num1, setNum1] = useState('');
   const [num2, setNum2] = useState('');
-  const [operator, setOperator] = useState('+');
+  // Operator will always be '+', so we removed its state.
   const [color1, setColor1] = useState(colorOptions[0]);
   const [color2, setColor2] = useState(colorOptions[1]);
   // Use dropdown to select an image from public folder
@@ -90,18 +90,10 @@ function MathQuestion() {
             onChange={(e) => setNum2(e.target.value)}
           />
         </div>
+        {/* ----- Operator is now static '+' ----- */}
         <div>
           <label className="block text-sm font-medium">Operator:</label>
-          <select
-            value={operator}
-            onChange={(e) => setOperator(e.target.value)}
-            className="border rounded p-1 w-full"
-          >
-            <option value="+">+</option>
-            <option value="-">-</option>
-            <option value="*">*</option>
-            <option value="/">/</option>
-          </select>
+          <span className="border rounded p-1 w-full block text-center">+</span>
         </div>
         <div className="flex space-x-4">
           <div>
@@ -181,7 +173,8 @@ function MathQuestion() {
         <span className="text-lg border border-black w-10 h-10 flex justify-center items-center">
           {num1 || '?'}
         </span>
-        <span className="text-lg">{operator}</span>
+        {/* Operator is static '+' */}
+        <span className="text-lg">+</span>
         <div className="border border-black w-10 h-10 text-center" />
         <span className="text-lg">=</span>
         <div className="border border-black w-10 h-10 text-center" />
