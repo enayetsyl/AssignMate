@@ -57,7 +57,7 @@ export const menuItems: MenuItem[] = [
       { label: 'Simple Maze', href: '/science/simple-maze' },
       { label: 'Middle Maze', href: '/science/middle-maze' },
       { label: 'Circular Maze', href: '/science/circular-maze' },
-      { label: 'Placeholder 3', href: '/science/placeholder-3' },
+      { label: 'Quiz', href: '/science/quiz' },
       { label: 'Placeholder 4', href: '/science/placeholder-4' },
       { label: 'Placeholder 5', href: '/science/placeholder-5' },
     ],
@@ -78,6 +78,17 @@ export const menuItems: MenuItem[] = [
     href: '/deen',
     items: [
       { label: 'Placeholder 1', href: '/deen/placeholder-1' },
+      { label: 'Placeholder 2', href: '/deen/placeholder-2' },
+      { label: 'Placeholder 3', href: '/deen/placeholder-3' },
+      { label: 'Placeholder 4', href: '/deen/placeholder-4' },
+      { label: 'Placeholder 5', href: '/deen/placeholder-5' },
+    ],
+  },
+  {
+    title: 'Other',
+    href: '/other',
+    items: [
+      { label: 'Riddle', href: '/other/riddle' },
       { label: 'Placeholder 2', href: '/deen/placeholder-2' },
       { label: 'Placeholder 3', href: '/deen/placeholder-3' },
       { label: 'Placeholder 4', href: '/deen/placeholder-4' },
