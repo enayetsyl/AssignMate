@@ -83,8 +83,7 @@ const ScienceQuiz = () => {
   // Answer state for current page (per question id)
   const [userAnswers, setUserAnswers] = useState<{ [key: string]: string }>({});
   const [pageSubmitted, setPageSubmitted] = useState<boolean>(false);
-  const [pageScore, setPageScore] = useState<number>(0);
-
+ 
   // Global state to hold selected questions along with customization options
   const [selectedQuestions, setSelectedQuestions] = useState<SelectedQuestionMap>({});
 
@@ -100,7 +99,7 @@ const ScienceQuiz = () => {
         // Reset page-specific answer state (do not clear global selection)
         setUserAnswers({});
         setPageSubmitted(false);
-        setPageScore(0);
+       
       } catch (error) {
         console.error('Failed to fetch questions:', error);
       }
@@ -109,16 +108,7 @@ const ScienceQuiz = () => {
   }, [currentPage, baseUrl]);
 
 
-  const handleSubmitPage = () => {
-    let score = 0;
-    questions.forEach(q => {
-      if (userAnswers[q._id] === q.answer) {
-        score++;
-      }
-    });
-    setPageScore(score);
-    setPageSubmitted(true);
-  };
+ 
 
   // Toggle selection for printing along with default customization
   const handleTogglePrint = (q: Question) => {
