@@ -1,0 +1,124 @@
+{
+  "info": {
+    "name": "Question API Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Riddle Question",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"riddle\",\n  \"question\": \"What has keys but can't open locks?\",\n  \"options\": [\"Piano\", \"Keyboard\", \"Map\"],\n  \"answer\": \"Keyboard\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/questions",
+          "protocol": "http",
+          "host": [ "localhost" ],
+          "port": "5000",
+          "path": [ "api", "questions" ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Riddles (Paginated)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/riddles?page=1&limit=10",
+          "protocol": "http",
+          "host": [ "localhost" ],
+          "port": "5000",
+          "path": [ "api", "riddles" ],
+          "query": [
+            { "key": "page", "value": "1" },
+            { "key": "limit", "value": "10" }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Flag Identify Questions (Paginated)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/flag-identifies?page=1&limit=10",
+          "protocol": "http",
+          "host": [ "localhost" ],
+          "port": "5000",
+          "path": [ "api", "flag-identifies" ],
+          "query": [
+            { "key": "page", "value": "1" },
+            { "key": "limit", "value": "10" }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Good Habit Questions (Paginated)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/good-habits?page=1&limit=10",
+          "protocol": "http",
+          "host": [ "localhost" ],
+          "port": "5000",
+          "path": [ "api", "good-habits" ],
+          "query": [
+            { "key": "page", "value": "1" },
+            { "key": "limit", "value": "10" }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Science Questions (Paginated)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/science?page=1&limit=10",
+          "protocol": "http",
+          "host": [ "localhost" ],
+          "port": "5000",
+          "path": [ "api", "science" ],
+          "query": [
+            { "key": "page", "value": "1" },
+            { "key": "limit", "value": "10" }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Image Difference Questions (Paginated)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/image-differences?page=1&limit=10",
+          "protocol": "http",
+          "host": [ "localhost" ],
+          "port": "5000",
+          "path": [ "api", "image-differences" ],
+          "query": [
+            { "key": "page", "value": "1" },
+            { "key": "limit", "value": "10" }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
