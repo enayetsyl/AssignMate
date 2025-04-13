@@ -1,13 +1,15 @@
 'use client';
 import React, { useState, ChangeEvent } from 'react';
 import { Button } from '@/components/ui/button';
+import { dummyWords } from '@/constant';
 
 const SentenceScramble: React.FC = () => {
   const [textContent, setTextContent] = useState<string>('');
   const [originalSentences, setOriginalSentences] = useState<string[]>([]);
   const [scrambledSentences, setScrambledSentences] = useState<string[]>([]);
+  const [difficulty, setDifficulty] = useState<string>('medium');
 
-  // Simple scramble function that shuffles words using Fisher–Yates.
+  // Medium difficulty: fully scramble all words using Fisher–Yates.
   const scrambleSentence = (sentence: string): string => {
     const words = sentence.split(' ');
     for (let i = words.length - 1; i > 0; i--) {
@@ -17,12 +19,50 @@ const SentenceScramble: React.FC = () => {
     return words.join(' ');
   };
 
-  // Generate puzzles by splitting all non-empty lines, storing original sentences,
-  // and generating scrambled sentences.
+  // Easy difficulty: keep the first and last words fixed and shuffle only the middle words.
+  const scrambleSentenceEasy = (sentence: string): string => {
+    const words = sentence.split(' ');
+    if (words.length <= 3) {
+      // If it's very short, just do the normal scramble
+      return scrambleSentence(sentence);
+    }
+    const middleWords = words.slice(1, words.length - 1);
+    for (let i = middleWords.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [middleWords[i], middleWords[j]] = [middleWords[j], middleWords[i]];
+    }
+    return [words[0], ...middleWords, words[words.length - 1]].join(' ');
+  };
+
+  // Hard difficulty: scramble fully and insert random dummy words.
+  const scrambleSentenceHard = (sentence: string): string => {
+    const scrambled = scrambleSentence(sentence);
+    const words = scrambled.split(' ');
+    // Insert one or two dummy words depending on sentence length
+    const numDummy = words.length >= 6 ? 2 : 1;
+    for (let i = 0; i < numDummy; i++) {
+      const dummy = dummyWords[Math.floor(Math.random() * dummyWords.length)];
+      const randomIndex = Math.floor(Math.random() * (words.length + 1));
+      words.splice(randomIndex, 0, dummy);
+    }
+    return words.join(' ');
+  };
+
+  // Decide which scramble method to use based on the selected difficulty.
+  const getScrambledSentence = (sentence: string): string => {
+    if (difficulty === 'easy') {
+      return scrambleSentenceEasy(sentence);
+    } else if (difficulty === 'hard') {
+      return scrambleSentenceHard(sentence);
+    }
+    return scrambleSentence(sentence);
+  };
+
+  // Generate puzzles: split the input into lines, store the originals, and produce scrambled versions.
   const handleGenerate = () => {
     const lines = textContent.split(/\r?\n/).filter((line) => line.trim() !== '');
     setOriginalSentences(lines);
-    const scrambles = lines.map((sentence) => scrambleSentence(sentence));
+    const scrambles = lines.map((sentence) => getScrambledSentence(sentence));
     setScrambledSentences(scrambles);
   };
 
@@ -40,7 +80,16 @@ const SentenceScramble: React.FC = () => {
           <style>
             @page { size: A4 portrait; margin: 20mm; }
             body { font-family: sans-serif; }
-            .card { border: 1px solid #ccc; padding: 8px; margin-bottom: 10px; }
+
+            /* Prevent splitting a card across pages. */
+            .card {
+              border: 1px solid #ccc;
+              padding: 8px;
+              margin-bottom: 10px;
+              page-break-inside: avoid;  /* older spec */
+              break-inside: avoid;       /* modern spec */
+            }
+
             .font-semibold { font-weight: 600; }
           </style>
         </head>
@@ -49,7 +98,7 @@ const SentenceScramble: React.FC = () => {
     `);
     printWindow.document.close();
     printWindow.focus();
-    // Delay printing to allow the content to load properly.
+    // Delay printing to allow content to load properly.
     setTimeout(() => {
       printWindow.print();
       printWindow.close();
@@ -80,6 +129,12 @@ const SentenceScramble: React.FC = () => {
           size: A4 portrait;
           margin: 20mm;
         }
+        @media print {
+          .card {
+            page-break-inside: avoid; 
+            break-inside: avoid;
+          }
+        }
       `}</style>
 
       <h1 className="text-3xl font-bold mb-6">Scrambled Sentence Puzzle Generator</h1>
@@ -91,6 +146,21 @@ const SentenceScramble: React.FC = () => {
           placeholder="Enter sentences, one per line."
           className="textarea textarea-bordered w-full h-40"
         ></textarea>
+        <div className="flex items-center gap-4">
+          <label htmlFor="difficulty" className="font-semibold">
+            Difficulty:
+          </label>
+          <select
+            id="difficulty"
+            value={difficulty}
+            onChange={(e) => setDifficulty(e.target.value)}
+            className="select select-bordered"
+          >
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
         <Button onClick={handleGenerate}>Generate Puzzle</Button>
       </div>
 

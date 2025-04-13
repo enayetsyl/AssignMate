@@ -100,3 +100,82 @@ export const menuItems: MenuItem[] = [
     ],
   },
 ];
+
+
+export const dummyWords = [
+  'a', 'able', 'about', 'above', 'add', 'after', 'again', 'air', 'all', 'always',
+  'am', 'an', 'and', 'any', 'are', 'around', 'as', 'ask', 'at', 'away',
+
+  'baby', 'back', 'bad', 'bag', 'ball', 'banana', 'band', 'bank', 'base', 'bat',
+  'be', 'bear', 'beat', 'beautiful', 'bed', 'bee', 'bell', 'best', 'big', 'bird',
+
+  'call', 'can', 'cap', 'car', 'card', 'care', 'carry', 'cat', 'catch', 'chair',
+  'change', 'chat', 'check', 'cheese', 'cherry', 'chicken', 'chin', 'chop', 'circle', 'class',
+
+  'dad', 'dance', 'dark', 'day', 'deep', 'desk', 'did', 'dig', 'do', 'dog',
+  'doll', 'done', 'door', 'down', 'draw', 'dress', 'drink', 'drop', 'duck', 'dust',
+
+  'ear', 'eat', 'egg', 'eight', 'end', 'even', 'every', 'example', 'eye', 'earth',
+  'echo', 'edge', 'easy', 'else', 'enjoy', 'enter', 'extra', 'excite', 'exit', 'event',
+
+  'face', 'fact', 'fall', 'far', 'fast', 'fat', 'feed', 'feel', 'few', 'fill',
+  'find', 'fine', 'finger', 'finish', 'fire', 'first', 'fish', 'five', 'fly', 'follow',
+
+  'game', 'gave', 'get', 'gift', 'girl', 'give', 'glad', 'go', 'goat', 'gold',
+  'good', 'got', 'green', 'grew', 'guess', 'gum', 'gym', 'grape', 'gear', 'gentle',
+
+  'had', 'hair', 'half', 'hand', 'hang', 'hard', 'has', 'have', 'he', 'head',
+  'hear', 'help', 'her', 'here', 'high', 'him', 'his', 'hold', 'home', 'hope',
+
+  'i', 'if', 'in', 'into', 'is', 'it', 'its', 'idea', 'ice', 'inch',
+  'item', 'ivory', 'identical', 'improve', 'invite', 'issue', 'interest', 'inside', 'image', 'icon',
+
+  'jam', 'jet', 'job', 'joy', 'jump', 'just', 'joke', 'judge', 'join', 'journey',
+  'jolly', 'juice', 'junior', 'jigsaw', 'journal', 'jeep', 'jack', 'jetty', 'jubilee', 'jewel',
+
+  'keep', 'kind', 'king', 'know', 'kite', 'kick', 'kiss', 'kitchen', 'kitten', 'knock',
+  'keen', 'kiln', 'kitty', 'knot', 'knockout', 'kayak', 'kettle', 'key', 'kid', 'kingdom',
+
+  'laugh', 'lad', 'lake', 'land', 'large', 'last', 'late', 'leaf', 'learn', 'least',
+  'leave', 'left', 'leg', 'letter', 'level', 'life', 'light', 'like', 'line', 'list',
+
+  'made', 'make', 'many', 'map', 'mark', 'may', 'me', 'mean', 'meat', 'meet',
+  'member', 'milk', 'mind', 'mine', 'minute', 'miss', 'mix', 'model', 'moment', 'money',
+
+  'name', 'near', 'need', 'never', 'new', 'next', 'nice', 'night', 'no', 'not',
+  'now', 'number', 'note', 'nurse', 'nap', 'nature', 'narrow', 'nest', 'net', 'noble',
+
+  'of', 'off', 'oil', 'old', 'on', 'once', 'one', 'only', 'open', 'or',
+  'our', 'out', 'over', 'own', 'offer', 'oak', 'ocean', 'object', 'orange', 'oven',
+
+  'page', 'paint', 'pair', 'paper', 'part', 'park', 'party', 'pass', 'past', 'pay',
+  'pen', 'pencil', 'people', 'pet', 'pick', 'picture', 'piece', 'pig', 'pin', 'place',
+
+  'queen', 'question', 'quick', 'quiet', 'quilt', 'quote', 'quiz', 'quack', 'quality', 'quarter',
+  'quake', 'query', 'quiver', 'quill', 'quirky', 'quantum', 'quench', 'quest', 'quotation', 'quizzer',
+
+  'rain', 'raise', 'ran', 'range', 'rapid', 'read', 'ready', 'real', 'red', 'ride',
+  'ring', 'rip', 'road', 'rock', 'roll', 'room', 'root', 'round', 'run', 'rush',
+
+  'sail', 'salt', 'same', 'sand', 'say', 'sea', 'seat', 'second', 'see', 'seed',
+  'seem', 'sell', 'send', 'sense', 'set', 'seven', 'shake', 'shape', 'share', 'she',
+
+  'table', 'take', 'talk', 'tall', 'ten', 'term', 'test', 'than', 'thank', 'that',
+  'the', 'their', 'them', 'then', 'there', 'these', 'they', 'thing', 'think', 'this',
+
+  'under', 'unit', 'upon', 'up', 'use', 'useful', 'usual', 'unicorn', 'unique', 'upset',
+  'urban', 'urge', 'user', 'uncle', 'unison', 'until', 'unload', 'untie', 'uncover', 'upstairs',
+
+  'value', 'van', 'vary', 'vase', 'vast', 'verb', 'very', 'view', 'village', 'visit',
+  'voice', 'void', 'vote', 'volume', 'vow', 'vendor', 'vertical', 'vibrant', 'vice', 'victory',
+
+  'wait', 'walk', 'want', 'warm', 'wash', 'watch', 'water', 'way', 'we', 'weak',
+  'wear', 'week', 'well', 'went', 'were', 'west', 'what', 'when', 'where', 'which',
+
+  'xray', 'xylophone', 'xeno', 'xenon', 'x-axis', 'xylem', 'xerox', 'xiphoid', 'xylan', 'xylitol',
+  'xenial', 'xerosis', 'xenia', 'xanthic', 'xanthous', 'xebec', 'xylocarp', 'xenomorph', 'xystus', 'xanthene',
+
+  'yard', 'yarn', 'year', 'yellow', 'yes', 'yet', 'yodel', 'young', 'youth', 'yummy',
+
+  'zebra', 'zero', 'zigzag', 'zip', 'zoom', 'zone', 'zest', 'zephyr', 'zinc', 'zodiac'
+];
