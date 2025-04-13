@@ -7,6 +7,9 @@ import {
   getGoodHabits,
   getScienceQuestions,
   getImageDifferences,
+  getImageMatching,
+  getShadowImageMatching,
+  getDotImages,
 } from '../controllers/question.controller';
 import { fileUploader } from '../utils/fileUploader';
 
@@ -30,5 +33,8 @@ router.get('/flag-identifies', getFlagIdentifies);
 router.get('/good-habits', getGoodHabits);
 router.get('/science', getScienceQuestions);
 router.get('/image-differences', getImageDifferences);
+router.get('/matching-image', getImageMatching);
+router.get('/shadow-image-matching', getShadowImageMatching);
+router.get('/dot-images', getDotImages);
 
 export default router;

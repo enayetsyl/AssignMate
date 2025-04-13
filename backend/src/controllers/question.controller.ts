@@ -7,6 +7,9 @@ import { GoodHabit } from '../models/goodHabit.model';
 import { Science } from '../models/science.model';
 import { ImageDifference } from '../models/imageDifference.model';
 import { fileUploader } from '../utils/fileUploader';
+import { Matching } from '../models/matching.model';
+import { ShadowMatching } from '../models/shadowMatching.model';
+import { DotImage } from '../models/dotImage.model';
 
 export const createQuestion = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -64,25 +67,66 @@ export const createQuestion = async (req: Request, res: Response): Promise<void>
         // Expecting two files: one for image1 and one for image2
         if (
           !req.files ||
-          !('image1' in req.files) ||
-          !('image2' in req.files)
+          !('image' in req.files) 
         ) {
-          res
-            .status(400)
-            .json({ error: 'Two images are required for imageDifference' });
+          res.status(400).json({ error: 'An image is required for imageDifference' });
           return;
         }
-        const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-        const file1 = files['image1'][0];
-        const file2 = files['image2'][0];
-        const result1 = await fileUploader.uploadToCloudinary(file1);
-        const result2 = await fileUploader.uploadToCloudinary(file2);
+        const file = (req.files as { [fieldname: string]: Express.Multer.File[] })['image'][0];
+        const result = await fileUploader.uploadToCloudinary(file);
         newQuestion = await ImageDifference.create({
           type,
           question,
-          answer, // if answer must be an integer, you can cast it here
-          image1: result1.secure_url,
-          image2: result2.secure_url,
+          answer,
+          image: result.secure_url,
+        });
+        break;
+      }
+
+      case 'matching': {
+        if (!req.files || !('image' in req.files)) {
+          res.status(400).json({ error: 'An image is required for matching' });
+          return;
+        }
+        const file = (req.files as { [fieldname: string]: Express.Multer.File[] })['image'][0];
+        const result = await fileUploader.uploadToCloudinary(file);
+        newQuestion = await Matching.create({
+          type,
+          question,
+          answer,
+          image: result.secure_url,
+        });
+        break;
+      }
+
+      case 'shadowMatching': {
+        if (!req.files || !('image' in req.files)) {
+          res.status(400).json({ error: 'An image is required for shadowMatching' });
+          return;
+        }
+        const file = (req.files as { [fieldname: string]: Express.Multer.File[] })['image'][0];
+        const result = await fileUploader.uploadToCloudinary(file);
+        newQuestion = await ShadowMatching.create({
+          type,
+          question,
+          answer,
+          image: result.secure_url,
+        });
+        break;
+      }
+
+      case 'dotImage': {
+        if (!req.files || !('image' in req.files)) {
+          res.status(400).json({ error: 'An image is required for dotImage' });
+          return;
+        }
+        const file = (req.files as { [fieldname: string]: Express.Multer.File[] })['image'][0];
+        const result = await fileUploader.uploadToCloudinary(file);
+        newQuestion = await DotImage.create({
+          type,
+          question,
+          answer,
+          image: result.secure_url,
         });
         break;
       }
@@ -164,5 +208,42 @@ export const getImageDifferences = async (req: Request, res: Response): Promise<
   } catch (error: any) {
     console.error('Error fetching image difference questions:', error);
     res.status(500).json({ error: 'Failed to fetch image difference questions' });
+  }
+};
+
+// Add type-specific getters:
+export const getImageMatching = async (req: Request, res: Response): Promise<void> => {
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+  try {
+    const { questions, total } = await getQuestionsByType('matching', page, limit);
+    res.status(200).json({ questions, total, page, limit });
+  } catch (error: any) {
+    console.error('Error fetching matching questions:', error);
+    res.status(500).json({ error: 'Failed to fetch matching questions' });
+  }
+};
+
+export const getShadowImageMatching = async (req: Request, res: Response): Promise<void> => {
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+  try {
+    const { questions, total } = await getQuestionsByType('shadowMatching', page, limit);
+    res.status(200).json({ questions, total, page, limit });
+  } catch (error: any) {
+    console.error('Error fetching shadow matching questions:', error);
+    res.status(500).json({ error: 'Failed to fetch shadow matching questions' });
+  }
+};
+
+export const getDotImages = async (req: Request, res: Response): Promise<void> => {
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+  try {
+    const { questions, total } = await getQuestionsByType('dotImage', page, limit);
+    res.status(200).json({ questions, total, page, limit });
+  } catch (error: any) {
+    console.error('Error fetching dot image questions:', error);
+    res.status(500).json({ error: 'Failed to fetch dot image questions' });
   }
 };

@@ -14,9 +14,7 @@ const CreateQuestion = () => {
   const [options, setOptions] = useState('');
 
   // File states for image uploads
-  const [flagImage, setFlagImage] = useState<File | null>(null);
-  const [imageFile1, setImageFile1] = useState<File | null>(null);
-  const [imageFile2, setImageFile2] = useState<File | null>(null);
+  const [file, setFile] = useState<File | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,23 +32,22 @@ const CreateQuestion = () => {
       formData.append('options', JSON.stringify(opts));
     }
 
-    // Append file uploads for flagIdentify
-    if (questionType === 'flagIdentify' && flagImage) {
-      formData.append('image', flagImage);
-    }
-
-    // Append file uploads for imageDifference
-    if (questionType === 'imageDifference') {
-      if (imageFile1) formData.append('image1', imageFile1);
-      if (imageFile2) formData.append('image2', imageFile2);
-      // Optionally, ensure the answer is sent as a number (if required by your backend)
-      formData.set('answer', answer);
-    }
+// For types that use an image upload:
+if (
+  questionType === 'flagIdentify' ||
+  questionType === 'imageDifference' ||
+  questionType === 'matching' ||
+  questionType === 'shadowMatching' ||
+  questionType === 'dotImage'
+) {
+  if (file) {
+    formData.append('image', file);
+  }
+}
 
     try {
       const res = await fetch(`${baseUrl}/questions`, {
         method: 'POST',
-        // When sending FormData, let the browser set the Content-Type header
         body: formData,
       });
       if (res.ok) {
@@ -59,9 +56,7 @@ const CreateQuestion = () => {
         setQuestionText('');
         setAnswer('');
         setOptions('');
-        setFlagImage(null);
-        setImageFile1(null);
-        setImageFile2(null);
+        setFile(null);
       } else {
         alert('Error creating question');
       }
@@ -93,6 +88,9 @@ const CreateQuestion = () => {
             <option value="goodHabit">Good Habit</option>
             <option value="science">Science</option>
             <option value="imageDifference">Image Difference</option>
+            <option value="matching">Matching</option>
+            <option value="shadowMatching">Shadow Matching</option>
+            <option value="dotImage">Dot Image</option>
           </select>
         </div>
 
@@ -124,57 +122,34 @@ const CreateQuestion = () => {
           </div>
         )}
 
-        {/* File Upload for flagIdentify */}
-        {questionType === 'flagIdentify' && (
+   {/* File Upload for types that require an image */}
+   {['flagIdentify', 'imageDifference', 'matching', 'shadowMatching', 'dotImage'].includes(questionType) && (
           <div>
-            <Label htmlFor="flagImage">Upload Image</Label>
+            <Label htmlFor="fileUpload">
+              {questionType === 'flagIdentify'
+                ? 'Upload Flag Image'
+                : questionType === 'imageDifference'
+                ? 'Upload Image'
+                : questionType === 'matching'
+                ? 'Upload Matching Image'
+                : questionType === 'shadowMatching'
+                ? 'Upload Shadow Matching Image'
+                : 'Upload Dot Image'}
+            </Label>
             <Input
-              id="flagImage"
+              id="fileUpload"
               type="file"
-              className='mt-3'
               accept="image/*"
+              className="mt-3"
               onChange={(e) => {
                 if (e.target.files && e.target.files[0]) {
-                  setFlagImage(e.target.files[0]);
+                  setFile(e.target.files[0]);
                 }
               }}
             />
           </div>
         )}
 
-        {/* File Uploads for imageDifference */}
-        {questionType === 'imageDifference' && (
-          <>
-            <div>
-              <Label htmlFor="image1">Upload Image 1</Label>
-              <Input
-                id="image1"
-                type="file"
-                accept="image/*"
-                 className='mt-3'
-                onChange={(e) => {
-                  if (e.target.files && e.target.files[0]) {
-                    setImageFile1(e.target.files[0]);
-                  }
-                }}
-              />
-            </div>
-            <div>
-              <Label htmlFor="image2">Upload Image 2</Label>
-              <Input
-                id="image2"
-                type="file"
-                accept="image/*"
-                 className='mt-3'
-                onChange={(e) => {
-                  if (e.target.files && e.target.files[0]) {
-                    setImageFile2(e.target.files[0]);
-                  }
-                }}
-              />
-            </div>
-          </>
-        )}
 
         {/* Answer Field */}
         <div>

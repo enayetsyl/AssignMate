@@ -89,10 +89,13 @@ export const menuItems: MenuItem[] = [
     href: '/other',
     items: [
       { label: 'Riddle', href: '/other/riddle' },
-      { label: 'Placeholder 2', href: '/deen/placeholder-2' },
-      { label: 'Placeholder 3', href: '/deen/placeholder-3' },
-      { label: 'Placeholder 4', href: '/deen/placeholder-4' },
-      { label: 'Placeholder 5', href: '/deen/placeholder-5' },
+      { label: 'Flag Quiz', href: '/other/flag-quiz' },
+      { label: 'Image Difference', href: '/other/image-difference' },
+      { label: 'Matching Image', href: '/other/matching-image' },
+      { label: 'Shadow Image Matching', href: '/other/shadow-image-matching' },
+      { label: 'Dot Image', href: '/other/dot-image' },
+      { label: 'Placeholder 4', href: '/other/placeholder-4' },
+      { label: 'Placeholder 5', href: '/other/placeholder-5' },
     ],
   },
 ];
