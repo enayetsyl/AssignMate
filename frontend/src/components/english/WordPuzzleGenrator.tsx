@@ -98,7 +98,7 @@ function generatePuzzle(
   const grid = createEmptyGrid(gridSize);
 
   // Decide how many times to place the word (3-10)
-  const times = Math.floor(Math.random() * 8) + 3; // random in [3..10]
+  const times = Math.floor(Math.random() * 18) + 8; // random in [3..10]
 
   for (let count = 0; count < times; count++) {
     // Attempt placement up to X tries
