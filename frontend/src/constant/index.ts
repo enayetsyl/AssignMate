@@ -53,6 +53,7 @@ export const menuItems: MenuItem[] = [
       { label: 'Pyramid', href: '/math/pyramid' },
       { label: 'Pyramid Subtract and Division', href: '/math/pyramid-s-d' },
       { label: 'Math 100 Chart', href: '/math/add-100-chart' },
+      { label: 'Riddle Math', href: '/math/riddle-math' },
       { label: 'Pyramid Subtract and Division', href: '/math/pyramid-s-d' },
     ],
   },
@@ -394,6 +395,8 @@ export const COLORS = [
   'bg-lime-200', 'bg-indigo-200', 'bg-rose-200', 'bg-violet-200', 'bg-fuchsia-200',
   'bg-emerald-200', 'bg-sky-200', 'bg-slate-200', 'bg-gray-200', 'bg-stone-200'
 ];
+
+
 export const TEXT_COLORS = [
   'text-red-500',
   'text-orange-500',
@@ -407,4 +410,18 @@ export const TEXT_COLORS = [
   'text-cyan-500',
   'text-lime-500',
   'text-amber-500'
+];
+
+
+export const BRIGHT_COLORS = [
+  '#FF6363', // Bright Red
+  '#FFA600', // Bright Orange
+  '#FFBC42', // Lighter Orange
+  '#45C367', // Leafy Green
+  '#8AC926', // Lime Green
+  '#1982C4', // Bright Blue
+  '#6A4C93', // Purple
+  '#FF595E', // Coral Red
+  '#FF9B85', // Peach
+  '#FFE74C', // Sunny Yellow
 ];

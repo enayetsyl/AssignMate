@@ -1,19 +1,9 @@
 'use client';
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { BRIGHT_COLORS } from '@/constant';
 
-const BRIGHT_COLORS = [
-  '#FF6363', // Bright Red
-  '#FFA600', // Bright Orange
-  '#FFBC42', // Lighter Orange
-  '#45C367', // Leafy Green
-  '#8AC926', // Lime Green
-  '#1982C4', // Bright Blue
-  '#6A4C93', // Purple
-  '#FF595E', // Coral Red
-  '#FF9B85', // Peach
-  '#FFE74C', // Sunny Yellow
-];
+
 
 type Operation = 'addition' | 'subtraction';
 
