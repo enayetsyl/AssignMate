@@ -49,7 +49,7 @@ export const menuItems: MenuItem[] = [
       { label: 'Image Count Vertical', href: '/math/image-count-vertical' },
       { label: 'Left Right', href: '/math/left-right' },
       { label: 'Fingerprint Math Addition', href: '/math/fingerprint-math' },
-      { label: 'Placeholder 4', href: '/math/placeholder-4' },
+      { label: 'Domino Math', href: '/math/domino-dot-math' },
       { label: 'Placeholder 5', href: '/math/placeholder-5' },
     ],
   },
