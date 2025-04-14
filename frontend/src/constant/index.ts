@@ -50,7 +50,10 @@ export const menuItems: MenuItem[] = [
       { label: 'Left Right', href: '/math/left-right' },
       { label: 'Fingerprint Math Addition', href: '/math/fingerprint-math' },
       { label: 'Domino Math', href: '/math/domino-dot-math' },
-      { label: 'Placeholder 5', href: '/math/placeholder-5' },
+      { label: 'Pyramid', href: '/math/pyramid' },
+      { label: 'Pyramid Subtract and Division', href: '/math/pyramid-s-d' },
+      { label: 'Math 100 Chart', href: '/math/add-100-chart' },
+      { label: 'Pyramid Subtract and Division', href: '/math/pyramid-s-d' },
     ],
   },
   {
