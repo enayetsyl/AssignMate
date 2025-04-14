@@ -1,5 +1,6 @@
 'use client';
 
+import { COLORS } from '@/constant';
 import React, { useEffect, useState } from 'react';
 
 // ======= CONSTANTS & TYPES =======
@@ -13,18 +14,6 @@ export const DIRECTIONS: Direction[] = [
   [[-1, 1]], // diagonal up-right
 ];
 
-const COLORS = [
-  'bg-red-200',
-  'bg-blue-200',
-  'bg-green-200',
-  'bg-yellow-200',
-  'bg-pink-200',
-  'bg-purple-200',
-  'bg-orange-200',
-  'bg-teal-200',
-  'bg-cyan-200',
-  'bg-amber-200',
-];
 
 // ======= PUZZLE HELPER FUNCTIONS =======
 
