@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Domino-Style Grammar Cards
+Concept:
+Design printable cards that contain fragments of a sentence on one card (e.g., “The cat jumped”) and various prepositional phrases on other cards (e.g., “onto the couch”, “in the garden”). Students can play a domino-style matching game by matching the sentence fragment to a suitable prepositional phrase.
 
-## Getting Started
+Print Layout:
 
-First, run the development server:
+Cards printed on cardstock that students can cut out.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Print instructions that prompt matching by reading aloud or by gluing matched pairs onto a worksheet.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Variations:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Add dummy cards for higher difficulty.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Use preposition-specific cards for drills.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Grammar Sorting and Diagramming
+Concept:
+Create a worksheet in which students identify and circle or underline the prepositional phrases in a full sentence, and then classify them by function (time, place, manner, etc.).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Worksheet Example:
 
-## Deploy on Vercel
+Sentence: "The children played in the park on a sunny afternoon."
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Activity Instructions:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Underline the prepositional phrases.
+
+Write “place” next to "in the park" and “time” next to "on a sunny afternoon."
+
+Printable Worksheet Ideas:
+
+Include several sentences and a table or space for students to write down the type of each prepositional phrase.
+
+Use diagramming boxes where students draw lines to connect phrases to pre-labeled categories.
+
+

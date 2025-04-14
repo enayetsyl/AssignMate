@@ -18,7 +18,7 @@ export const menuItems: MenuItem[] = [
       { label: 'Bangla Image CrossWord Puzzle Mixed', href: '/bangla/image-mixed-crossword-puzzle' },
       { label: 'Word Rearrange', href: '/bangla/word-rearrange' },
       
-      { label: 'Placeholder 5', href: '/bangla/placeholder-5' },
+      { label: 'Letter Fill', href: '/bangla/fill-in-letter' },
     ],
   },
   {
@@ -37,6 +37,7 @@ export const menuItems: MenuItem[] = [
       { label: 'Image CrossWord Puzzle Mixed', href: '/english/image-mixed-crossword-puzzle' },
       { label: 'Sentence Scramble', href: '/english/sentence-scramble' },
       { label: 'Glue Sentences', href: '/english/match-sentence-halves' },
+      { label: 'Letter Fill', href: '/english/fill-in-letter' },
     ],
   },
   {
@@ -389,4 +390,18 @@ export const COLORS = [
   'bg-purple-200', 'bg-orange-200', 'bg-teal-200', 'bg-cyan-200', 'bg-amber-200',
   'bg-lime-200', 'bg-indigo-200', 'bg-rose-200', 'bg-violet-200', 'bg-fuchsia-200',
   'bg-emerald-200', 'bg-sky-200', 'bg-slate-200', 'bg-gray-200', 'bg-stone-200'
+];
+export const TEXT_COLORS = [
+  'text-red-500',
+  'text-orange-500',
+  'text-yellow-500',
+  'text-green-500',
+  'text-teal-500',
+  'text-blue-500',
+  'text-indigo-500',
+  'text-purple-500',
+  'text-pink-500',
+  'text-cyan-500',
+  'text-lime-500',
+  'text-amber-500'
 ];
