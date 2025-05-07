@@ -19,6 +19,7 @@ export const menuItems: MenuItem[] = [
       { label: 'Word Rearrange', href: '/bangla/word-rearrange' },
       
       { label: 'Letter Fill', href: '/bangla/fill-in-letter' },
+      { label: 'Letter Write', href: '/bangla/letter-write' },
     ],
   },
   {
