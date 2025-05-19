@@ -44,7 +44,7 @@ export default function PrintableGenerator() {
 
   // grid settings: 10 columns, 15 rows = 150 cells per page
   const columns = 10;
-  const rows = 15;
+  const rows = 12;
   const totalCells = columns * rows;
 
   // fill cells by repeating items
