@@ -1,4 +1,4 @@
-// src/constant/index.ts
+
 import { MenuItem } from '@/interface';
 
 export const menuItems: MenuItem[] = [
@@ -17,9 +17,9 @@ export const menuItems: MenuItem[] = [
       { label: 'Image CrossWord Puzzle Horizontal and Vertical', href: '/bangla/image-v-and-h-crossword-puzzle' },
       { label: 'Bangla Image CrossWord Puzzle Mixed', href: '/bangla/image-mixed-crossword-puzzle' },
       { label: 'Word Rearrange', href: '/bangla/word-rearrange' },
-      
       { label: 'Letter Fill', href: '/bangla/fill-in-letter' },
       { label: 'Letter Write', href: '/bangla/letter-write' },
+      { label: 'Letter Tracing', href: '/bangla/letter-tracing' },
     ],
   },
   {
