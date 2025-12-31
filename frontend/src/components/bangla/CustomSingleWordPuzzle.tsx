@@ -10,16 +10,36 @@ import {
   CardDescription,
   CardContent,
 } from '@/components/ui/card';
+import GraphemeSplitter from 'grapheme-splitter';
 
 /* --------------------------------------------
-   1) Create an empty grid of given size.
+   1) Split the word into grapheme clusters and merge vowel signs
+-------------------------------------------- */
+function splitIntoGraphemes(str: string): string[] {
+  const splitter = new GraphemeSplitter();
+  const clusters = splitter.splitGraphemes(str);
+  const vowelSigns = new Set(['া', 'ি', 'ী', 'ু', 'ূ', 'ৃ', 'ে', 'ৈ', 'ো', 'ৌ']);
+
+  const merged: string[] = [];
+  for (let i = 0; i < clusters.length; i++) {
+    if (vowelSigns.has(clusters[i]) && merged.length > 0) {
+      merged[merged.length - 1] += clusters[i];
+    } else {
+      merged.push(clusters[i]);
+    }
+  }
+  return merged;
+}
+
+/* --------------------------------------------
+   2) Create an empty grid
 -------------------------------------------- */
 function createEmptyGrid(size: number): string[][] {
   return Array.from({ length: size }, () => Array(size).fill(''));
 }
 
 /* --------------------------------------------
-   2) All possible directions for word placement.
+   3) Define possible directions (8 directions)
 -------------------------------------------- */
 const DIRECTIONS: [number, number][] = [
   [-1, 0], // Up
@@ -33,69 +53,60 @@ const DIRECTIONS: [number, number][] = [
 ];
 
 /* --------------------------------------------
-   3) Check if a word can be placed in the grid
-      starting at (startRow, startCol) in direction (dRow, dCol).
-      Overlapping is allowed if letters match.
+   4) Check if a word can be placed
 -------------------------------------------- */
 function canPlaceWord(
   grid: string[][],
-  word: string,
+  graphemes: string[],
   startRow: number,
   startCol: number,
   dRow: number,
   dCol: number
 ): boolean {
   const size = grid.length;
-  for (let i = 0; i < word.length; i++) {
+  for (let i = 0; i < graphemes.length; i++) {
     const r = startRow + i * dRow;
     const c = startCol + i * dCol;
     if (r < 0 || r >= size || c < 0 || c >= size) return false;
-    if (grid[r][c] !== '' && grid[r][c] !== word[i]) return false;
+    if (grid[r][c] !== '' && grid[r][c] !== graphemes[i]) return false;
   }
   return true;
 }
 
 /* --------------------------------------------
-   4) Place the word in the grid.
-      (Assumes that canPlaceWord has returned true.)
-      Returns an array of positions for the letters.
+   5) Place the word in the grid
 -------------------------------------------- */
 function placeWord(
   grid: string[][],
-  word: string,
+  graphemes: string[],
   startRow: number,
   startCol: number,
   dRow: number,
   dCol: number
 ): [number, number][] {
   const positions: [number, number][] = [];
-  for (let i = 0; i < word.length; i++) {
+  for (let i = 0; i < graphemes.length; i++) {
     const r = startRow + i * dRow;
     const c = startCol + i * dCol;
-    grid[r][c] = word[i];
+    grid[r][c] = graphemes[i];
     positions.push([r, c]);
   }
   return positions;
 }
 
 /* --------------------------------------------
-   5) Generate the puzzle.
-      - Place the same word multiple times.
-      - The number of placements is random between minPlacement and maxPlacement.
-      - Then fill empty cells with random letters.
-      - Returns both the grid and the placements (answer key).
+   6) Generate the puzzle
 -------------------------------------------- */
 function generatePuzzle(
   word: string,
   gridSize = 12,
-  isUppercase = true,
   minPlacement: number = 8,
   maxPlacement: number = 12,
   allowedDirections: [number, number][] = DIRECTIONS
 ): { grid: string[][]; placements: [number, number][][] } {
   const grid = createEmptyGrid(gridSize);
   const placements: [number, number][][] = [];
-  // Choose a random count between minPlacement and maxPlacement.
+  const graphemes = splitIntoGraphemes(word);
   const times =
     Math.floor(Math.random() * (maxPlacement - minPlacement + 1)) +
     minPlacement;
@@ -106,28 +117,28 @@ function generatePuzzle(
     const maxAttempts = 100;
     while (!placed && attempts < maxAttempts) {
       attempts++;
-      // Pick a random direction.
       const [dRow, dCol] =
         allowedDirections[
           Math.floor(Math.random() * allowedDirections.length)
         ];
       const startRow = Math.floor(Math.random() * gridSize);
       const startCol = Math.floor(Math.random() * gridSize);
-      if (canPlaceWord(grid, word, startRow, startCol, dRow, dCol)) {
-        const pos = placeWord(grid, word, startRow, startCol, dRow, dCol);
+      if (canPlaceWord(grid, graphemes, startRow, startCol, dRow, dCol)) {
+        const pos = placeWord(grid, graphemes, startRow, startCol, dRow, dCol);
         placements.push(pos);
         placed = true;
       }
     }
   }
 
-  // Fill empty cells with random letters.
+  // Fill empty cells with random Bangla letters
+  const banglaAlphabets =
+    'অআইঈউঊঋএঐওঔকখগঘঙচছজঝঞটঠডঢণতথদধনপফবভমযরলশষসহড়ঢ়য়';
   for (let r = 0; r < gridSize; r++) {
     for (let c = 0; c < gridSize; c++) {
       if (grid[r][c] === '') {
-        const charCode = 65 + Math.floor(Math.random() * 26); // A-Z
-        const letter = String.fromCharCode(charCode);
-        grid[r][c] = isUppercase ? letter : letter.toLowerCase();
+        const idx = Math.floor(Math.random() * banglaAlphabets.length);
+        grid[r][c] = banglaAlphabets[idx];
       }
     }
   }
@@ -161,9 +172,6 @@ const CustomSingleWordPuzzle: React.FC<CustomSingleWordPuzzleProps> = ({
   const [printMode, setPrintMode] = useState<
     'question' | 'answer' | 'two-page'
   >('question');
-  const [letterCase, setLetterCase] = useState<'uppercase' | 'lowercase'>(
-    'uppercase'
-  );
   const [difficulty, setDifficulty] = useState<'easy' | 'medium' | 'hard'>(
     'medium'
   );
@@ -183,9 +191,6 @@ const CustomSingleWordPuzzle: React.FC<CustomSingleWordPuzzleProps> = ({
     }
 
     const generatedPuzzles = wordList.map((word) => {
-      const finalWord =
-        letterCase === 'uppercase' ? word.toUpperCase() : word.toLowerCase();
-
       let minPlacement = 8;
       let maxPlacement = 12;
       if (difficulty === 'hard') {
@@ -211,15 +216,14 @@ const CustomSingleWordPuzzle: React.FC<CustomSingleWordPuzzleProps> = ({
       }
 
       const { grid, placements } = generatePuzzle(
-        finalWord,
+        word,
         12,
-        letterCase === 'uppercase',
         minPlacement,
         maxPlacement,
         allowedDirs
       );
 
-      return { grid, placements, word: finalWord };
+      return { grid, placements, word };
     });
 
     setPuzzles(generatedPuzzles);
@@ -326,40 +330,13 @@ const CustomSingleWordPuzzle: React.FC<CustomSingleWordPuzzleProps> = ({
 
       <Card className="max-w-3xl mx-auto my-8 p-4">
         <CardHeader>
-          <CardTitle>Word Puzzle Generator</CardTitle>
+          <CardTitle>Word Puzzle Generator (Bangla)</CardTitle>
           <CardDescription>
             Generate {numberOfPuzzles} puzzle{numberOfPuzzles > 1 ? 's' : ''} for{' '}
             {numberOfPuzzles} word{numberOfPuzzles > 1 ? 's' : ''}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {/* Letter Case Options */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Letter Case</label>
-            <div className="flex items-center space-x-4">
-              <label className="flex items-center space-x-1">
-                <input
-                  type="radio"
-                  name="letterCase"
-                  value="uppercase"
-                  checked={letterCase === 'uppercase'}
-                  onChange={() => setLetterCase('uppercase')}
-                />
-                <span>Uppercase</span>
-              </label>
-              <label className="flex items-center space-x-1">
-                <input
-                  type="radio"
-                  name="letterCase"
-                  value="lowercase"
-                  checked={letterCase === 'lowercase'}
-                  onChange={() => setLetterCase('lowercase')}
-                />
-                <span>Lowercase</span>
-              </label>
-            </div>
-          </div>
-
           {/* Controls & Difficulty */}
           <div className="flex flex-wrap gap-4 items-center">
             <Button

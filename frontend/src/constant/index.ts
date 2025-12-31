@@ -6,7 +6,7 @@ export const menuItems: MenuItem[] = [
     title: 'Bangla',
     href: '/bangla',
     items: [
-      
+      { label: 'Puzzle Generator', href: '/bangla/puzzle' },
       { label: 'Single Word Puzzle', href: '/bangla/single-word-puzzle' },
       { label: 'Multi Word Puzzle Easy', href: '/bangla/multi-word-puzzle-easy' },
       { label: 'Multi Word Puzzle Medium', href: '/bangla/multi-word-puzzle-medium' },

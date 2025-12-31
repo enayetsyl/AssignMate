@@ -3,11 +3,11 @@
 import React, { useState, ChangeEvent, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import CustomSingleWordPuzzle from '@/components/english/CustomSingleWordPuzzle';
-import MultiWordPuzzleGeneratorEasy from '@/components/english/MultiWordPuzzleEasy';
-import MultiWordPuzzleGeneratorMedium from '@/components/english/MultiWordPuzzleMedium';
-import MultiWordPuzzleGeneratorHard from '@/components/english/MultiWordPuzzleHard';
-import MultiWordPuzzleGeneratorStone from '@/components/english/MultiWordPuzzleStone';
+import CustomSingleWordPuzzle from '@/components/bangla/CustomSingleWordPuzzle';
+import BanglaMultiWordPuzzleEasy from '@/components/bangla/BanglaMultiWordPuzzleEasy';
+import BanglaMultiWordPuzzleGeneratorMedium from '@/components/bangla/BanglaMultiWordPuzzleGeneratorMedium';
+import BanglaMultiWordPuzzleGeneratorHard from '@/components/bangla/BanglaMultiWordPuzzleGeneratorHard';
+import BanglaMultiWordPuzzleGeneratorStone from '@/components/bangla/BanglaMultiWordPuzzleGeneratorStone';
 import {
   Card,
   CardHeader,
@@ -77,13 +77,13 @@ const PuzzlePage = () => {
                 />
               );
             case 'multi-word-easy':
-              return <MultiWordPuzzleGeneratorEasy />;
+              return <BanglaMultiWordPuzzleEasy />;
             case 'multi-word-medium':
-              return <MultiWordPuzzleGeneratorMedium />;
+              return <BanglaMultiWordPuzzleGeneratorMedium />;
             case 'multi-word-hard':
-              return <MultiWordPuzzleGeneratorHard />;
+              return <BanglaMultiWordPuzzleGeneratorHard />;
             case 'multi-word-stone':
-              return <MultiWordPuzzleGeneratorStone />;
+              return <BanglaMultiWordPuzzleGeneratorStone />;
             default:
               return null;
           }
@@ -221,3 +221,4 @@ const PuzzlePage = () => {
 };
 
 export default PuzzlePage;
+
