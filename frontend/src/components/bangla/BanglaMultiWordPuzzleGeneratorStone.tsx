@@ -191,22 +191,22 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC<BanglaMultiWordPuzzleGenerat
 
   const handlePrintWithStudentInfo = () => {
     if (!studentName || !studentName.trim()) {
-      alert("Please enter a student name");
+      alert('Please enter a student name');
       return;
     }
     if (!date || !date.trim()) {
-      alert("Please enter a date");
+      alert('Please enter a date');
       return;
     }
     if (!studentClass || !studentClass.trim()) {
-      alert("Please select a class");
+      alert('Please select a class');
       return;
     }
     if (grid.length === 0) {
-      alert("Please generate puzzle first");
+      alert('Please generate puzzle first');
       return;
     }
-    setPrintMode("two-page");
+    setPrintMode('two-page');
     setShowAnswers(false);
     setTimeout(() => window.print(), 100);
   };
@@ -354,7 +354,7 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC<BanglaMultiWordPuzzleGenerat
               পাজলে শব্দগুলো খুঁজে বের করুন!
             </h2>
             <div className="flex justify-center">
-              <table className="border border-black border-collapse" style={{ fontSize: '12px', fontFamily: "'Noto Sans Bengali', 'Mukti', 'Kalpurush', 'Siyam Rupali', sans-serif" }}>
+              <table className="border border-black border-collapse" style={{ fontSize: '12px', fontFamily: '\'Noto Sans Bengali\', \'Mukti\', \'Kalpurush\', \'Siyam Rupali\', sans-serif' }}>
                 <tbody>
                   {grid.map((row, rIdx) => (
                     <tr key={rIdx}>
