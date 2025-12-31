@@ -273,7 +273,7 @@ const MultiWordPuzzleGeneratorEasy: React.FC<MultiWordPuzzleGeneratorEasyProps> 
                               {row.map((cell, cIdx) => (
                                 <td
                                   key={cIdx}
-                                  className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(rIdx, cIdx)}`}
+                                  className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(rIdx, cIdx, true)}`}
                                 >
                                   {cell}
                                 </td>
@@ -350,53 +350,6 @@ const MultiWordPuzzleGeneratorEasy: React.FC<MultiWordPuzzleGeneratorEasyProps> 
     </>
   );
 };
-
-                {/* Second Page - Answers */}
-                <div className="print-page">
-                  {(studentName || date || studentClass) && (
-                    <div className="student-info-header">
-                      {studentName && (
-                        <p>
-                          Name: {studentName}
-                          {studentClass && ` | Class: ${studentClass}`}
-                        </p>
-                      )}
-                      {date && <p>Date: {new Date(date).toLocaleDateString()}</p>}
-                      <p className="mt-2">Answer Key</p>
-                    </div>
-                  )}
-                  <h2 className="font-bold text-2xl underline text-center mb-4 font-kids">
-                    Find the words in the puzzle!
-                  </h2>
-                  <div className="flex flex-row gap-4 justify-between items-start">
-                    {/* Puzzle Grid with Answers */}
-                    <div className="w-full overflow-auto">
-                      <table className="border border-black border-collapse mx-auto font-kids text-lg">
-                        <tbody>
-                          {grid.map((row, rIdx) => (
-                            <tr key={rIdx}>
-                              {row.map((cell, cIdx) => (
-                                <td
-                                  key={cIdx}
-                                  className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(rIdx, cIdx)}`}
-                                >
-                                  {cell}
-                                </td>
-                              ))}
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <>
-                <h2 className="font-bold text-2xl underline text-center mb-4 font-kids">
-                  Find the words in the puzzle!
-                </h2>
-                <div className="flex flex-row gap-4 justify-between items-start">
 
 export default MultiWordPuzzleGeneratorEasy;
 
