@@ -150,9 +150,9 @@ interface BanglaMultiWordPuzzleGeneratorStoneProps {
 }
 
 const BanglaMultiWordPuzzleGeneratorStone: React.FC<BanglaMultiWordPuzzleGeneratorStoneProps> = ({
-  studentName = "",
-  date = "",
-  studentClass = "",
+  studentName = '',
+  date = '',
+  studentClass = '',
 }) => {
   const [isClient, setIsClient] = useState(false);
   const [words, setWords] = useState<string[]>([]);
@@ -213,7 +213,7 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC<BanglaMultiWordPuzzleGenerat
 
   // Highlight the cells for answers in 'answer' mode
   const getCellColor = (row: number, col: number, isAnswerPage: boolean = false) => {
-    if (printMode === "two-page" && !isAnswerPage) return '';
+    if (printMode === 'two-page' && !isAnswerPage) return '';
     if ((!showAnswers && printMode !== 'two-page') || (printMode !== 'answer' && printMode !== 'two-page')) return '';
     const entries = Object.entries(answers);
     for (let i = 0; i < entries.length; i++) {
@@ -267,7 +267,7 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC<BanglaMultiWordPuzzleGenerat
 
       {/* প্রিন্টের জন্য এলাকা */}
       <div id="printable-area" className="mt-4">
-        {printMode === "two-page" ? (
+        {printMode === 'two-page' ? (
           <>
             {/* First Page - Puzzle */}
             <div className="print-page">
@@ -286,7 +286,7 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC<BanglaMultiWordPuzzleGenerat
                 পাজলে শব্দগুলো খুঁজে বের করুন!
               </h2>
               <div className="flex justify-center">
-                <table className="border border-black border-collapse" style={{ fontSize: '12px', fontFamily: "'Noto Sans Bengali', 'Mukti', 'Kalpurush', 'Siyam Rupali', sans-serif" }}>
+                <table className="border border-black border-collapse" style={{ fontSize: '12px', fontFamily: '\'Noto Sans Bengali\', \'Mukti\', \'Kalpurush\', \'Siyam Rupali\', sans-serif' }}>
                   <tbody>
                     {grid.map((row, rIdx) => (
                       <tr key={rIdx}>
@@ -324,7 +324,7 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC<BanglaMultiWordPuzzleGenerat
                 পাজলে শব্দগুলো খুঁজে বের করুন!
               </h2>
               <div className="flex justify-center">
-                <table className="border border-black border-collapse" style={{ fontSize: '12px', fontFamily: "'Noto Sans Bengali', 'Mukti', 'Kalpurush', 'Siyam Rupali', sans-serif" }}>
+                <table className="border border-black border-collapse" style={{ fontSize: '12px', fontFamily: '\'Noto Sans Bengali\', \'Mukti\', \'Kalpurush\', \'Siyam Rupali\', sans-serif' }}>
                   <tbody>
                     {grid.map((row, rIdx) => (
                       <tr key={rIdx}>

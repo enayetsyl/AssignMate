@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { COLORS } from '@/constant';
-import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import { COLORS } from "@/constant";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
 
 const MAX_WORDS = 20;
 
@@ -12,24 +12,26 @@ interface MultiWordPuzzleGeneratorEasyProps {
   studentClass?: string;
 }
 
-const MultiWordPuzzleGeneratorEasy: React.FC<MultiWordPuzzleGeneratorEasyProps> = ({
-  studentName = "",
-  date = "",
-  studentClass = "",
-}) => {
+const MultiWordPuzzleGeneratorEasy: React.FC<
+  MultiWordPuzzleGeneratorEasyProps
+> = ({ studentName = "", date = "", studentClass = "" }) => {
   const [words, setWords] = useState<string[]>([]);
   const [images, setImages] = useState<string[]>([]);
   const [grid, setGrid] = useState<string[][]>([]);
-  const [answers, setAnswers] = useState<Record<string, [number, number][]>>({});
+  const [answers, setAnswers] = useState<Record<string, [number, number][]>>(
+    {}
+  );
   const [showAnswers, setShowAnswers] = useState(false);
   const [isClient, setIsClient] = useState(false);
-  const [printMode, setPrintMode] = useState<'puzzle' | 'answer' | 'two-page'>('puzzle');
+  const [printMode, setPrintMode] = useState<"puzzle" | "answer" | "two-page">(
+    "puzzle"
+  );
 
   useEffect(() => setIsClient(true), []);
 
   const handleWordChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const list = e.target.value
-      .split('\n')
+      .split("\n")
       .map((w) => w.trim().toUpperCase())
       .filter(Boolean)
       .slice(0, MAX_WORDS);
@@ -49,7 +51,7 @@ const MultiWordPuzzleGeneratorEasy: React.FC<MultiWordPuzzleGeneratorEasyProps> 
     setShowAnswers(false);
   };
 
-  const handlePrint = (mode: 'puzzle' | 'answer') => {
+  const handlePrint = (mode: "puzzle" | "answer") => {
     setPrintMode(mode);
     setTimeout(() => window.print(), 100);
   };
@@ -80,7 +82,11 @@ const MultiWordPuzzleGeneratorEasy: React.FC<MultiWordPuzzleGeneratorEasyProps> 
   };
 
   const getCellColor = (row: number, col: number) => {
-    if ((!showAnswers && printMode !== 'two-page') || (printMode !== 'answer' && printMode !== 'two-page')) return '';
+    if (
+      (!showAnswers && printMode !== "two-page") ||
+      (printMode !== "answer" && printMode !== "two-page")
+    )
+      return "";
     const entries = Object.entries(answers);
     for (let i = 0; i < entries.length; i++) {
       const [, positions] = entries[i];
@@ -88,7 +94,7 @@ const MultiWordPuzzleGeneratorEasy: React.FC<MultiWordPuzzleGeneratorEasyProps> 
         return COLORS[i % COLORS.length];
       }
     }
-    return '';
+    return "";
   };
 
   return (
@@ -153,7 +159,7 @@ const MultiWordPuzzleGeneratorEasy: React.FC<MultiWordPuzzleGeneratorEasyProps> 
           <button
             onClick={() => {
               setShowAnswers(true);
-              handlePrint('answer');
+              handlePrint("answer");
             }}
             className="bg-orange-500 text-white px-4 py-2 rounded"
           >
@@ -162,7 +168,7 @@ const MultiWordPuzzleGeneratorEasy: React.FC<MultiWordPuzzleGeneratorEasyProps> 
           <button
             onClick={() => {
               setShowAnswers(false);
-              handlePrint('puzzle');
+              handlePrint("puzzle");
             }}
             className="bg-green-600 text-white px-4 py-2 rounded"
           >
@@ -191,7 +197,9 @@ const MultiWordPuzzleGeneratorEasy: React.FC<MultiWordPuzzleGeneratorEasyProps> 
                           {studentClass && ` | Class: ${studentClass}`}
                         </p>
                       )}
-                      {date && <p>Date: {new Date(date).toLocaleDateString()}</p>}
+                      {date && (
+                        <p>Date: {new Date(date).toLocaleDateString()}</p>
+                      )}
                     </div>
                   )}
                   <h2 className="font-bold text-2xl underline text-center mb-4 font-kids">
@@ -256,7 +264,9 @@ const MultiWordPuzzleGeneratorEasy: React.FC<MultiWordPuzzleGeneratorEasyProps> 
                           {studentClass && ` | Class: ${studentClass}`}
                         </p>
                       )}
-                      {date && <p>Date: {new Date(date).toLocaleDateString()}</p>}
+                      {date && (
+                        <p>Date: {new Date(date).toLocaleDateString()}</p>
+                      )}
                       <p className="mt-2">Answer Key</p>
                     </div>
                   )}
@@ -273,7 +283,11 @@ const MultiWordPuzzleGeneratorEasy: React.FC<MultiWordPuzzleGeneratorEasyProps> 
                               {row.map((cell, cIdx) => (
                                 <td
                                   key={cIdx}
-                                  className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(rIdx, cIdx, true)}`}
+                                  className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(
+                                    rIdx,
+                                    cIdx,
+                                    true
+                                  )}`}
                                 >
                                   {cell}
                                 </td>
@@ -293,7 +307,7 @@ const MultiWordPuzzleGeneratorEasy: React.FC<MultiWordPuzzleGeneratorEasyProps> 
                 </h2>
                 <div className="flex flex-row gap-4 justify-between items-start">
                   {/* Word List */}
-                  {printMode === 'puzzle' && (
+                  {printMode === "puzzle" && (
                     <div className="w-1/4 space-y-1">
                       <ul>
                         {words.map((word) => (
@@ -315,7 +329,10 @@ const MultiWordPuzzleGeneratorEasy: React.FC<MultiWordPuzzleGeneratorEasyProps> 
                             {row.map((cell, cIdx) => (
                               <td
                                 key={cIdx}
-                                className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(rIdx, cIdx)}`}
+                                className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(
+                                  rIdx,
+                                  cIdx
+                                )}`}
                               >
                                 {cell}
                               </td>
@@ -327,7 +344,7 @@ const MultiWordPuzzleGeneratorEasy: React.FC<MultiWordPuzzleGeneratorEasyProps> 
                   </div>
 
                   {/* Images */}
-                  {printMode === 'puzzle' && (
+                  {printMode === "puzzle" && (
                     <div className="w-1/4 grid grid-cols-2 gap-2">
                       {images.map((src, i) => (
                         <Image
@@ -363,23 +380,30 @@ export type Direction = number[][];
 // Allowed directions: horizontal (right), vertical (down),
 // diagonal down-right, and diagonal up-right.
 export const DIRECTIONS: Direction[] = [
-  [[0, 1]],   // horizontal (right)
-  [[1, 0]],   // vertical (down)
-  [[1, 1]],   // diagonal down-right
-  [[-1, 1]],  // diagonal up-right
+  [[0, 1]], // horizontal (right)
+  [[1, 0]], // vertical (down)
+  [[1, 1]], // diagonal down-right
+  [[-1, 1]], // diagonal up-right
 ];
 
 // Create an empty grid of the given size.
 function createEmptyGrid(size: number): string[][] {
-  return Array.from({ length: size }, () => Array(size).fill(''));
+  return Array.from({ length: size }, () => Array(size).fill(""));
 }
 
 // Check if the word can be placed at the specified starting point and along the given direction.
-function canPlace(grid: string[][], word: string, row: number, col: number, path: Direction) {
-  let r = row, c = col;
+function canPlace(
+  grid: string[][],
+  word: string,
+  row: number,
+  col: number,
+  path: Direction
+) {
+  let r = row,
+    c = col;
   for (let i = 0; i < word.length; i++) {
     if (r < 0 || r >= grid.length || c < 0 || c >= grid.length) return false;
-    if (grid[r][c] !== '' && grid[r][c] !== word[i]) return false;
+    if (grid[r][c] !== "" && grid[r][c] !== word[i]) return false;
     const [dr, dc] = path[i % path.length];
     r += dr;
     c += dc;
@@ -395,7 +419,8 @@ function placeWord(
   col: number,
   path: Direction
 ): [number, number][] {
-  let r = row, c = col;
+  let r = row,
+    c = col;
   const positions: [number, number][] = [];
   for (let i = 0; i < word.length; i++) {
     grid[r][c] = word[i];
@@ -418,7 +443,8 @@ export function generatePuzzle(words: string[]): {
   const answers: Record<string, [number, number][]> = {};
 
   for (const word of words) {
-    let placed = false, tries = 0;
+    let placed = false,
+      tries = 0;
     while (!placed && tries++ < 200) {
       const dir = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
       const row = Math.floor(Math.random() * gridSize);
@@ -433,7 +459,8 @@ export function generatePuzzle(words: string[]): {
   // Fill in empty cells with random letters.
   for (let r = 0; r < gridSize; r++) {
     for (let c = 0; c < gridSize; c++) {
-      if (!grid[r][c]) grid[r][c] = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+      if (!grid[r][c])
+        grid[r][c] = String.fromCharCode(65 + Math.floor(Math.random() * 26));
     }
   }
 

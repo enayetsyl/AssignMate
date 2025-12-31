@@ -215,9 +215,9 @@ function getPositionClasses(pos: ImagePosition) {
 }
 
 const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumProps> = ({
-  studentName = "",
-  date = "",
-  studentClass = "",
+  studentName = '',
+  date = '',
+  studentClass = '',
 }) => {
   const [isClient, setIsClient] = useState(false);
 
@@ -282,31 +282,31 @@ const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumPro
   const handlePrintWithStudentInfo = () => {
     // Validate student name, date, and class
     if (!studentName || !studentName.trim()) {
-      alert("Please enter a student name");
+      alert('Please enter a student name');
       return;
     }
     if (!date || !date.trim()) {
-      alert("Please enter a date");
+      alert('Please enter a date');
       return;
     }
     if (!studentClass || !studentClass.trim()) {
-      alert("Please select a class");
+      alert('Please select a class');
       return;
     }
     if (grid.length === 0) {
-      alert("Please generate puzzle first");
+      alert('Please generate puzzle first');
       return;
     }
 
     // Set print mode for two-page layout
-    setPrintMode("two-page");
+    setPrintMode('two-page');
     setShowAnswers(false);
     setTimeout(() => window.print(), 100);
   };
 
   // Color the answer cells
   const getCellColor = (row: number, col: number, isAnswerPage: boolean = false) => {
-    if (printMode === "two-page" && !isAnswerPage) return '';
+    if (printMode === 'two-page' && !isAnswerPage) return '';
     if ((!showAnswers && printMode !== 'two-page') || (printMode !== 'answer' && printMode !== 'two-page')) return '';
     const entries = Object.entries(answers);
     for (let i = 0; i < entries.length; i++) {
@@ -441,7 +441,7 @@ const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumPro
 
         {/* Printable area */}
         <div id="printable-area" className="w-full font-kids">
-          {printMode === "two-page" ? (
+          {printMode === 'two-page' ? (
             <>
               {/* First Page - Puzzle */}
               <div className="print-page">
