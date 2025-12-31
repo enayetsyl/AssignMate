@@ -6,16 +6,24 @@ import React, { useEffect, useState } from 'react';
 
 const MAX_WORDS = 20;
 
+interface MultiWordPuzzleGeneratorEasyProps {
+  studentName?: string;
+  date?: string;
+  studentClass?: string;
+}
 
-
-const MultiWordPuzzleGeneratorEasy = () => {
+const MultiWordPuzzleGeneratorEasy: React.FC<MultiWordPuzzleGeneratorEasyProps> = ({
+  studentName = "",
+  date = "",
+  studentClass = "",
+}) => {
   const [words, setWords] = useState<string[]>([]);
   const [images, setImages] = useState<string[]>([]);
   const [grid, setGrid] = useState<string[][]>([]);
   const [answers, setAnswers] = useState<Record<string, [number, number][]>>({});
   const [showAnswers, setShowAnswers] = useState(false);
   const [isClient, setIsClient] = useState(false);
-  const [printMode, setPrintMode] = useState<'puzzle' | 'answer'>('puzzle');
+  const [printMode, setPrintMode] = useState<'puzzle' | 'answer' | 'two-page'>('puzzle');
 
   useEffect(() => setIsClient(true), []);
 
@@ -46,8 +54,33 @@ const MultiWordPuzzleGeneratorEasy = () => {
     setTimeout(() => window.print(), 100);
   };
 
+  const handlePrintWithStudentInfo = () => {
+    // Validate student name, date, and class
+    if (!studentName || !studentName.trim()) {
+      alert("Please enter a student name");
+      return;
+    }
+    if (!date || !date.trim()) {
+      alert("Please enter a date");
+      return;
+    }
+    if (!studentClass || !studentClass.trim()) {
+      alert("Please select a class");
+      return;
+    }
+    if (grid.length === 0) {
+      alert("Please generate puzzle first");
+      return;
+    }
+
+    // Set print mode for two-page layout
+    setPrintMode("two-page");
+    setShowAnswers(false);
+    setTimeout(() => window.print(), 100);
+  };
+
   const getCellColor = (row: number, col: number) => {
-    if (!showAnswers || printMode !== 'answer') return '';
+    if ((!showAnswers && printMode !== 'two-page') || (printMode !== 'answer' && printMode !== 'two-page')) return '';
     const entries = Object.entries(answers);
     for (let i = 0; i < entries.length; i++) {
       const [, positions] = entries[i];
@@ -135,71 +168,235 @@ const MultiWordPuzzleGeneratorEasy = () => {
           >
             Print Puzzle
           </button>
+          <button
+            onClick={handlePrintWithStudentInfo}
+            className="bg-purple-600 text-white px-4 py-2 rounded"
+          >
+            Print with Student Info
+          </button>
         </div>
 
         {/* Printable Area */}
         {isClient && (
           <div id="printable-area" className="w-full px-4">
-            <h2 className="font-bold text-2xl underline text-center mb-4 font-kids">
-              Find the words in the puzzle!
-            </h2>
-            <div className="flex flex-row gap-4 justify-between items-start">
-              {/* Word List */}
-              {printMode === 'puzzle' && (
-                <div className="w-1/4 space-y-1">
-                  <ul>
-                    {words.map((word) => (
-                      <li key={word} className="flex items-center gap-2">
-                        <input type="checkbox" />
-                        <span className="font-kids text-lg">{word}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {/* Puzzle Grid */}
-              <div className="w-2/4 overflow-auto">
-                <table className="border border-black border-collapse mx-auto font-kids text-lg">
-                  <tbody>
-                    {grid.map((row, rIdx) => (
-                      <tr key={rIdx}>
-                        {row.map((cell, cIdx) => (
-                          <td
-                            key={cIdx}
-                            className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(rIdx, cIdx)}`}
-                          >
-                            {cell}
-                          </td>
+            {printMode === "two-page" ? (
+              <>
+                {/* First Page - Puzzle */}
+                <div className="print-page">
+                  {(studentName || date || studentClass) && (
+                    <div className="student-info-header">
+                      {studentName && (
+                        <p>
+                          Name: {studentName}
+                          {studentClass && ` | Class: ${studentClass}`}
+                        </p>
+                      )}
+                      {date && <p>Date: {new Date(date).toLocaleDateString()}</p>}
+                    </div>
+                  )}
+                  <h2 className="font-bold text-2xl underline text-center mb-4 font-kids">
+                    Find the words in the puzzle!
+                  </h2>
+                  <div className="flex flex-row gap-4 justify-between items-start">
+                    {/* Word List */}
+                    <div className="w-1/4 space-y-1">
+                      <ul>
+                        {words.map((word) => (
+                          <li key={word} className="flex items-center gap-2">
+                            <input type="checkbox" />
+                            <span className="font-kids text-lg">{word}</span>
+                          </li>
                         ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                      </ul>
+                    </div>
 
-              {/* Images */}
-              {printMode === 'puzzle' && (
-                <div className="w-1/4 grid grid-cols-2 gap-2">
-                  {images.map((src, i) => (
-                    <Image
-                      key={i}
-                      src={src}
-                      alt={`img-${i}`}
-                      className="h-14 w-auto object-contain"
-                      height={14}
-                      width={14}
-                    />
-                  ))}
+                    {/* Puzzle Grid */}
+                    <div className="w-2/4 overflow-auto">
+                      <table className="border border-black border-collapse mx-auto font-kids text-lg">
+                        <tbody>
+                          {grid.map((row, rIdx) => (
+                            <tr key={rIdx}>
+                              {row.map((cell, cIdx) => (
+                                <td
+                                  key={cIdx}
+                                  className="border border-black w-6 h-6 text-center font-bold"
+                                >
+                                  {cell}
+                                </td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    {/* Images */}
+                    <div className="w-1/4 grid grid-cols-2 gap-2">
+                      {images.map((src, i) => (
+                        <Image
+                          key={i}
+                          src={src}
+                          alt={`img-${i}`}
+                          className="h-14 w-auto object-contain"
+                          height={14}
+                          width={14}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              )}
-            </div>
+
+                {/* Second Page - Answers */}
+                <div className="print-page">
+                  {(studentName || date || studentClass) && (
+                    <div className="student-info-header">
+                      {studentName && (
+                        <p>
+                          Name: {studentName}
+                          {studentClass && ` | Class: ${studentClass}`}
+                        </p>
+                      )}
+                      {date && <p>Date: {new Date(date).toLocaleDateString()}</p>}
+                      <p className="mt-2">Answer Key</p>
+                    </div>
+                  )}
+                  <h2 className="font-bold text-2xl underline text-center mb-4 font-kids">
+                    Find the words in the puzzle!
+                  </h2>
+                  <div className="flex flex-row gap-4 justify-between items-start">
+                    {/* Puzzle Grid with Answers */}
+                    <div className="w-full overflow-auto">
+                      <table className="border border-black border-collapse mx-auto font-kids text-lg">
+                        <tbody>
+                          {grid.map((row, rIdx) => (
+                            <tr key={rIdx}>
+                              {row.map((cell, cIdx) => (
+                                <td
+                                  key={cIdx}
+                                  className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(rIdx, cIdx)}`}
+                                >
+                                  {cell}
+                                </td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2 className="font-bold text-2xl underline text-center mb-4 font-kids">
+                  Find the words in the puzzle!
+                </h2>
+                <div className="flex flex-row gap-4 justify-between items-start">
+                  {/* Word List */}
+                  {printMode === 'puzzle' && (
+                    <div className="w-1/4 space-y-1">
+                      <ul>
+                        {words.map((word) => (
+                          <li key={word} className="flex items-center gap-2">
+                            <input type="checkbox" />
+                            <span className="font-kids text-lg">{word}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Puzzle Grid */}
+                  <div className="w-2/4 overflow-auto">
+                    <table className="border border-black border-collapse mx-auto font-kids text-lg">
+                      <tbody>
+                        {grid.map((row, rIdx) => (
+                          <tr key={rIdx}>
+                            {row.map((cell, cIdx) => (
+                              <td
+                                key={cIdx}
+                                className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(rIdx, cIdx)}`}
+                              >
+                                {cell}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {/* Images */}
+                  {printMode === 'puzzle' && (
+                    <div className="w-1/4 grid grid-cols-2 gap-2">
+                      {images.map((src, i) => (
+                        <Image
+                          key={i}
+                          src={src}
+                          alt={`img-${i}`}
+                          className="h-14 w-auto object-contain"
+                          height={14}
+                          width={14}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
           </div>
         )}
       </div>
     </>
   );
 };
+
+                {/* Second Page - Answers */}
+                <div className="print-page">
+                  {(studentName || date || studentClass) && (
+                    <div className="student-info-header">
+                      {studentName && (
+                        <p>
+                          Name: {studentName}
+                          {studentClass && ` | Class: ${studentClass}`}
+                        </p>
+                      )}
+                      {date && <p>Date: {new Date(date).toLocaleDateString()}</p>}
+                      <p className="mt-2">Answer Key</p>
+                    </div>
+                  )}
+                  <h2 className="font-bold text-2xl underline text-center mb-4 font-kids">
+                    Find the words in the puzzle!
+                  </h2>
+                  <div className="flex flex-row gap-4 justify-between items-start">
+                    {/* Puzzle Grid with Answers */}
+                    <div className="w-full overflow-auto">
+                      <table className="border border-black border-collapse mx-auto font-kids text-lg">
+                        <tbody>
+                          {grid.map((row, rIdx) => (
+                            <tr key={rIdx}>
+                              {row.map((cell, cIdx) => (
+                                <td
+                                  key={cIdx}
+                                  className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(rIdx, cIdx)}`}
+                                >
+                                  {cell}
+                                </td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2 className="font-bold text-2xl underline text-center mb-4 font-kids">
+                  Find the words in the puzzle!
+                </h2>
+                <div className="flex flex-row gap-4 justify-between items-start">
 
 export default MultiWordPuzzleGeneratorEasy;
 
@@ -263,7 +460,7 @@ export function generatePuzzle(words: string[]): {
   answers: Record<string, [number, number][]>;
 } {
   const maxWordLength = Math.max(...words.map((w) => w.length));
-  const gridSize = Math.max(15, maxWordLength + 5);
+  const gridSize = Math.max(20, maxWordLength + 8);
   const grid = createEmptyGrid(gridSize);
   const answers: Record<string, [number, number][]> = {};
 

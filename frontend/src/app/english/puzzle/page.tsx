@@ -1,39 +1,39 @@
-'use client';
+"use client";
 
-import React, { useState, ChangeEvent, useEffect } from 'react';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import CustomSingleWordPuzzle from '@/components/english/CustomSingleWordPuzzle';
-import MultiWordPuzzleGeneratorEasy from '@/components/english/MultiWordPuzzleEasy';
-import MultiWordPuzzleGeneratorMedium from '@/components/english/MultiWordPuzzleMedium';
-import MultiWordPuzzleGeneratorHard from '@/components/english/MultiWordPuzzleHard';
-import MultiWordPuzzleGeneratorStone from '@/components/english/MultiWordPuzzleStone';
+import React, { useState, ChangeEvent, useEffect } from "react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import CustomSingleWordPuzzle from "@/components/english/CustomSingleWordPuzzle";
+import MultiWordPuzzleGeneratorEasy from "@/components/english/MultiWordPuzzleEasy";
+import MultiWordPuzzleGeneratorMedium from "@/components/english/MultiWordPuzzleMedium";
+import MultiWordPuzzleGeneratorHard from "@/components/english/MultiWordPuzzleHard";
+import MultiWordPuzzleGeneratorStone from "@/components/english/MultiWordPuzzleStone";
 import {
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 
 type PuzzleType =
-  | 'single-word'
-  | 'multi-word-easy'
-  | 'multi-word-medium'
-  | 'multi-word-hard'
-  | 'multi-word-stone';
+  | "single-word"
+  | "multi-word-easy"
+  | "multi-word-medium"
+  | "multi-word-hard"
+  | "multi-word-stone";
 
 const PuzzlePage = () => {
-  const [studentName, setStudentName] = useState<string>('');
-  const [date, setDate] = useState<string>('');
-  const [studentClass, setStudentClass] = useState<string>('');
-  const [puzzleType, setPuzzleType] = useState<PuzzleType>('single-word');
-  const [words, setWords] = useState<string>('');
+  const [studentName, setStudentName] = useState<string>("");
+  const [date, setDate] = useState<string>("");
+  const [studentClass, setStudentClass] = useState<string>("");
+  const [puzzleType, setPuzzleType] = useState<PuzzleType>("single-word");
+  const [words, setWords] = useState<string>("");
   const [numberOfPuzzles, setNumberOfPuzzles] = useState<number>(1);
 
   // Set today's date as default
   useEffect(() => {
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date().toISOString().split("T")[0];
     setDate(today);
   }, []);
 
@@ -66,7 +66,7 @@ const PuzzlePage = () => {
         )}
         {(() => {
           switch (puzzleType) {
-            case 'single-word':
+            case "single-word":
               return (
                 <CustomSingleWordPuzzle
                   words={words}
@@ -76,14 +76,38 @@ const PuzzlePage = () => {
                   studentClass={studentClass}
                 />
               );
-            case 'multi-word-easy':
-              return <MultiWordPuzzleGeneratorEasy />;
-            case 'multi-word-medium':
-              return <MultiWordPuzzleGeneratorMedium />;
-            case 'multi-word-hard':
-              return <MultiWordPuzzleGeneratorHard />;
-            case 'multi-word-stone':
-              return <MultiWordPuzzleGeneratorStone />;
+            case "multi-word-easy":
+              return (
+                <MultiWordPuzzleGeneratorEasy
+                  studentName={studentName}
+                  date={date}
+                  studentClass={studentClass}
+                />
+              );
+            case "multi-word-medium":
+              return (
+                <MultiWordPuzzleGeneratorMedium
+                  studentName={studentName}
+                  date={date}
+                  studentClass={studentClass}
+                />
+              );
+            case "multi-word-hard":
+              return (
+                <MultiWordPuzzleGeneratorHard
+                  studentName={studentName}
+                  date={date}
+                  studentClass={studentClass}
+                />
+              );
+            case "multi-word-stone":
+              return (
+                <MultiWordPuzzleGeneratorStone
+                  studentName={studentName}
+                  date={date}
+                  studentClass={studentClass}
+                />
+              );
             default:
               return null;
           }
@@ -166,7 +190,7 @@ const PuzzlePage = () => {
           </div>
 
           {/* Number of Puzzles Dropdown - Only for single-word */}
-          {puzzleType === 'single-word' && (
+          {puzzleType === "single-word" && (
             <div className="space-y-2">
               <Label htmlFor="numberOfPuzzles">Number of Puzzles in Grid</Label>
               <select
@@ -187,26 +211,26 @@ const PuzzlePage = () => {
             <textarea
               id="words"
               placeholder={
-                puzzleType === 'single-word'
+                puzzleType === "single-word"
                   ? numberOfPuzzles === 1
-                    ? 'Enter a single word'
-                    : 'Enter two words, one per line'
-                  : 'Enter words, one per line (up to 20 words)'
+                    ? "Enter a single word"
+                    : "Enter two words, one per line"
+                  : "Enter words, one per line (up to 20 words)"
               }
               value={words}
               onChange={handleWordsChange}
               className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
               rows={5}
             />
-            {puzzleType === 'single-word' && numberOfPuzzles === 2 && (
+            {puzzleType === "single-word" && numberOfPuzzles === 2 && (
               <p className="text-sm text-gray-500">
-                Words entered:{' '}
-                {words.split('\n').filter((w) => w.trim()).length} / 2
+                Words entered:{" "}
+                {words.split("\n").filter((w) => w.trim()).length} / 2
               </p>
             )}
-            {puzzleType !== 'single-word' && (
+            {puzzleType !== "single-word" && (
               <p className="text-sm text-gray-500">
-                Words added: {words.split('\n').filter((w) => w.trim()).length}{' '}
+                Words added: {words.split("\n").filter((w) => w.trim()).length}{" "}
                 / 20
               </p>
             )}

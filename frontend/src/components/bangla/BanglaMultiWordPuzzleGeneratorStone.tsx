@@ -107,7 +107,7 @@ function generatePuzzle(words: string[]): {
   // Calculate maximum length in grapheme clusters
   const maxLength = Math.max(...words.map((w) => splitIntoGraphemes(w).length));
   // Minimum size 15, plus 5 extra
-  const gridSize = Math.max(15, maxLength + 5);
+  const gridSize = Math.max(20, maxLength + 8);
   const grid = createEmptyGrid(gridSize);
   const answers: Record<string, [number, number][]> = {};
 
@@ -143,12 +143,22 @@ function generatePuzzle(words: string[]): {
 }
 
 // ======= সুপার হার্ড পাজল কম্পোনেন্ট =======
-const BanglaMultiWordPuzzleGeneratorStone: React.FC = () => {
+interface BanglaMultiWordPuzzleGeneratorStoneProps {
+  studentName?: string;
+  date?: string;
+  studentClass?: string;
+}
+
+const BanglaMultiWordPuzzleGeneratorStone: React.FC<BanglaMultiWordPuzzleGeneratorStoneProps> = ({
+  studentName = "",
+  date = "",
+  studentClass = "",
+}) => {
   const [isClient, setIsClient] = useState(false);
   const [words, setWords] = useState<string[]>([]);
   const [grid, setGrid] = useState<string[][]>([]);
   const [answers, setAnswers] = useState<Record<string, [number, number][]>>({});
-  const [printMode, setPrintMode] = useState<'question' | 'answer'>('question');
+  const [printMode, setPrintMode] = useState<'question' | 'answer' | 'two-page'>('question');
   const [showAnswers, setShowAnswers] = useState(false);
 
   useEffect(() => {
@@ -179,9 +189,32 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC = () => {
     setTimeout(() => window.print(), 100);
   };
 
+  const handlePrintWithStudentInfo = () => {
+    if (!studentName || !studentName.trim()) {
+      alert("Please enter a student name");
+      return;
+    }
+    if (!date || !date.trim()) {
+      alert("Please enter a date");
+      return;
+    }
+    if (!studentClass || !studentClass.trim()) {
+      alert("Please select a class");
+      return;
+    }
+    if (grid.length === 0) {
+      alert("Please generate puzzle first");
+      return;
+    }
+    setPrintMode("two-page");
+    setShowAnswers(false);
+    setTimeout(() => window.print(), 100);
+  };
+
   // Highlight the cells for answers in 'answer' mode
-  const getCellColor = (row: number, col: number) => {
-    if (!showAnswers || printMode !== 'answer') return '';
+  const getCellColor = (row: number, col: number, isAnswerPage: boolean = false) => {
+    if (printMode === "two-page" && !isAnswerPage) return '';
+    if ((!showAnswers && printMode !== 'two-page') || (printMode !== 'answer' && printMode !== 'two-page')) return '';
     const entries = Object.entries(answers);
     for (let i = 0; i < entries.length; i++) {
       const [, positions] = entries[i];
@@ -223,35 +256,127 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC = () => {
           >
             উত্তর প্রিন্ট করুন
           </button>
+          <button
+            onClick={handlePrintWithStudentInfo}
+            className="bg-purple-600 text-white px-4 py-2 rounded"
+          >
+            Print with Student Info
+          </button>
         </div>
       </div>
 
       {/* প্রিন্টের জন্য এলাকা */}
       <div id="printable-area" className="mt-4">
-        <h2 className="font-bold text-2xl text-center mb-4">
-          পাজলে শব্দগুলো খুঁজে বের করুন!
-        </h2>
-        <div className="flex justify-center">
-          <table className="border border-black border-collapse">
-            <tbody>
-              {grid.map((row, rIdx) => (
-                <tr key={rIdx}>
-                  {row.map((cell, cIdx) => (
-                    <td
-                      key={cIdx}
-                      className={`border border-black w-8 h-8 text-center font-bold ${getCellColor(
-                        rIdx,
-                        cIdx
-                      )}`}
-                    >
-                      {cell}
-                    </td>
+        {printMode === "two-page" ? (
+          <>
+            {/* First Page - Puzzle */}
+            <div className="print-page">
+              {(studentName || date || studentClass) && (
+                <div className="student-info-header">
+                  {studentName && (
+                    <p>
+                      Name: {studentName}
+                      {studentClass && ` | Class: ${studentClass}`}
+                    </p>
+                  )}
+                  {date && <p>Date: {new Date(date).toLocaleDateString()}</p>}
+                </div>
+              )}
+              <h2 className="font-bold text-2xl text-center mb-4">
+                পাজলে শব্দগুলো খুঁজে বের করুন!
+              </h2>
+              <div className="flex justify-center">
+                <table className="border border-black border-collapse" style={{ fontSize: '12px', fontFamily: "'Noto Sans Bengali', 'Mukti', 'Kalpurush', 'Siyam Rupali', sans-serif" }}>
+                  <tbody>
+                    {grid.map((row, rIdx) => (
+                      <tr key={rIdx}>
+                        {row.map((cell, cIdx) => (
+                          <td
+                            key={cIdx}
+                            className="border border-black text-center font-bold"
+                            style={{ width: '0.6cm', height: '0.6cm', padding: '2px', fontSize: '12px' }}
+                          >
+                            {cell}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Second Page - Answers */}
+            <div className="print-page">
+              {(studentName || date || studentClass) && (
+                <div className="student-info-header">
+                  {studentName && (
+                    <p>
+                      Name: {studentName}
+                      {studentClass && ` | Class: ${studentClass}`}
+                    </p>
+                  )}
+                  {date && <p>Date: {new Date(date).toLocaleDateString()}</p>}
+                  <p className="mt-2">Answer Key</p>
+                </div>
+              )}
+              <h2 className="font-bold text-2xl text-center mb-4">
+                পাজলে শব্দগুলো খুঁজে বের করুন!
+              </h2>
+              <div className="flex justify-center">
+                <table className="border border-black border-collapse" style={{ fontSize: '12px', fontFamily: "'Noto Sans Bengali', 'Mukti', 'Kalpurush', 'Siyam Rupali', sans-serif" }}>
+                  <tbody>
+                    {grid.map((row, rIdx) => (
+                      <tr key={rIdx}>
+                        {row.map((cell, cIdx) => (
+                          <td
+                            key={cIdx}
+                            className={`border border-black text-center font-bold ${getCellColor(
+                              rIdx,
+                              cIdx,
+                              true
+                            )}`}
+                            style={{ width: '0.6cm', height: '0.6cm', padding: '2px', fontSize: '12px' }}
+                          >
+                            {cell}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2 className="font-bold text-2xl text-center mb-4">
+              পাজলে শব্দগুলো খুঁজে বের করুন!
+            </h2>
+            <div className="flex justify-center">
+              <table className="border border-black border-collapse" style={{ fontSize: '12px', fontFamily: "'Noto Sans Bengali', 'Mukti', 'Kalpurush', 'Siyam Rupali', sans-serif" }}>
+                <tbody>
+                  {grid.map((row, rIdx) => (
+                    <tr key={rIdx}>
+                      {row.map((cell, cIdx) => (
+                        <td
+                          key={cIdx}
+                          className={`border border-black text-center font-bold ${getCellColor(
+                            rIdx,
+                            cIdx
+                          )}`}
+                          style={{ width: '0.6cm', height: '0.6cm', padding: '2px', fontSize: '12px' }}
+                        >
+                          {cell}
+                        </td>
+                      ))}
+                    </tr>
                   ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
       </div>
 
       {/* গ্লোবাল প্রিন্ট স্টাইলিং */}
@@ -259,7 +384,7 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC = () => {
         @media print {
           @page {
             size: A4 landscape;
-            margin: 0; /* অথবা 0.2cm */
+            margin: 0.5cm;
           }
           body * {
             visibility: hidden;
@@ -271,8 +396,43 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC = () => {
           #printable-area {
             position: absolute;
             inset: 0;
-            transform: scale(0.9);
-            transform-origin: top left;
+            width: 100vw;
+            height: 100vh;
+          }
+          
+          /* Two-page layout styles */
+          .print-page {
+            page-break-after: always;
+            display: flex;
+            flex-direction: column;
+          }
+          .print-page:last-child {
+            page-break-after: auto;
+          }
+          .print-page:first-child {
+            page-break-before: auto;
+          }
+          .student-info-header {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
+          }
+          
+          /* Ensure proper Bangla font rendering */
+          #printable-area {
+            font-family: 'Noto Sans Bengali', 'Mukti', 'Kalpurush', 'Siyam Rupali', sans-serif !important;
+          }
+          
+          /* Scale down table for better fit */
+          #printable-area table {
+            font-size: 12px;
+          }
+          #printable-area td {
+            width: 0.6cm !important;
+            height: 0.6cm !important;
+            padding: 2px !important;
+            font-size: 12px !important;
           }
 
           table,

@@ -5,6 +5,13 @@ import React, { useEffect, useState } from 'react';
 
 // ======= CONSTANTS & TYPES =======
 const MAX_WORDS = 20;
+
+interface MultiWordPuzzleGeneratorStoneProps {
+  studentName?: string;
+  date?: string;
+  studentClass?: string;
+}
+
 export type Direction = number[][];
 
 export const DIRECTIONS: Direction[] = [
@@ -69,7 +76,7 @@ function generatePuzzle(words: string[]): {
   answers: Record<string, [number, number][]>;
 } {
   const maxWordLength = Math.max(...words.map((w) => w.length));
-  const gridSize = Math.max(15, maxWordLength + 5);
+  const gridSize = Math.max(20, maxWordLength + 8);
   const grid = createEmptyGrid(gridSize);
   const answers: Record<string, [number, number][]> = {};
 
@@ -101,14 +108,18 @@ function generatePuzzle(words: string[]): {
 
 // ======= SUPER HARD PUZZLE COMPONENT =======
 
-const MultiWordPuzzleGeneratorStone: React.FC = () => {
+const MultiWordPuzzleGeneratorStone: React.FC<MultiWordPuzzleGeneratorStoneProps> = ({
+  studentName = "",
+  date = "",
+  studentClass = "",
+}) => {
   const [isClient, setIsClient] = useState(false);
   const [words, setWords] = useState<string[]>([]);
   const [grid, setGrid] = useState<string[][]>([]);
   const [answers, setAnswers] = useState<Record<string, [number, number][]>>(
     {}
   );
-  const [printMode, setPrintMode] = useState<'question' | 'answer'>('question');
+  const [printMode, setPrintMode] = useState<'question' | 'answer' | 'two-page'>('question');
   const [showAnswers, setShowAnswers] = useState(false);
 
   // Ensure the component renders client-side only.
@@ -139,7 +150,31 @@ const MultiWordPuzzleGeneratorStone: React.FC = () => {
     setTimeout(() => window.print(), 100);
   };
 
-  const getCellColor = (row: number, col: number) => {
+  const handlePrintWithStudentInfo = () => {
+    if (!studentName || !studentName.trim()) {
+      alert("Please enter a student name");
+      return;
+    }
+    if (!date || !date.trim()) {
+      alert("Please enter a date");
+      return;
+    }
+    if (!studentClass || !studentClass.trim()) {
+      alert("Please select a class");
+      return;
+    }
+    if (grid.length === 0) {
+      alert("Please generate puzzle first");
+      return;
+    }
+    setPrintMode("two-page");
+    setShowAnswers(false);
+    setTimeout(() => window.print(), 100);
+  };
+
+  const getCellColor = (row: number, col: number, isAnswerPage: boolean = false) => {
+    if (printMode === "two-page" && !isAnswerPage) return '';
+    if ((!showAnswers && printMode !== 'two-page') || (printMode !== 'answer' && printMode !== 'two-page')) return '';
     if (!showAnswers || printMode !== 'answer') return '';
     const entries = Object.entries(answers);
     for (let i = 0; i < entries.length; i++) {
@@ -182,35 +217,124 @@ const MultiWordPuzzleGeneratorStone: React.FC = () => {
           >
             Print Answer
           </button>
+          <button
+            onClick={handlePrintWithStudentInfo}
+            className="bg-purple-600 text-white px-4 py-2 rounded"
+          >
+            Print with Student Info
+          </button>
         </div>
       </div>
 
       {/* Printable Area */}
       <div id="printable-area" className="mt-4">
-        <h2 className="font-bold text-2xl text-center mb-4">
-          Find the words in the puzzle!
-        </h2>
-        <div className="flex justify-center">
-          <table className="border border-black border-collapse">
-            <tbody>
-              {grid.map((row, rIdx) => (
-                <tr key={rIdx}>
-                  {row.map((cell, cIdx) => (
-                    <td
-                      key={cIdx}
-                      className={`border border-black w-8 h-8 text-center font-bold ${getCellColor(
-                        rIdx,
-                        cIdx
-                      )}`}
-                    >
-                      {cell}
-                    </td>
+        {printMode === "two-page" ? (
+          <>
+            {/* First Page - Puzzle */}
+            <div className="print-page">
+              {(studentName || date || studentClass) && (
+                <div className="student-info-header">
+                  {studentName && (
+                    <p>
+                      Name: {studentName}
+                      {studentClass && ` | Class: ${studentClass}`}
+                    </p>
+                  )}
+                  {date && <p>Date: {new Date(date).toLocaleDateString()}</p>}
+                </div>
+              )}
+              <h2 className="font-bold text-2xl text-center mb-4">
+                Find the words in the puzzle!
+              </h2>
+              <div className="flex justify-center">
+                <table className="border border-black border-collapse">
+                  <tbody>
+                    {grid.map((row, rIdx) => (
+                      <tr key={rIdx}>
+                        {row.map((cell, cIdx) => (
+                          <td
+                            key={cIdx}
+                            className="border border-black w-8 h-8 text-center font-bold"
+                          >
+                            {cell}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Second Page - Answers */}
+            <div className="print-page">
+              {(studentName || date || studentClass) && (
+                <div className="student-info-header">
+                  {studentName && (
+                    <p>
+                      Name: {studentName}
+                      {studentClass && ` | Class: ${studentClass}`}
+                    </p>
+                  )}
+                  {date && <p>Date: {new Date(date).toLocaleDateString()}</p>}
+                  <p className="mt-2">Answer Key</p>
+                </div>
+              )}
+              <h2 className="font-bold text-2xl text-center mb-4">
+                Find the words in the puzzle!
+              </h2>
+              <div className="flex justify-center">
+                <table className="border border-black border-collapse">
+                  <tbody>
+                    {grid.map((row, rIdx) => (
+                      <tr key={rIdx}>
+                        {row.map((cell, cIdx) => (
+                          <td
+                            key={cIdx}
+                            className={`border border-black w-8 h-8 text-center font-bold ${getCellColor(
+                              rIdx,
+                              cIdx,
+                              true
+                            )}`}
+                          >
+                            {cell}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2 className="font-bold text-2xl text-center mb-4">
+              Find the words in the puzzle!
+            </h2>
+            <div className="flex justify-center">
+              <table className="border border-black border-collapse">
+                <tbody>
+                  {grid.map((row, rIdx) => (
+                    <tr key={rIdx}>
+                      {row.map((cell, cIdx) => (
+                        <td
+                          key={cIdx}
+                          className={`border border-black w-8 h-8 text-center font-bold ${getCellColor(
+                            rIdx,
+                            cIdx
+                          )}`}
+                        >
+                          {cell}
+                        </td>
+                      ))}
+                    </tr>
                   ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Global Print Styling */}
@@ -218,7 +342,7 @@ const MultiWordPuzzleGeneratorStone: React.FC = () => {
         @media print {
           @page {
             size: A4 landscape;
-            margin: 0; /* or 0.2cm */
+            margin: 0.5cm;
           }
           body * {
             visibility: hidden;
@@ -230,9 +354,27 @@ const MultiWordPuzzleGeneratorStone: React.FC = () => {
           #printable-area {
             position: absolute;
             inset: 0;
-            /* Scale it down slightly to fit on one page */
-            transform: scale(0.9);
-            transform-origin: top left;
+            width: 100vw;
+            height: 100vh;
+          }
+          
+          /* Two-page layout styles */
+          .print-page {
+            page-break-after: always;
+            display: flex;
+            flex-direction: column;
+          }
+          .print-page:last-child {
+            page-break-after: auto;
+          }
+          .print-page:first-child {
+            page-break-before: auto;
+          }
+          .student-info-header {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
           }
 
           table,

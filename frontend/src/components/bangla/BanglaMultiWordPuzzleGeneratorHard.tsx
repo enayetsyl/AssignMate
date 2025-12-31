@@ -14,14 +14,24 @@ const COLORS = [
   'bg-emerald-200', 'bg-sky-200', 'bg-slate-200', 'bg-gray-200', 'bg-stone-200'
 ];
 
-const BanglaMultiWordPuzzleGeneratorHard = () => {
+interface BanglaMultiWordPuzzleGeneratorHardProps {
+  studentName?: string;
+  date?: string;
+  studentClass?: string;
+}
+
+const BanglaMultiWordPuzzleGeneratorHard: React.FC<BanglaMultiWordPuzzleGeneratorHardProps> = ({
+  studentName = "",
+  date = "",
+  studentClass = "",
+}) => {
   const [words, setWords] = useState<string[]>([]);
   const [images, setImages] = useState<string[]>([]);
   const [grid, setGrid] = useState<string[][]>([]);
   const [answers, setAnswers] = useState<Record<string, [number, number][]>>({});
   const [showAnswers, setShowAnswers] = useState(false);
   const [isClient, setIsClient] = useState(false);
-  const [printMode, setPrintMode] = useState<'puzzle' | 'answer'>('puzzle');
+  const [printMode, setPrintMode] = useState<'puzzle' | 'answer' | 'two-page'>('puzzle');
 
   useEffect(() => setIsClient(true), []);
 
@@ -53,8 +63,31 @@ const BanglaMultiWordPuzzleGeneratorHard = () => {
     setTimeout(() => window.print(), 100);
   };
 
-  const getCellColor = (row: number, col: number) => {
-    if (!showAnswers || printMode !== 'answer') return '';
+  const handlePrintWithStudentInfo = () => {
+    if (!studentName || !studentName.trim()) {
+      alert("Please enter a student name");
+      return;
+    }
+    if (!date || !date.trim()) {
+      alert("Please enter a date");
+      return;
+    }
+    if (!studentClass || !studentClass.trim()) {
+      alert("Please select a class");
+      return;
+    }
+    if (grid.length === 0) {
+      alert("Please generate puzzle first");
+      return;
+    }
+    setPrintMode("two-page");
+    setShowAnswers(false);
+    setTimeout(() => window.print(), 100);
+  };
+
+  const getCellColor = (row: number, col: number, isAnswerPage: boolean = false) => {
+    if (printMode === "two-page" && !isAnswerPage) return '';
+    if ((!showAnswers && printMode !== 'two-page') || (printMode !== 'answer' && printMode !== 'two-page')) return '';
     const entries = Object.entries(answers);
     for (let i = 0; i < entries.length; i++) {
       const [, positions] = entries[i];
@@ -85,6 +118,25 @@ const BanglaMultiWordPuzzleGeneratorHard = () => {
             inset: 0;
             width: 100vw;
             height: 100vh;
+          }
+          
+          /* Two-page layout styles */
+          .print-page {
+            page-break-after: always;
+            display: flex;
+            flex-direction: column;
+          }
+          .print-page:last-child {
+            page-break-after: auto;
+          }
+          .print-page:first-child {
+            page-break-before: auto;
+          }
+          .student-info-header {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
           }
         }
       `}</style>
@@ -142,68 +194,182 @@ const BanglaMultiWordPuzzleGeneratorHard = () => {
           >
             পাজল প্রিন্ট করুন
           </button>
+          <button
+            onClick={handlePrintWithStudentInfo}
+            className="bg-purple-600 text-white px-4 py-2 rounded"
+          >
+            Print with Student Info
+          </button>
         </div>
 
         {/* Printable Area */}
         {isClient && (
           <div id="printable-area" className="w-full px-4">
-            <h2 className="font-bold text-2xl underline text-center mb-4 font-kids">
-              পাজলে শব্দগুলো খুঁজে বের করুন!
-            </h2>
-            <div className="flex flex-row gap-4 justify-between items-start">
-              {/* Word List */}
-              {printMode === 'puzzle' && (
-                <div className="w-1/4 space-y-1">
-                  <ul>
-                    {words.map((word) => (
-                      <li key={word} className="flex items-center gap-2">
-                        <input type="checkbox" />
-                        <span className="font-kids text-lg">{word}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {/* Puzzle Grid */}
-              <div className="w-2/4 overflow-auto">
-                <table className="border border-black border-collapse mx-auto font-kids text-lg">
-                  <tbody>
-                    {grid.map((row, rIdx) => (
-                      <tr key={rIdx}>
-                        {row.map((cell, cIdx) => (
-                          <td
-                            key={cIdx}
-                            className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(
-                              rIdx,
-                              cIdx
-                            )}`}
-                          >
-                            {cell}
-                          </td>
+            {printMode === "two-page" ? (
+              <>
+                {/* First Page - Puzzle */}
+                <div className="print-page">
+                  {(studentName || date || studentClass) && (
+                    <div className="student-info-header">
+                      {studentName && (
+                        <p>
+                          Name: {studentName}
+                          {studentClass && ` | Class: ${studentClass}`}
+                        </p>
+                      )}
+                      {date && <p>Date: {new Date(date).toLocaleDateString()}</p>}
+                    </div>
+                  )}
+                  <h2 className="font-bold text-2xl underline text-center mb-4 font-kids">
+                    পাজলে শব্দগুলো খুঁজে বের করুন!
+                  </h2>
+                  <div className="flex flex-row gap-4 justify-between items-start">
+                    {/* Word List */}
+                    <div className="w-1/4 space-y-1">
+                      <ul>
+                        {words.map((word) => (
+                          <li key={word} className="flex items-center gap-2">
+                            <input type="checkbox" />
+                            <span className="font-kids text-lg">{word}</span>
+                          </li>
                         ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                      </ul>
+                    </div>
 
-              {/* Images */}
-              {printMode === 'puzzle' && (
-                <div className="w-1/4 grid grid-cols-2 gap-2">
-                  {images.map((src, i) => (
-                    <Image
-                      key={i}
-                      src={src}
-                      alt={`img-${i}`}
-                      className="h-14 w-auto object-contain"
-                      height={14}
-                      width={14}
-                    />
-                  ))}
+                    {/* Puzzle Grid */}
+                    <div className="w-2/4 overflow-auto">
+                      <table className="border border-black border-collapse mx-auto font-kids text-lg">
+                        <tbody>
+                          {grid.map((row, rIdx) => (
+                            <tr key={rIdx}>
+                              {row.map((cell, cIdx) => (
+                                <td
+                                  key={cIdx}
+                                  className="border border-black w-6 h-6 text-center font-bold"
+                                >
+                                  {cell}
+                                </td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    {/* Images */}
+                    <div className="w-1/4 grid grid-cols-2 gap-2">
+                      {images.map((src, i) => (
+                        <Image
+                          key={i}
+                          src={src}
+                          alt={`img-${i}`}
+                          className="h-14 w-auto object-contain"
+                          height={14}
+                          width={14}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              )}
-            </div>
+
+                {/* Second Page - Answers */}
+                <div className="print-page">
+                  {(studentName || date || studentClass) && (
+                    <div className="student-info-header">
+                      {studentName && (
+                        <p>
+                          Name: {studentName}
+                          {studentClass && ` | Class: ${studentClass}`}
+                        </p>
+                      )}
+                      {date && <p>Date: {new Date(date).toLocaleDateString()}</p>}
+                      <p className="mt-2">Answer Key</p>
+                    </div>
+                  )}
+                  <h2 className="font-bold text-2xl underline text-center mb-4 font-kids">
+                    পাজলে শব্দগুলো খুঁজে বের করুন!
+                  </h2>
+                  <div className="flex flex-row gap-4 justify-between items-start">
+                    {/* Puzzle Grid with Answers */}
+                    <div className="w-full overflow-auto">
+                      <table className="border border-black border-collapse mx-auto font-kids text-lg">
+                        <tbody>
+                          {grid.map((row, rIdx) => (
+                            <tr key={rIdx}>
+                              {row.map((cell, cIdx) => (
+                                <td
+                                  key={cIdx}
+                                  className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(rIdx, cIdx, true)}`}
+                                >
+                                  {cell}
+                                </td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2 className="font-bold text-2xl underline text-center mb-4 font-kids">
+                  পাজলে শব্দগুলো খুঁজে বের করুন!
+                </h2>
+                <div className="flex flex-row gap-4 justify-between items-start">
+                  {/* Word List */}
+                  {printMode === 'puzzle' && (
+                    <div className="w-1/4 space-y-1">
+                      <ul>
+                        {words.map((word) => (
+                          <li key={word} className="flex items-center gap-2">
+                            <input type="checkbox" />
+                            <span className="font-kids text-lg">{word}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Puzzle Grid */}
+                  <div className="w-2/4 overflow-auto">
+                    <table className="border border-black border-collapse mx-auto font-kids text-lg">
+                      <tbody>
+                        {grid.map((row, rIdx) => (
+                          <tr key={rIdx}>
+                            {row.map((cell, cIdx) => (
+                              <td
+                                key={cIdx}
+                                className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(rIdx, cIdx)}`}
+                              >
+                                {cell}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {/* Images */}
+                  {printMode === 'puzzle' && (
+                    <div className="w-1/4 grid grid-cols-2 gap-2">
+                      {images.map((src, i) => (
+                        <Image
+                          key={i}
+                          src={src}
+                          alt={`img-${i}`}
+                          className="h-14 w-auto object-contain"
+                          height={14}
+                          width={14}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
           </div>
         )}
       </div>
@@ -282,7 +448,7 @@ export function generatePuzzle(words: string[]): {
 } {
   // সর্বোচ্চ শব্দ দৈর্ঘ্য grapheme cluster হিসেবে নির্ণয় করুন
   const maxWordLength = Math.max(...words.map((w) => splitIntoGraphemes(w).length));
-  const gridSize = Math.max(15, maxWordLength + 5);
+  const gridSize = Math.max(20, maxWordLength + 8);
   const grid = createEmptyGrid(gridSize);
   const answers: Record<string, [number, number][]> = {};
 

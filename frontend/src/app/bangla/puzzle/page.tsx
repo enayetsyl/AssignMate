@@ -77,13 +77,37 @@ const PuzzlePage = () => {
                 />
               );
             case 'multi-word-easy':
-              return <BanglaMultiWordPuzzleEasy />;
+              return (
+                <BanglaMultiWordPuzzleEasy
+                  studentName={studentName}
+                  date={date}
+                  studentClass={studentClass}
+                />
+              );
             case 'multi-word-medium':
-              return <BanglaMultiWordPuzzleGeneratorMedium />;
+              return (
+                <BanglaMultiWordPuzzleGeneratorMedium
+                  studentName={studentName}
+                  date={date}
+                  studentClass={studentClass}
+                />
+              );
             case 'multi-word-hard':
-              return <BanglaMultiWordPuzzleGeneratorHard />;
+              return (
+                <BanglaMultiWordPuzzleGeneratorHard
+                  studentName={studentName}
+                  date={date}
+                  studentClass={studentClass}
+                />
+              );
             case 'multi-word-stone':
-              return <BanglaMultiWordPuzzleGeneratorStone />;
+              return (
+                <BanglaMultiWordPuzzleGeneratorStone
+                  studentName={studentName}
+                  date={date}
+                  studentClass={studentClass}
+                />
+              );
             default:
               return null;
           }
