@@ -26,6 +26,7 @@ export const menuItems: MenuItem[] = [
     title: 'English',
     href: '/english',
     items: [
+      { label: 'Puzzle Generator', href: '/english/puzzle' },
       { label: 'One Word Puzzle', href: '/english/single-word-puzzle' },
       { label: 'Multi Word Puzzle Easy', href: '/english/multi-word-puzzle-easy' },
       { label: 'Multi Word Puzzle Medium', href: '/english/multi-word-puzzle-medium' },
