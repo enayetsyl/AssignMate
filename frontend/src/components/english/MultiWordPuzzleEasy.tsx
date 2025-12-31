@@ -81,7 +81,8 @@ const MultiWordPuzzleGeneratorEasy: React.FC<
     setTimeout(() => window.print(), 100);
   };
 
-  const getCellColor = (row: number, col: number) => {
+  const getCellColor = (row: number, col: number, isAnswerPage: boolean = false) => {
+    if (printMode === 'two-page' && !isAnswerPage) return '';
     if (
       (!showAnswers && printMode !== 'two-page') ||
       (printMode !== 'answer' && printMode !== 'two-page')
