@@ -137,7 +137,6 @@ function generatePuzzle(
 
 interface CustomSingleWordPuzzleProps {
   words: string;
-  numberOfPuzzles: number;
   studentName?: string;
   date?: string;
   studentClass?: string;
@@ -145,7 +144,6 @@ interface CustomSingleWordPuzzleProps {
 
 const CustomSingleWordPuzzle: React.FC<CustomSingleWordPuzzleProps> = ({
   words,
-  numberOfPuzzles,
   studentName = '',
   date = '',
   studentClass = '',
@@ -172,13 +170,10 @@ const CustomSingleWordPuzzle: React.FC<CustomSingleWordPuzzleProps> = ({
     const wordList = words
       .split('\n')
       .map((w) => w.trim())
-      .filter(Boolean)
-      .slice(0, numberOfPuzzles);
+      .filter(Boolean);
 
-    if (wordList.length !== numberOfPuzzles) {
-      alert(
-        `Please enter exactly ${numberOfPuzzles} word${numberOfPuzzles > 1 ? 's' : ''}`
-      );
+    if (wordList.length === 0) {
+      alert('Please enter at least one word');
       return;
     }
 
@@ -224,6 +219,15 @@ const CustomSingleWordPuzzle: React.FC<CustomSingleWordPuzzleProps> = ({
 
     setPuzzles(generatedPuzzles);
     setShowAnswers(false);
+  };
+
+  // Group puzzles into pages (2 per page)
+  const groupPuzzlesIntoPages = (puzzleList: typeof puzzles) => {
+    const pages: Array<typeof puzzles> = [];
+    for (let i = 0; i < puzzleList.length; i += 2) {
+      pages.push(puzzleList.slice(i, i + 2));
+    }
+    return pages;
   };
 
   const handlePrint = (mode: 'question' | 'answer') => {
@@ -328,8 +332,7 @@ const CustomSingleWordPuzzle: React.FC<CustomSingleWordPuzzleProps> = ({
         <CardHeader>
           <CardTitle>Word Puzzle Generator</CardTitle>
           <CardDescription>
-            Generate {numberOfPuzzles} puzzle{numberOfPuzzles > 1 ? 's' : ''} for{' '}
-            {numberOfPuzzles} word{numberOfPuzzles > 1 ? 's' : ''}
+            Generate puzzles for any number of words (2 words per page)
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -366,19 +369,19 @@ const CustomSingleWordPuzzle: React.FC<CustomSingleWordPuzzleProps> = ({
               onClick={handleGenerate}
               className="bg-blue-600 text-white px-4 py-2 rounded"
             >
-              Generate Puzzle{numberOfPuzzles > 1 ? 's' : ''}
+              Generate Puzzles
             </Button>
             <Button
               onClick={() => handlePrint('question')}
               className="bg-green-600 text-white px-4 py-2 rounded"
             >
-              Print Puzzle{numberOfPuzzles > 1 ? 's' : ''}
+              Print Puzzles
             </Button>
             <Button
               onClick={() => handlePrint('answer')}
               className="bg-orange-500 text-white px-4 py-2 rounded"
             >
-              Print Answer{numberOfPuzzles > 1 ? 's' : ''}
+              Print Answers
             </Button>
             <Button
               onClick={handlePrintWithStudentInfo}
@@ -417,136 +420,232 @@ const CustomSingleWordPuzzle: React.FC<CustomSingleWordPuzzleProps> = ({
       <div id="printable-area" className="mt-4">
         {puzzles.length > 0 && printMode === 'two-page' ? (
           <>
-            {/* First Page - Puzzle */}
-            <div className="print-page">
-              {(studentName || date || studentClass) && (
-                <div className="student-info-header">
-                  {studentName && (
-                    <p>
-                      Name: {studentName}
-                      {studentClass && ` | Class: ${studentClass}`}
-                    </p>
-                  )}
-                  {date && <p>Date: {new Date(date).toLocaleDateString()}</p>}
-                </div>
-              )}
-              <div
-                className={`overflow-x-auto ${
-                  numberOfPuzzles === 2 ? 'grid grid-cols-2 gap-8' : ''
-                }`}
-              >
-                {puzzles.map((puzzle, puzzleIndex) => (
-                  <div key={puzzleIndex} className="mb-8">
-                    <CardTitle className="text-center text-2xl text-amber-400 mb-4">
-                      See how many times you can find word &quot;{puzzle.word}
-                      &quot;.
-                    </CardTitle>
-                    <table className="mx-auto my-4 border-collapse">
-                      <tbody>
-                        {puzzle.grid.map((row, rowIndex) => (
-                          <tr key={rowIndex}>
-                            {row.map((cell, colIndex) => (
-                              <td
-                                key={colIndex}
-                                className="border p-2 text-center font-bold"
-                              >
-                                {cell}
-                              </td>
-                            ))}
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+            {/* Puzzle Pages - 2 puzzles per page */}
+            {groupPuzzlesIntoPages(puzzles).map((pagePuzzles, pageIndex) => (
+              <div key={`puzzle-page-${pageIndex}`} className="print-page">
+                {(studentName || date || studentClass) && (
+                  <div className="student-info-header">
+                    {studentName && (
+                      <p>
+                        Name: {studentName}
+                        {studentClass && ` | Class: ${studentClass}`}
+                      </p>
+                    )}
+                    {date && <p>Date: {new Date(date).toLocaleDateString()}</p>}
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Second Page - Answers */}
-            <div className="print-page">
-              {(studentName || date || studentClass) && (
-                <div className="student-info-header">
-                  {studentName && (
-                    <p>
-                      Name: {studentName}
-                      {studentClass && ` | Class: ${studentClass}`}
-                    </p>
-                  )}
-                  {date && <p>Date: {new Date(date).toLocaleDateString()}</p>}
-                  <p className="mt-2">Answer Key</p>
-                </div>
-              )}
-              <div
-                className={`overflow-x-auto ${
-                  numberOfPuzzles === 2 ? 'grid grid-cols-2 gap-8' : ''
-                }`}
-              >
-                {puzzles.map((puzzle, puzzleIndex) => (
-                  <div key={puzzleIndex} className="mb-8">
-                    <CardTitle className="text-center text-2xl text-amber-400 mb-4">
-                      See how many times you can find word &quot;{puzzle.word}
-                      &quot;.
-                    </CardTitle>
-                    <table className="mx-auto my-4 border-collapse">
-                      <tbody>
-                        {puzzle.grid.map((row, rowIndex) => (
-                          <tr key={rowIndex}>
-                            {row.map((cell, colIndex) => (
-                              <td
-                                key={colIndex}
-                                className={`border p-2 text-center font-bold ${getCellColor(
-                                  rowIndex,
-                                  colIndex,
-                                  puzzleIndex,
-                                  true
-                                )}`}
-                              >
-                                {cell}
-                              </td>
+                )}
+                <div
+                  className={`overflow-x-auto ${
+                    pagePuzzles.length === 2 ? 'grid grid-cols-2 gap-8' : ''
+                  }`}
+                >
+                  {pagePuzzles.map((puzzle, puzzleIndex) => {
+                    const globalIndex = pageIndex * 2 + puzzleIndex;
+                    return (
+                      <div key={puzzleIndex} className="mb-8">
+                        <CardTitle className="text-center text-2xl text-amber-400 mb-4">
+                          See how many times you can find word &quot;
+                          {puzzle.word}&quot;.
+                        </CardTitle>
+                        <table className="mx-auto my-4 border-collapse">
+                          <tbody>
+                            {puzzle.grid.map((row, rowIndex) => (
+                              <tr key={rowIndex}>
+                                {row.map((cell, colIndex) => (
+                                  <td
+                                    key={colIndex}
+                                    className="border p-2 text-center font-bold"
+                                  >
+                                    {cell}
+                                  </td>
+                                ))}
+                              </tr>
                             ))}
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </>
-        ) : (
-          <div
-            className={`overflow-x-auto ${
-              numberOfPuzzles === 2 ? 'grid grid-cols-2 gap-8' : ''
-            }`}
-          >
-            {puzzles.map((puzzle, puzzleIndex) => (
-              <div key={puzzleIndex} className="mb-8">
-                <CardTitle className="text-center text-2xl text-amber-400 mb-4">
-                  See how many times you can find word &quot;{puzzle.word}
-                  &quot;.
-                </CardTitle>
-                <table className="mx-auto my-4 border-collapse">
-                  <tbody>
-                    {puzzle.grid.map((row, rowIndex) => (
-                      <tr key={rowIndex}>
-                        {row.map((cell, colIndex) => (
-                          <td
-                            key={colIndex}
-                            className={`border p-2 text-center font-bold ${getCellColor(
-                              rowIndex,
-                              colIndex,
-                              puzzleIndex
-                            )}`}
-                          >
-                            {cell}
-                          </td>
-                        ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                          </tbody>
+                        </table>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             ))}
+
+            {/* Answer Pages - 2 puzzles per page */}
+            {groupPuzzlesIntoPages(puzzles).map((pagePuzzles, pageIndex) => (
+              <div key={`answer-page-${pageIndex}`} className="print-page">
+                {(studentName || date || studentClass) && (
+                  <div className="student-info-header">
+                    {studentName && (
+                      <p>
+                        Name: {studentName}
+                        {studentClass && ` | Class: ${studentClass}`}
+                      </p>
+                    )}
+                    {date && <p>Date: {new Date(date).toLocaleDateString()}</p>}
+                    <p className="mt-2">Answer Key</p>
+                  </div>
+                )}
+                <div
+                  className={`overflow-x-auto ${
+                    pagePuzzles.length === 2 ? 'grid grid-cols-2 gap-8' : ''
+                  }`}
+                >
+                  {pagePuzzles.map((puzzle, puzzleIndex) => {
+                    const globalIndex = pageIndex * 2 + puzzleIndex;
+                    return (
+                      <div key={puzzleIndex} className="mb-8">
+                        <CardTitle className="text-center text-2xl text-amber-400 mb-4">
+                          See how many times you can find word &quot;
+                          {puzzle.word}&quot;.
+                        </CardTitle>
+                        <table className="mx-auto my-4 border-collapse">
+                          <tbody>
+                            {puzzle.grid.map((row, rowIndex) => (
+                              <tr key={rowIndex}>
+                                {row.map((cell, colIndex) => (
+                                  <td
+                                    key={colIndex}
+                                    className={`border p-2 text-center font-bold ${getCellColor(
+                                      rowIndex,
+                                      colIndex,
+                                      globalIndex,
+                                      true
+                                    )}`}
+                                  >
+                                    {cell}
+                                  </td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </>
+        ) : printMode === 'question' ? (
+          // Question pages for regular print
+          <>
+            {groupPuzzlesIntoPages(puzzles).map((pagePuzzles, pageIndex) => (
+              <div key={`question-page-${pageIndex}`} className="print-page">
+                <div
+                  className={`overflow-x-auto ${
+                    pagePuzzles.length === 2 ? 'grid grid-cols-2 gap-8' : ''
+                  }`}
+                >
+                  {pagePuzzles.map((puzzle, puzzleIndex) => {
+                    const globalIndex = pageIndex * 2 + puzzleIndex;
+                    return (
+                      <div key={puzzleIndex} className="mb-8">
+                        <CardTitle className="text-center text-2xl text-amber-400 mb-4">
+                          See how many times you can find word &quot;
+                          {puzzle.word}&quot;.
+                        </CardTitle>
+                        <table className="mx-auto my-4 border-collapse">
+                          <tbody>
+                            {puzzle.grid.map((row, rowIndex) => (
+                              <tr key={rowIndex}>
+                                {row.map((cell, colIndex) => (
+                                  <td
+                                    key={colIndex}
+                                    className="border p-2 text-center font-bold"
+                                  >
+                                    {cell}
+                                  </td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </>
+        ) : printMode === 'answer' ? (
+          // Answer pages for regular print
+          <>
+            {groupPuzzlesIntoPages(puzzles).map((pagePuzzles, pageIndex) => (
+              <div key={`answer-page-${pageIndex}`} className="print-page">
+                <div
+                  className={`overflow-x-auto ${
+                    pagePuzzles.length === 2 ? 'grid grid-cols-2 gap-8' : ''
+                  }`}
+                >
+                  {pagePuzzles.map((puzzle, puzzleIndex) => {
+                    const globalIndex = pageIndex * 2 + puzzleIndex;
+                    return (
+                      <div key={puzzleIndex} className="mb-8">
+                        <CardTitle className="text-center text-2xl text-amber-400 mb-4">
+                          See how many times you can find word &quot;
+                          {puzzle.word}&quot;.
+                        </CardTitle>
+                        <table className="mx-auto my-4 border-collapse">
+                          <tbody>
+                            {puzzle.grid.map((row, rowIndex) => (
+                              <tr key={rowIndex}>
+                                {row.map((cell, colIndex) => (
+                                  <td
+                                    key={colIndex}
+                                    className={`border p-2 text-center font-bold ${getCellColor(
+                                      rowIndex,
+                                      colIndex,
+                                      globalIndex,
+                                      true
+                                    )}`}
+                                  >
+                                    {cell}
+                                  </td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </>
+        ) : (
+          // Screen view - show all puzzles
+          <div className="overflow-x-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {puzzles.map((puzzle, puzzleIndex) => (
+                <div key={puzzleIndex} className="mb-8">
+                  <CardTitle className="text-center text-2xl text-amber-400 mb-4">
+                    See how many times you can find word &quot;{puzzle.word}
+                    &quot;.
+                  </CardTitle>
+                  <table className="mx-auto my-4 border-collapse">
+                    <tbody>
+                      {puzzle.grid.map((row, rowIndex) => (
+                        <tr key={rowIndex}>
+                          {row.map((cell, colIndex) => (
+                            <td
+                              key={colIndex}
+                              className={`border p-2 text-center font-bold ${getCellColor(
+                                rowIndex,
+                                colIndex,
+                                puzzleIndex
+                              )}`}
+                            >
+                              {cell}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>
