@@ -1,39 +1,38 @@
-'use client';
+"use client";
 
-import React, { useState, ChangeEvent, useEffect } from 'react';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import CustomSingleWordPuzzle from '@/components/bangla/CustomSingleWordPuzzle';
-import BanglaMultiWordPuzzleEasy from '@/components/bangla/BanglaMultiWordPuzzleEasy';
-import BanglaMultiWordPuzzleGeneratorMedium from '@/components/bangla/BanglaMultiWordPuzzleGeneratorMedium';
-import BanglaMultiWordPuzzleGeneratorHard from '@/components/bangla/BanglaMultiWordPuzzleGeneratorHard';
-import BanglaMultiWordPuzzleGeneratorStone from '@/components/bangla/BanglaMultiWordPuzzleGeneratorStone';
+import React, { useState, ChangeEvent, useEffect } from "react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import CustomSingleWordPuzzle from "@/components/bangla/CustomSingleWordPuzzle";
+import BanglaMultiWordPuzzleEasy from "@/components/bangla/BanglaMultiWordPuzzleEasy";
+import BanglaMultiWordPuzzleGeneratorMedium from "@/components/bangla/BanglaMultiWordPuzzleGeneratorMedium";
+import BanglaMultiWordPuzzleGeneratorHard from "@/components/bangla/BanglaMultiWordPuzzleGeneratorHard";
+import BanglaMultiWordPuzzleGeneratorStone from "@/components/bangla/BanglaMultiWordPuzzleGeneratorStone";
 import {
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 
 type PuzzleType =
-  | 'single-word'
-  | 'multi-word-easy'
-  | 'multi-word-medium'
-  | 'multi-word-hard'
-  | 'multi-word-stone';
+  | "single-word"
+  | "multi-word-easy"
+  | "multi-word-medium"
+  | "multi-word-hard"
+  | "multi-word-stone";
 
 const PuzzlePage = () => {
-  const [studentName, setStudentName] = useState<string>('');
-  const [date, setDate] = useState<string>('');
-  const [studentClass, setStudentClass] = useState<string>('');
-  const [puzzleType, setPuzzleType] = useState<PuzzleType>('single-word');
-  const [words, setWords] = useState<string>('');
-  const [numberOfPuzzles, setNumberOfPuzzles] = useState<number>(1);
+  const [studentName, setStudentName] = useState<string>("");
+  const [date, setDate] = useState<string>("");
+  const [studentClass, setStudentClass] = useState<string>("");
+  const [puzzleType, setPuzzleType] = useState<PuzzleType>("single-word");
+  const [words, setWords] = useState<string>("");
 
   // Set today's date as default
   useEffect(() => {
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date().toISOString().split("T")[0];
     setDate(today);
   }, []);
 
@@ -66,17 +65,16 @@ const PuzzlePage = () => {
         )}
         {(() => {
           switch (puzzleType) {
-            case 'single-word':
+            case "single-word":
               return (
                 <CustomSingleWordPuzzle
                   words={words}
-                  numberOfPuzzles={numberOfPuzzles}
                   studentName={studentName}
                   date={date}
                   studentClass={studentClass}
                 />
               );
-            case 'multi-word-easy':
+            case "multi-word-easy":
               return (
                 <BanglaMultiWordPuzzleEasy
                   studentName={studentName}
@@ -84,7 +82,7 @@ const PuzzlePage = () => {
                   studentClass={studentClass}
                 />
               );
-            case 'multi-word-medium':
+            case "multi-word-medium":
               return (
                 <BanglaMultiWordPuzzleGeneratorMedium
                   studentName={studentName}
@@ -92,7 +90,7 @@ const PuzzlePage = () => {
                   studentClass={studentClass}
                 />
               );
-            case 'multi-word-hard':
+            case "multi-word-hard":
               return (
                 <BanglaMultiWordPuzzleGeneratorHard
                   studentName={studentName}
@@ -100,7 +98,7 @@ const PuzzlePage = () => {
                   studentClass={studentClass}
                 />
               );
-            case 'multi-word-stone':
+            case "multi-word-stone":
               return (
                 <BanglaMultiWordPuzzleGeneratorStone
                   studentName={studentName}
@@ -189,48 +187,55 @@ const PuzzlePage = () => {
             </select>
           </div>
 
-          {/* Number of Puzzles Dropdown - Only for single-word */}
-          {puzzleType === 'single-word' && (
-            <div className="space-y-2">
-              <Label htmlFor="numberOfPuzzles">Number of Puzzles in Grid</Label>
-              <select
-                id="numberOfPuzzles"
-                value={numberOfPuzzles}
-                onChange={(e) => setNumberOfPuzzles(Number(e.target.value))}
-                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                <option value={1}>1 Puzzle</option>
-                <option value={2}>2 Puzzles</option>
-              </select>
-            </div>
-          )}
-
           {/* Words Input Field */}
           <div className="space-y-2">
             <Label htmlFor="words">Words</Label>
             <textarea
               id="words"
               placeholder={
-                puzzleType === 'single-word'
-                  ? numberOfPuzzles === 1
-                    ? 'Enter a single word'
-                    : 'Enter two words, one per line'
-                  : 'Enter words, one per line (up to 20 words)'
+                puzzleType === "single-word"
+                  ? "Enter words, one per line (any number of words)"
+                  : "Enter words, one per line (up to 20 words)"
               }
               value={words}
               onChange={handleWordsChange}
               className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
               rows={5}
             />
-            {puzzleType === 'single-word' && numberOfPuzzles === 2 && (
+            {puzzleType === "single-word" && (
               <p className="text-sm text-gray-500">
-                Words entered:{' '}
-                {words.split('\n').filter((w) => w.trim()).length} / 2
+                Words entered:{" "}
+                {words.split("\n").filter((w) => w.trim()).length}
+                {words.split("\n").filter((w) => w.trim()).length > 0 && (
+                  <span className="ml-2">
+                    (
+                    {Math.ceil(
+                      words.split("\n").filter((w) => w.trim()).length / 2
+                    )}{" "}
+                    page
+                    {Math.ceil(
+                      words.split("\n").filter((w) => w.trim()).length / 2
+                    ) > 1
+                      ? "s"
+                      : ""}{" "}
+                    puzzle +{" "}
+                    {Math.ceil(
+                      words.split("\n").filter((w) => w.trim()).length / 2
+                    )}{" "}
+                    page
+                    {Math.ceil(
+                      words.split("\n").filter((w) => w.trim()).length / 2
+                    ) > 1
+                      ? "s"
+                      : ""}{" "}
+                    answer)
+                  </span>
+                )}
               </p>
             )}
-            {puzzleType !== 'single-word' && (
+            {puzzleType !== "single-word" && (
               <p className="text-sm text-gray-500">
-                Words added: {words.split('\n').filter((w) => w.trim()).length}{' '}
+                Words added: {words.split("\n").filter((w) => w.trim()).length}{" "}
                 / 20
               </p>
             )}
@@ -245,4 +250,3 @@ const PuzzlePage = () => {
 };
 
 export default PuzzlePage;
-
