@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import Image from 'next/image';
-import GraphemeSplitter from 'grapheme-splitter';
+import { splitIntoGraphemes } from '@/lib/bangla-utils';
 
 interface PuzzleInput {
   id: number;
@@ -16,23 +16,6 @@ interface PuzzleFinal extends PuzzleInput {
     wordLength: number;
   };
   number: number;
-}
-
-// Helper function to split a Bangla word into grapheme clusters,
-// merging vowel signs (e.g. "া", "ি", "ী", etc.) with their preceding consonant.
-function splitIntoGraphemes(str: string): string[] {
-  const splitter = new GraphemeSplitter();
-  const clusters = splitter.splitGraphemes(str);
-  const vowelSigns = new Set(['া', 'ি', 'ী', 'ু', 'ূ', 'ৃ', 'ে', 'ৈ', 'ো', 'ৌ']);
-  const merged: string[] = [];
-  for (let i = 0; i < clusters.length; i++) {
-    if (vowelSigns.has(clusters[i]) && merged.length > 0) {
-      merged[merged.length - 1] += clusters[i];
-    } else {
-      merged.push(clusters[i]);
-    }
-  }
-  return merged;
 }
 
 const BanglaImageVerticalCrossWordPuzzleGenerator: React.FC = () => {

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import GraphemeSplitter from 'grapheme-splitter';
+import { splitIntoGraphemes } from '@/lib/bangla-utils';
 
 // ======== CONSTANTS ========
 const MAX_WORDS = 20;
@@ -400,20 +400,7 @@ function createEmptyGrid(size: number): string[][] {
 }
 
 // বাংলা শব্দকে grapheme cluster এ ভাগ করে, যাতে স্বরবর্ণ পূর্ববর্তী ব্যঞ্জনবর্ণের সাথে মিশে যায়।
-function splitIntoGraphemes(str: string): string[] {
-  const splitter = new GraphemeSplitter();
-  const clusters = splitter.splitGraphemes(str);
-  const vowelSigns = new Set(['া', 'ি', 'ী', 'ু', 'ূ', 'ৃ', 'ে', 'ৈ', 'ো', 'ৌ']);
-  const merged: string[] = [];
-  for (let i = 0; i < clusters.length; i++) {
-    if (vowelSigns.has(clusters[i]) && merged.length > 0) {
-      merged[merged.length - 1] += clusters[i];
-    } else {
-      merged.push(clusters[i]);
-    }
-  }
-  return merged;
-}
+
 
 // canPlace: grapheme cluster array ব্যবহার করে শব্দটি নির্দিষ্ট অবস্থানে রাখা যাবে কি না পরীক্ষা করে।
 function canPlace(grid: string[][], graphemes: string[], row: number, col: number, path: Direction): boolean {

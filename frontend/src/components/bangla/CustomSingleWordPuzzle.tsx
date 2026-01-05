@@ -10,26 +10,7 @@ import {
   CardDescription,
   CardContent,
 } from '@/components/ui/card';
-import GraphemeSplitter from 'grapheme-splitter';
-
-/* --------------------------------------------
-   1) Split the word into grapheme clusters and merge vowel signs
--------------------------------------------- */
-function splitIntoGraphemes(str: string): string[] {
-  const splitter = new GraphemeSplitter();
-  const clusters = splitter.splitGraphemes(str);
-  const vowelSigns = new Set(['া', 'ি', 'ী', 'ু', 'ূ', 'ৃ', 'ে', 'ৈ', 'ো', 'ৌ']);
-
-  const merged: string[] = [];
-  for (let i = 0; i < clusters.length; i++) {
-    if (vowelSigns.has(clusters[i]) && merged.length > 0) {
-      merged[merged.length - 1] += clusters[i];
-    } else {
-      merged.push(clusters[i]);
-    }
-  }
-  return merged;
-}
+import { splitIntoGraphemes } from '@/lib/bangla-utils';
 
 /* --------------------------------------------
    2) Create an empty grid

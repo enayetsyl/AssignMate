@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -Command \"\\(Get-Content BanglaMultiWordPuzzleGeneratorHard.tsx -Raw\\) -replace ''function splitIntoGraphemes\\\\\\(str: string\\\\\\): string\\\\[\\\\] \\\\{[\\\\s\\\\S]*?return merged;\\\\r?\\\\n\\\\}'', '''' | Set-Content BanglaMultiWordPuzzleGeneratorHard.tsx -NoNewline\")",
+      "Bash(powershell -Command \"\\(Get-Content BanglaMultiWordPuzzleGeneratorHard.tsx -Raw\\) -replace ''// বাংলা শব্দকে grapheme cluster এ ভাগ করে, যাতে স্বরবর্ণ পূর্ববর্তী ব্যঞ্জনবর্ণের সাথে মিশে যায়।\\\\r?\\\\n\\\\r?\\\\n\\\\r?\\\\n'', '''' | Set-Content BanglaMultiWordPuzzleGeneratorHard.tsx -NoNewline\")",
+      "Bash(npx tsc:*)"
+    ]
+  }
+}

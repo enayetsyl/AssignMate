@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Image from 'next/image';
-import GraphemeSplitter from 'grapheme-splitter';
+import { splitIntoGraphemes } from '@/lib/bangla-utils';
 
 type PuzzleData = {
   word: string;
@@ -15,8 +15,7 @@ type PuzzleData = {
 
 // Utility to scramble a Bangla word into an array of grapheme clusters
 function scrambleWord(word: string): string[] {
-  const splitter = new GraphemeSplitter();
-  const letters = splitter.splitGraphemes(word);
+  const letters = [...splitIntoGraphemes(word)];
   // Fisher-Yates shuffle
   for (let i = letters.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -237,18 +236,3 @@ export default function BanglaWordRearrange() {
   );
 }
 
-// Helper to split Bangla word into grapheme clusters
-function splitIntoGraphemes(str: string): string[] {
-  const splitter = new GraphemeSplitter();
-  const clusters = splitter.splitGraphemes(str);
-  const vowelSigns = new Set(['া', 'ি', 'ী', 'ু', 'ূ', 'ৃ', 'ে', 'ৈ', 'ো', 'ৌ']);
-  const merged: string[] = [];
-  for (let i = 0; i < clusters.length; i++) {
-    if (vowelSigns.has(clusters[i]) && merged.length > 0) {
-      merged[merged.length - 1] += clusters[i];
-    } else {
-      merged.push(clusters[i]);
-    }
-  }
-  return merged;
-}

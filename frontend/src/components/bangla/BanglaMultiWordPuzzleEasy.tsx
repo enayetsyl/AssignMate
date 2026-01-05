@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import GraphemeSplitter from 'grapheme-splitter';
+import { splitIntoGraphemes } from '@/lib/bangla-utils';
 
 const MAX_WORDS = 20;
 
@@ -396,22 +396,6 @@ export const DIRECTIONS: Direction[] = [
 // Create an empty grid of the given size.
 function createEmptyGrid(size: number): string[][] {
   return Array.from({ length: size }, () => Array(size).fill(''));
-}
-
-// Split the Bangla word into grapheme clusters and merge vowel signs with their preceding consonant.
-function splitIntoGraphemes(str: string): string[] {
-  const splitter = new GraphemeSplitter();
-  const clusters = splitter.splitGraphemes(str);
-  const vowelSigns = new Set(['া', 'ি', 'ী', 'ু', 'ূ', 'ৃ', 'ে', 'ৈ', 'ো', 'ৌ']);
-  const merged: string[] = [];
-  for (let i = 0; i < clusters.length; i++) {
-    if (vowelSigns.has(clusters[i]) && merged.length > 0) {
-      merged[merged.length - 1] += clusters[i];
-    } else {
-      merged.push(clusters[i]);
-    }
-  }
-  return merged;
 }
 
 // Check if the grapheme array can be placed at the specified starting point along the given direction.

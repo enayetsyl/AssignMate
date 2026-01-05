@@ -12,30 +12,7 @@ import {
   CardContent,
 } from '@/components/ui/card';
 import Image from 'next/image';
-import GraphemeSplitter from 'grapheme-splitter';
-
-/* --------------------------------------------
-   1) Split the word into grapheme clusters and merge vowel signs
-      so that vowels are attached to the preceding consonant.
--------------------------------------------- */
-function splitIntoGraphemes(str: string): string[] {
-  const splitter = new GraphemeSplitter();
-  // Initial split into grapheme clusters
-  const clusters = splitter.splitGraphemes(str);
-  // Define the Bangla vowel signs that should merge with the previous cluster
-  const vowelSigns = new Set(['া', 'ি', 'ী', 'ু', 'ূ', 'ৃ', 'ে', 'ৈ', 'ো', 'ৌ']);
-
-  const merged: string[] = [];
-  for (let i = 0; i < clusters.length; i++) {
-    // If the current cluster is a vowel sign and there's a previous cluster, merge it.
-    if (vowelSigns.has(clusters[i]) && merged.length > 0) {
-      merged[merged.length - 1] += clusters[i];
-    } else {
-      merged.push(clusters[i]);
-    }
-  }
-  return merged;
-}
+import { splitIntoGraphemes } from '@/lib/bangla-utils';
 
 /* --------------------------------------------
    2) Create an empty grid

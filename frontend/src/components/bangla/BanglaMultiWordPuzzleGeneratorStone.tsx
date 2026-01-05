@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import GraphemeSplitter from 'grapheme-splitter';
+import { splitIntoGraphemes } from '@/lib/bangla-utils';
 
 // ======= CONSTANTS & TYPES =======
 const MAX_WORDS = 20;
@@ -25,24 +25,6 @@ const COLORS = [
 // Create an empty grid of size x size
 function createEmptyGrid(size: number): string[][] {
   return Array.from({ length: size }, () => Array(size).fill(''));
-}
-
-// Split a Bangla word into grapheme clusters, merging vowel signs with preceding consonants
-function splitIntoGraphemes(str: string): string[] {
-  const splitter = new GraphemeSplitter();
-  const clusters = splitter.splitGraphemes(str);
-
-  // Merge vowel signs (e.g. "া", "ি") with the preceding cluster
-  const vowelSigns = new Set(['া', 'ি', 'ী', 'ু', 'ূ', 'ৃ', 'ে', 'ৈ', 'ো', 'ৌ']);
-  const merged: string[] = [];
-  for (let i = 0; i < clusters.length; i++) {
-    if (vowelSigns.has(clusters[i]) && merged.length > 0) {
-      merged[merged.length - 1] += clusters[i];
-    } else {
-      merged.push(clusters[i]);
-    }
-  }
-  return merged;
 }
 
 /**

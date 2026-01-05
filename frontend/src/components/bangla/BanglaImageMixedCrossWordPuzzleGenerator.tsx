@@ -1,25 +1,9 @@
 'use client';
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import Image from 'next/image';
-import GraphemeSplitter from 'grapheme-splitter';
+import { splitIntoGraphemes } from '@/lib/bangla-utils';
 
 const GRID_SIZE = 16;
-
-/** Split Bangla words into grapheme clusters so that vowel signs attach with their consonants */
-function splitIntoGraphemes(str: string): string[] {
-  const splitter = new GraphemeSplitter();
-  const clusters = splitter.splitGraphemes(str);
-  const vowelSigns = new Set(['া','ি','ী','ু','ূ','ৃ','ে','ৈ','ো','ৌ']);
-  const merged: string[] = [];
-  for (let i = 0; i < clusters.length; i++) {
-    if (vowelSigns.has(clusters[i]) && merged.length > 0) {
-      merged[merged.length - 1] += clusters[i];
-    } else {
-      merged.push(clusters[i]);
-    }
-  }
-  return merged;
-}
 
 // Basic puzzle models
 interface PuzzleInput {

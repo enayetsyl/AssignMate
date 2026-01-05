@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import Image from 'next/image';
-import GraphemeSplitter from 'grapheme-splitter';
+import { splitIntoGraphemes } from '@/lib/bangla-utils';
 
 interface PuzzleInput {
   id: number;
@@ -62,23 +62,6 @@ const BanglaImageHorizontalCrossWordPuzzleGenerator: React.FC = () => {
   const removePuzzle = (id: number) => {
     setPuzzles(puzzles.filter((puzzle) => puzzle.id !== id));
   };
-
-  // গ্রাফিম স্প্লিটার ব্যবহার করে বাংলা শব্দকে গ্রাফিম ক্লাস্টারে ভাগ করে দেয় (যাতে স্বরবর্ণ সঠিকভাবে যুক্ত থাকে)
-  function splitIntoGraphemes(str: string): string[] {
-    const splitter = new GraphemeSplitter();
-    const clusters = splitter.splitGraphemes(str);
-    const vowelSigns = new Set(['া', 'ি', 'ী', 'ু', 'ূ', 'ৃ', 'ে', 'ৈ', 'ো', 'ৌ']);
-    const merged: string[] = [];
-    for (let i = 0; i < clusters.length; i++) {
-      if (vowelSigns.has(clusters[i]) && merged.length > 0) {
-        merged[merged.length - 1] += clusters[i];
-      } else {
-        merged.push(clusters[i]);
-      }
-    }
-    return merged;
-  }
-
 
   // ফর্ম সাবমিশন হ্যান্ডলার: যাচাই করে ও প্রতিটি পাজলের জন্য গ্রিড তথ্য তৈরি করে
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {

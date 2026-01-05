@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import GraphemeSplitter from 'grapheme-splitter';
+import { splitIntoGraphemes } from '@/lib/bangla-utils';
 
 // ======== CONSTANTS ========
 const MAX_WORDS = 20;
@@ -91,24 +91,6 @@ function getBlankRegion(gridSize: number, position: ImagePosition) {
   const colEnd = colStart + IMAGE_BLOCK_SIZE - 1;
 
   return { rowStart, colStart, rowEnd, colEnd };
-}
-
-/**
- * Splits a Bangla string into grapheme clusters and merges vowel signs with the preceding cluster.
- */
-function splitIntoGraphemes(str: string): string[] {
-  const splitter = new GraphemeSplitter();
-  const clusters = splitter.splitGraphemes(str);
-  const vowelSigns = new Set(['া', 'ি', 'ী', 'ু', 'ূ', 'ৃ', 'ে', 'ৈ', 'ো', 'ৌ']);
-  const merged: string[] = [];
-  for (let i = 0; i < clusters.length; i++) {
-    if (vowelSigns.has(clusters[i]) && merged.length > 0) {
-      merged[merged.length - 1] += clusters[i];
-    } else {
-      merged.push(clusters[i]);
-    }
-  }
-  return merged;
 }
 
 /**
