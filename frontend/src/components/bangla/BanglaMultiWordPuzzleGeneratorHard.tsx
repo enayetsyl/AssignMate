@@ -8,10 +8,26 @@ import { splitIntoGraphemes } from '@/lib/bangla-utils';
 const MAX_WORDS = 20;
 
 const COLORS = [
-  'bg-red-200', 'bg-blue-200', 'bg-green-200', 'bg-yellow-200', 'bg-pink-200',
-  'bg-purple-200', 'bg-orange-200', 'bg-teal-200', 'bg-cyan-200', 'bg-amber-200',
-  'bg-lime-200', 'bg-indigo-200', 'bg-rose-200', 'bg-violet-200', 'bg-fuchsia-200',
-  'bg-emerald-200', 'bg-sky-200', 'bg-slate-200', 'bg-gray-200', 'bg-stone-200'
+  'bg-red-200',
+  'bg-blue-200',
+  'bg-green-200',
+  'bg-yellow-200',
+  'bg-pink-200',
+  'bg-purple-200',
+  'bg-orange-200',
+  'bg-teal-200',
+  'bg-cyan-200',
+  'bg-amber-200',
+  'bg-lime-200',
+  'bg-indigo-200',
+  'bg-rose-200',
+  'bg-violet-200',
+  'bg-fuchsia-200',
+  'bg-emerald-200',
+  'bg-sky-200',
+  'bg-slate-200',
+  'bg-gray-200',
+  'bg-stone-200',
 ];
 
 interface BanglaMultiWordPuzzleGeneratorHardProps {
@@ -21,7 +37,9 @@ interface BanglaMultiWordPuzzleGeneratorHardProps {
   studentClass?: string;
 }
 
-const BanglaMultiWordPuzzleGeneratorHard: React.FC<BanglaMultiWordPuzzleGeneratorHardProps> = ({
+const BanglaMultiWordPuzzleGeneratorHard: React.FC<
+  BanglaMultiWordPuzzleGeneratorHardProps
+> = ({
   words: wordsProp = '',
   studentName = '',
   date = '',
@@ -30,10 +48,14 @@ const BanglaMultiWordPuzzleGeneratorHard: React.FC<BanglaMultiWordPuzzleGenerato
   const [words, setWords] = useState<string[]>([]);
   const [images, setImages] = useState<string[]>([]);
   const [grid, setGrid] = useState<string[][]>([]);
-  const [answers, setAnswers] = useState<Record<string, [number, number][]>>({});
+  const [answers, setAnswers] = useState<Record<string, [number, number][]>>(
+    {}
+  );
   const [showAnswers, setShowAnswers] = useState(false);
   const [isClient, setIsClient] = useState(false);
-  const [printMode, setPrintMode] = useState<'puzzle' | 'answer' | 'two-page'>('puzzle');
+  const [printMode, setPrintMode] = useState<'puzzle' | 'answer' | 'two-page'>(
+    'puzzle'
+  );
 
   useEffect(() => setIsClient(true), []);
 
@@ -99,9 +121,17 @@ const BanglaMultiWordPuzzleGeneratorHard: React.FC<BanglaMultiWordPuzzleGenerato
     setTimeout(() => window.print(), 100);
   };
 
-  const getCellColor = (row: number, col: number, isAnswerPage: boolean = false) => {
+  const getCellColor = (
+    row: number,
+    col: number,
+    isAnswerPage: boolean = false
+  ) => {
     if (printMode === 'two-page' && !isAnswerPage) return '';
-    if ((!showAnswers && printMode !== 'two-page') || (printMode !== 'answer' && printMode !== 'two-page')) return '';
+    if (
+      (!showAnswers && printMode !== 'two-page') ||
+      (printMode !== 'answer' && printMode !== 'two-page')
+    )
+      return '';
     const entries = Object.entries(answers);
     for (let i = 0; i < entries.length; i++) {
       const [, positions] = entries[i];
@@ -133,7 +163,7 @@ const BanglaMultiWordPuzzleGeneratorHard: React.FC<BanglaMultiWordPuzzleGenerato
             width: 100vw;
             height: 100vh;
           }
-          
+
           /* Two-page layout styles */
           .print-page {
             page-break-after: always;
@@ -231,7 +261,9 @@ const BanglaMultiWordPuzzleGeneratorHard: React.FC<BanglaMultiWordPuzzleGenerato
                           {studentClass && ` | Class: ${studentClass}`}
                         </p>
                       )}
-                      {date && <p>Date: {new Date(date).toLocaleDateString()}</p>}
+                      {date && (
+                        <p>Date: {new Date(date).toLocaleDateString()}</p>
+                      )}
                     </div>
                   )}
                   <h2 className="font-bold text-2xl underline text-center mb-4 font-kids">
@@ -296,7 +328,9 @@ const BanglaMultiWordPuzzleGeneratorHard: React.FC<BanglaMultiWordPuzzleGenerato
                           {studentClass && ` | Class: ${studentClass}`}
                         </p>
                       )}
-                      {date && <p>Date: {new Date(date).toLocaleDateString()}</p>}
+                      {date && (
+                        <p>Date: {new Date(date).toLocaleDateString()}</p>
+                      )}
                       <p className="mt-2">Answer Key</p>
                     </div>
                   )}
@@ -313,7 +347,11 @@ const BanglaMultiWordPuzzleGeneratorHard: React.FC<BanglaMultiWordPuzzleGenerato
                               {row.map((cell, cIdx) => (
                                 <td
                                   key={cIdx}
-                                  className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(rIdx, cIdx, true)}`}
+                                  className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(
+                                    rIdx,
+                                    cIdx,
+                                    true
+                                  )}`}
                                 >
                                   {cell}
                                 </td>
@@ -355,7 +393,10 @@ const BanglaMultiWordPuzzleGeneratorHard: React.FC<BanglaMultiWordPuzzleGenerato
                             {row.map((cell, cIdx) => (
                               <td
                                 key={cIdx}
-                                className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(rIdx, cIdx)}`}
+                                className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(
+                                  rIdx,
+                                  cIdx
+                                )}`}
                               >
                                 {cell}
                               </td>
@@ -401,12 +442,18 @@ export default BanglaMultiWordPuzzleGeneratorHard;
 export type Direction = number[][];
 
 export const DIRECTIONS: Direction[] = [
-  [[0, 1]],      // ডানে
-  [[1, 0]],      // নিচে
-  [[1, 1]],      // তির্যক (নিচে-ডানে)
-  [[-1, 1]],     // উপরে-ডানে
-  [[0, 1], [1, 0]], // এল আকৃতি
-  [[1, 0], [0, 1]], // উল্টো এল
+  [[0, 1]], // ডানে
+  [[1, 0]], // নিচে
+  [[1, 1]], // তির্যক (নিচে-ডানে)
+  [[-1, 1]], // উপরে-ডানে
+  [
+    [0, 1],
+    [1, 0],
+  ], // এল আকৃতি
+  [
+    [1, 0],
+    [0, 1],
+  ], // উল্টো এল
 ];
 
 function createEmptyGrid(size: number): string[][] {
@@ -415,10 +462,16 @@ function createEmptyGrid(size: number): string[][] {
 
 // বাংলা শব্দকে grapheme cluster এ ভাগ করে, যাতে স্বরবর্ণ পূর্ববর্তী ব্যঞ্জনবর্ণের সাথে মিশে যায়।
 
-
 // canPlace: grapheme cluster array ব্যবহার করে শব্দটি নির্দিষ্ট অবস্থানে রাখা যাবে কি না পরীক্ষা করে।
-function canPlace(grid: string[][], graphemes: string[], row: number, col: number, path: Direction): boolean {
-  let r = row, c = col;
+function canPlace(
+  grid: string[][],
+  graphemes: string[],
+  row: number,
+  col: number,
+  path: Direction
+): boolean {
+  let r = row,
+    c = col;
   for (let i = 0; i < graphemes.length; i++) {
     if (r < 0 || r >= grid.length || c < 0 || c >= grid.length) return false;
     if (grid[r][c] !== '' && grid[r][c] !== graphemes[i]) return false;
@@ -430,8 +483,15 @@ function canPlace(grid: string[][], graphemes: string[], row: number, col: numbe
 }
 
 // placeWord: grapheme cluster array ব্যবহার করে শব্দটি গ্রিডে স্থাপন করে এবং অবস্থানগুলো রেকর্ড করে।
-function placeWord(grid: string[][], graphemes: string[], row: number, col: number, path: Direction): [number, number][] {
-  let r = row, c = col;
+function placeWord(
+  grid: string[][],
+  graphemes: string[],
+  row: number,
+  col: number,
+  path: Direction
+): [number, number][] {
+  let r = row,
+    c = col;
   const positions: [number, number][] = [];
   for (let i = 0; i < graphemes.length; i++) {
     grid[r][c] = graphemes[i];
@@ -444,18 +504,21 @@ function placeWord(grid: string[][], graphemes: string[], row: number, col: numb
 }
 
 export function generatePuzzle(words: string[]): {
-  grid: string[][]; 
+  grid: string[][];
   answers: Record<string, [number, number][]>;
 } {
   // সর্বোচ্চ শব্দ দৈর্ঘ্য grapheme cluster হিসেবে নির্ণয় করুন
-  const maxWordLength = Math.max(...words.map((w) => splitIntoGraphemes(w).length));
+  const maxWordLength = Math.max(
+    ...words.map((w) => splitIntoGraphemes(w).length)
+  );
   const gridSize = Math.max(20, maxWordLength + 8);
   const grid = createEmptyGrid(gridSize);
   const answers: Record<string, [number, number][]> = {};
 
   for (const word of words) {
     const graphemes = splitIntoGraphemes(word);
-    let placed = false, tries = 0;
+    let placed = false,
+      tries = 0;
     while (!placed && tries++ < 200) {
       const dir = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
       const row = Math.floor(Math.random() * gridSize);
@@ -472,7 +535,8 @@ export function generatePuzzle(words: string[]): {
   for (let r = 0; r < gridSize; r++) {
     for (let c = 0; c < gridSize; c++) {
       if (!grid[r][c]) {
-        grid[r][c] = banglaAlphabets[Math.floor(Math.random() * banglaAlphabets.length)];
+        grid[r][c] =
+          banglaAlphabets[Math.floor(Math.random() * banglaAlphabets.length)];
       }
     }
   }

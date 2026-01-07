@@ -1,30 +1,34 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { COLORS } from '@/constant';
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { COLORS } from "@/constant";
 
 // ======== CONSTANTS ========
 const MAX_WORDS = 20;
 // Number of cells to clear for the image region
 const IMAGE_BLOCK_SIZE = 5;
 
-type ImagePosition = 'middle' | 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right';
-
+type ImagePosition =
+  | "middle"
+  | "bottom-left"
+  | "bottom-right"
+  | "top-left"
+  | "top-right";
 
 // Directions: horizontal (→), vertical (↓), diagonal down-right, diagonal up-right
 export type Direction = number[][];
 export const DIRECTIONS: Direction[] = [
-  [[0, 1]],   // horizontal
-  [[1, 0]],   // vertical
-  [[1, 1]],   // diagonal down-right
-  [[-1, 1]],  // diagonal up-right
+  [[0, 1]], // horizontal
+  [[1, 0]], // vertical
+  [[1, 1]], // diagonal down-right
+  [[-1, 1]], // diagonal up-right
 ];
 
 // =========== PUZZLE HELPERS ===========
 
 function createEmptyGrid(size: number): string[][] {
-  return Array.from({ length: size }, () => Array(size).fill(''));
+  return Array.from({ length: size }, () => Array(size).fill(""));
 }
 
 /**
@@ -36,23 +40,23 @@ function getBlankRegion(gridSize: number, position: ImagePosition) {
   let colStart = 0;
 
   switch (position) {
-    case 'top-left':
+    case "top-left":
       rowStart = 0;
       colStart = 0;
       break;
-    case 'top-right':
+    case "top-right":
       rowStart = 0;
       colStart = gridSize - IMAGE_BLOCK_SIZE;
       break;
-    case 'bottom-left':
+    case "bottom-left":
       rowStart = gridSize - IMAGE_BLOCK_SIZE;
       colStart = 0;
       break;
-    case 'bottom-right':
+    case "bottom-right":
       rowStart = gridSize - IMAGE_BLOCK_SIZE;
       colStart = gridSize - IMAGE_BLOCK_SIZE;
       break;
-    case 'middle':
+    case "middle":
       rowStart = Math.floor(gridSize / 2 - IMAGE_BLOCK_SIZE / 2);
       colStart = Math.floor(gridSize / 2 - IMAGE_BLOCK_SIZE / 2);
       break;
@@ -61,8 +65,10 @@ function getBlankRegion(gridSize: number, position: ImagePosition) {
   // Clamp to grid boundaries
   if (rowStart < 0) rowStart = 0;
   if (colStart < 0) colStart = 0;
-  if (rowStart + IMAGE_BLOCK_SIZE > gridSize) rowStart = gridSize - IMAGE_BLOCK_SIZE;
-  if (colStart + IMAGE_BLOCK_SIZE > gridSize) colStart = gridSize - IMAGE_BLOCK_SIZE;
+  if (rowStart + IMAGE_BLOCK_SIZE > gridSize)
+    rowStart = gridSize - IMAGE_BLOCK_SIZE;
+  if (colStart + IMAGE_BLOCK_SIZE > gridSize)
+    colStart = gridSize - IMAGE_BLOCK_SIZE;
 
   const rowEnd = rowStart + IMAGE_BLOCK_SIZE - 1;
   const colEnd = colStart + IMAGE_BLOCK_SIZE - 1;
@@ -80,7 +86,12 @@ function canPlace(
   row: number,
   col: number,
   path: Direction,
-  blankRegion: { rowStart: number; colStart: number; rowEnd: number; colEnd: number }
+  blankRegion: {
+    rowStart: number;
+    colStart: number;
+    rowEnd: number;
+    colEnd: number;
+  }
 ) {
   let r = row;
   let c = col;
@@ -100,7 +111,7 @@ function canPlace(
     }
 
     // Cell conflict?
-    if (grid[r][c] !== '' && grid[r][c] !== word[i]) return false;
+    if (grid[r][c] !== "" && grid[r][c] !== word[i]) return false;
 
     const [dr, dc] = path[i % path.length];
     r += dr;
@@ -178,7 +189,7 @@ function generatePuzzle(
         c >= blankRegion.colStart &&
         c <= blankRegion.colEnd
       ) {
-        grid[r][c] = '';
+        grid[r][c] = "";
         continue;
       }
 
@@ -194,61 +205,65 @@ function generatePuzzle(
 // =========== POSITIONING HELPER ===========
 function getPositionClasses(pos: ImagePosition) {
   switch (pos) {
-    case 'middle':
-      return 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2';
-    case 'bottom-left':
-      return 'bottom-0 left-0';
-    case 'bottom-right':
-      return 'bottom-0 right-0';
-    case 'top-left':
-      return 'top-0 left-0';
-    case 'top-right':
-      return 'top-0 right-0';
+    case "middle":
+      return "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2";
+    case "bottom-left":
+      return "bottom-0 left-0";
+    case "bottom-right":
+      return "bottom-0 right-0";
+    case "top-left":
+      return "top-0 left-0";
+    case "top-right":
+      return "top-0 right-0";
   }
 }
 
 // =========== MAIN COMPONENT ===========
- interface MultiWordPuzzleGeneratorMediumProps {
+interface MultiWordPuzzleGeneratorMediumProps {
   words?: string;
   studentName?: string;
   date?: string;
   studentClass?: string;
 }
 
-const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumProps> = ({
-  words: wordsProp = '',
-  studentName = '',
-  date = '',
-  studentClass = '',
+const MultiWordPuzzleGeneratorMedium: React.FC<
+  MultiWordPuzzleGeneratorMediumProps
+> = ({
+  words: wordsProp = "",
+  studentName = "",
+  date = "",
+  studentClass = "",
 }) => {
   const [isClient, setIsClient] = useState(false);
 
   // Puzzle data
   const [words, setWords] = useState<string[]>([]);
   const [grid, setGrid] = useState<string[][]>([]);
-  const [answers, setAnswers] = useState<Record<string, [number, number][]>>({});
+  const [answers, setAnswers] = useState<Record<string, [number, number][]>>(
+    {}
+  );
 
   // Image data
   const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const [imagePosition, setImagePosition] = useState<ImagePosition>('bottom-right');
+  const [imagePosition, setImagePosition] =
+    useState<ImagePosition>("bottom-right");
 
   // Display
   const [showAnswers, setShowAnswers] = useState(false);
-  const [printMode, setPrintMode] = useState<'puzzle' | 'answer' | 'two-page'>('puzzle');
+  const [printMode, setPrintMode] = useState<"puzzle" | "answer" | "two-page">(
+    "puzzle"
+  );
 
   // On mount (client only)
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  // Avoid hydration mismatch
-  if (!isClient) return null;
-
   // Sync words prop to internal state
   useEffect(() => {
     if (wordsProp) {
       const list = wordsProp
-        .split('\n')
+        .split("\n")
         .map((w) => w.trim().toUpperCase())
         .filter(Boolean)
         .slice(0, MAX_WORDS);
@@ -256,10 +271,13 @@ const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumPro
     }
   }, [wordsProp]);
 
+  // Avoid hydration mismatch
+  if (!isClient) return null;
+
   // Word list input
   const handleWordChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const list = e.target.value
-      .split('\n')
+      .split("\n")
       .map((w) => w.trim().toUpperCase())
       .filter(Boolean)
       .slice(0, MAX_WORDS);
@@ -285,10 +303,10 @@ const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumPro
   };
 
   // Print puzzle or answers
-  const handlePrint = (mode: 'puzzle' | 'answer') => {
+  const handlePrint = (mode: "puzzle" | "answer") => {
     setPrintMode(mode);
     // If printing answers, showAnswers is true
-    setShowAnswers(mode === 'answer');
+    setShowAnswers(mode === "answer");
     // Wait briefly before triggering print
     setTimeout(() => window.print(), 100);
   };
@@ -296,32 +314,40 @@ const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumPro
   const handlePrintWithStudentInfo = () => {
     // Validate student name, date, and class
     if (!studentName || !studentName.trim()) {
-      alert('Please enter a student name');
+      alert("Please enter a student name");
       return;
     }
     if (!date || !date.trim()) {
-      alert('Please enter a date');
+      alert("Please enter a date");
       return;
     }
     if (!studentClass || !studentClass.trim()) {
-      alert('Please select a class');
+      alert("Please select a class");
       return;
     }
     if (grid.length === 0) {
-      alert('Please generate puzzle first');
+      alert("Please generate puzzle first");
       return;
     }
 
     // Set print mode for two-page layout
-    setPrintMode('two-page');
+    setPrintMode("two-page");
     setShowAnswers(false);
     setTimeout(() => window.print(), 100);
   };
 
   // Color the answer cells
-  const getCellColor = (row: number, col: number, isAnswerPage: boolean = false) => {
-    if (printMode === 'two-page' && !isAnswerPage) return '';
-    if ((!showAnswers && printMode !== 'two-page') || (printMode !== 'answer' && printMode !== 'two-page')) return '';
+  const getCellColor = (
+    row: number,
+    col: number,
+    isAnswerPage: boolean = false
+  ) => {
+    if (printMode === "two-page" && !isAnswerPage) return "";
+    if (
+      (!showAnswers && printMode !== "two-page") ||
+      (printMode !== "answer" && printMode !== "two-page")
+    )
+      return "";
     const entries = Object.entries(answers);
     for (let i = 0; i < entries.length; i++) {
       const [, positions] = entries[i];
@@ -329,7 +355,7 @@ const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumPro
         return COLORS[i % COLORS.length];
       }
     }
-    return '';
+    return "";
   };
 
   return (
@@ -354,7 +380,7 @@ const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumPro
             width: 100vw;
             height: 100vh;
           }
-          
+
           /* Two-page layout styles */
           .print-page {
             page-break-after: always;
@@ -373,7 +399,7 @@ const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumPro
             font-size: 18px;
             font-weight: bold;
           }
-          
+
           /* Scale down table for better fit */
           #printable-area table {
             font-size: 12px;
@@ -413,7 +439,9 @@ const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumPro
             <label className="block text-sm font-medium">Image Position:</label>
             <select
               value={imagePosition}
-              onChange={(e) => setImagePosition(e.target.value as ImagePosition)}
+              onChange={(e) =>
+                setImagePosition(e.target.value as ImagePosition)
+              }
               className="border p-2"
             >
               <option value="middle">Middle</option>
@@ -434,13 +462,13 @@ const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumPro
             Generate Puzzle
           </button>
           <button
-            onClick={() => handlePrint('answer')}
+            onClick={() => handlePrint("answer")}
             className="bg-orange-500 text-white px-4 py-2 rounded"
           >
             Print Answers
           </button>
           <button
-            onClick={() => handlePrint('puzzle')}
+            onClick={() => handlePrint("puzzle")}
             className="bg-green-600 text-white px-4 py-2 rounded"
           >
             Print Puzzle
@@ -455,7 +483,7 @@ const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumPro
 
         {/* Printable area */}
         <div id="printable-area" className="w-full font-kids">
-          {printMode === 'two-page' ? (
+          {printMode === "two-page" ? (
             <>
               {/* First Page - Puzzle */}
               <div className="print-page">
@@ -478,7 +506,10 @@ const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumPro
                   {/* Puzzle + Image */}
                   <div className="relative">
                     {/* The puzzle table */}
-                    <table className="border border-black border-collapse mx-auto" style={{ fontSize: '12px' }}>
+                    <table
+                      className="border border-black border-collapse mx-auto"
+                      style={{ fontSize: "12px" }}
+                    >
                       <tbody>
                         {grid.map((row, rIdx) => (
                           <tr key={rIdx}>
@@ -486,7 +517,12 @@ const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumPro
                               <td
                                 key={cIdx}
                                 className="border border-black text-center font-bold"
-                                style={{ width: '0.6cm', height: '0.6cm', padding: '2px', fontSize: '12px' }}
+                                style={{
+                                  width: "0.6cm",
+                                  height: "0.6cm",
+                                  padding: "2px",
+                                  fontSize: "12px",
+                                }}
                               >
                                 {cell}
                               </td>
@@ -549,7 +585,10 @@ const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumPro
                 <div className="relative w-full flex justify-center">
                   {/* Puzzle + Image with Answers */}
                   <div className="relative">
-                    <table className="border border-black border-collapse mx-auto" style={{ fontSize: '12px' }}>
+                    <table
+                      className="border border-black border-collapse mx-auto"
+                      style={{ fontSize: "12px" }}
+                    >
                       <tbody>
                         {grid.map((row, rIdx) => (
                           <tr key={rIdx}>
@@ -561,7 +600,12 @@ const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumPro
                                   cIdx,
                                   true
                                 )}`}
-                                style={{ width: '0.6cm', height: '0.6cm', padding: '2px', fontSize: '12px' }}
+                                style={{
+                                  width: "0.6cm",
+                                  height: "0.6cm",
+                                  padding: "2px",
+                                  fontSize: "12px",
+                                }}
                               >
                                 {cell}
                               </td>
@@ -584,7 +628,10 @@ const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumPro
                 {/* Puzzle + Image */}
                 <div className="relative">
                   {/* The puzzle table */}
-                  <table className="border border-black border-collapse mx-auto" style={{ fontSize: '12px' }}>
+                  <table
+                    className="border border-black border-collapse mx-auto"
+                    style={{ fontSize: "12px" }}
+                  >
                     <tbody>
                       {grid.map((row, rIdx) => (
                         <tr key={rIdx}>
@@ -595,7 +642,12 @@ const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumPro
                                 rIdx,
                                 cIdx
                               )}`}
-                              style={{ width: '0.6cm', height: '0.6cm', padding: '2px', fontSize: '12px' }}
+                              style={{
+                                width: "0.6cm",
+                                height: "0.6cm",
+                                padding: "2px",
+                                fontSize: "12px",
+                              }}
                             >
                               {cell}
                             </td>
@@ -625,7 +677,7 @@ const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumPro
               </div>
 
               {/* Word list checkboxes (only in puzzle mode) */}
-              {printMode === 'puzzle' && words.length > 0 && (
+              {printMode === "puzzle" && words.length > 0 && (
                 <div className="mt-4 flex flex-wrap gap-2 justify-center font-kids">
                   {words.map((word) => (
                     <label key={word} className="flex items-center gap-1">

@@ -13,7 +13,9 @@ interface MultiWordPuzzleGeneratorHardProps {
   studentClass?: string;
 }
 
-const MultiWordPuzzleGeneratorHard: React.FC<MultiWordPuzzleGeneratorHardProps> = ({
+const MultiWordPuzzleGeneratorHard: React.FC<
+  MultiWordPuzzleGeneratorHardProps
+> = ({
   words: wordsProp = '',
   studentName = '',
   date = '',
@@ -22,10 +24,14 @@ const MultiWordPuzzleGeneratorHard: React.FC<MultiWordPuzzleGeneratorHardProps> 
   const [words, setWords] = useState<string[]>([]);
   const [images, setImages] = useState<string[]>([]);
   const [grid, setGrid] = useState<string[][]>([]);
-  const [answers, setAnswers] = useState<Record<string, [number, number][]>>({});
+  const [answers, setAnswers] = useState<Record<string, [number, number][]>>(
+    {}
+  );
   const [showAnswers, setShowAnswers] = useState(false);
   const [isClient, setIsClient] = useState(false);
-  const [printMode, setPrintMode] = useState<'puzzle' | 'answer' | 'two-page'>('puzzle');
+  const [printMode, setPrintMode] = useState<'puzzle' | 'answer' | 'two-page'>(
+    'puzzle'
+  );
 
   useEffect(() => setIsClient(true), []);
 
@@ -90,9 +96,17 @@ const MultiWordPuzzleGeneratorHard: React.FC<MultiWordPuzzleGeneratorHardProps> 
     setTimeout(() => window.print(), 100);
   };
 
-  const getCellColor = (row: number, col: number, isAnswerPage: boolean = false) => {
+  const getCellColor = (
+    row: number,
+    col: number,
+    isAnswerPage: boolean = false
+  ) => {
     if (printMode === 'two-page' && !isAnswerPage) return '';
-    if ((!showAnswers && printMode !== 'two-page') || (printMode !== 'answer' && printMode !== 'two-page')) return '';
+    if (
+      (!showAnswers && printMode !== 'two-page') ||
+      (printMode !== 'answer' && printMode !== 'two-page')
+    )
+      return '';
     const entries = Object.entries(answers);
     for (let i = 0; i < entries.length; i++) {
       const [, positions] = entries[i];
@@ -124,7 +138,7 @@ const MultiWordPuzzleGeneratorHard: React.FC<MultiWordPuzzleGeneratorHardProps> 
             width: 100vw;
             height: 100vh;
           }
-          
+
           /* Two-page layout styles */
           .print-page {
             page-break-after: always;
@@ -222,7 +236,9 @@ const MultiWordPuzzleGeneratorHard: React.FC<MultiWordPuzzleGeneratorHardProps> 
                           {studentClass && ` | Class: ${studentClass}`}
                         </p>
                       )}
-                      {date && <p>Date: {new Date(date).toLocaleDateString()}</p>}
+                      {date && (
+                        <p>Date: {new Date(date).toLocaleDateString()}</p>
+                      )}
                     </div>
                   )}
                   <h2 className="font-bold text-2xl underline text-center mb-4 font-kids">
@@ -287,7 +303,9 @@ const MultiWordPuzzleGeneratorHard: React.FC<MultiWordPuzzleGeneratorHardProps> 
                           {studentClass && ` | Class: ${studentClass}`}
                         </p>
                       )}
-                      {date && <p>Date: {new Date(date).toLocaleDateString()}</p>}
+                      {date && (
+                        <p>Date: {new Date(date).toLocaleDateString()}</p>
+                      )}
                       <p className="mt-2">Answer Key</p>
                     </div>
                   )}
@@ -304,7 +322,11 @@ const MultiWordPuzzleGeneratorHard: React.FC<MultiWordPuzzleGeneratorHardProps> 
                               {row.map((cell, cIdx) => (
                                 <td
                                   key={cIdx}
-                                  className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(rIdx, cIdx, true)}`}
+                                  className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(
+                                    rIdx,
+                                    cIdx,
+                                    true
+                                  )}`}
                                 >
                                   {cell}
                                 </td>
@@ -346,7 +368,10 @@ const MultiWordPuzzleGeneratorHard: React.FC<MultiWordPuzzleGeneratorHardProps> 
                             {row.map((cell, cIdx) => (
                               <td
                                 key={cIdx}
-                                className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(rIdx, cIdx)}`}
+                                className={`border border-black w-6 h-6 text-center font-bold ${getCellColor(
+                                  rIdx,
+                                  cIdx
+                                )}`}
                               >
                                 {cell}
                               </td>
@@ -392,8 +417,14 @@ export const DIRECTIONS: Direction[] = [
   [[1, 0]], // down
   [[1, 1]], // diagonal
   [[-1, 1]], // up-right
-  [[0, 1], [1, 0]], // L shape
-  [[1, 0], [0, 1]], // reverse L
+  [
+    [0, 1],
+    [1, 0],
+  ], // L shape
+  [
+    [1, 0],
+    [0, 1],
+  ], // reverse L
 ];
 
 // Grid helpers
@@ -401,8 +432,15 @@ function createEmptyGrid(size: number): string[][] {
   return Array.from({ length: size }, () => Array(size).fill(''));
 }
 
-function canPlace(grid: string[][], word: string, row: number, col: number, path: Direction) {
-  let r = row, c = col;
+function canPlace(
+  grid: string[][],
+  word: string,
+  row: number,
+  col: number,
+  path: Direction
+) {
+  let r = row,
+    c = col;
   for (let i = 0; i < word.length; i++) {
     if (r < 0 || r >= grid.length || c < 0 || c >= grid.length) return false;
     if (grid[r][c] !== '' && grid[r][c] !== word[i]) return false;
@@ -420,7 +458,8 @@ function placeWord(
   col: number,
   path: Direction
 ): [number, number][] {
-  let r = row, c = col;
+  let r = row,
+    c = col;
   const positions: [number, number][] = [];
   for (let i = 0; i < word.length; i++) {
     grid[r][c] = word[i];
@@ -442,7 +481,8 @@ export function generatePuzzle(words: string[]): {
   const answers: Record<string, [number, number][]> = {};
 
   for (const word of words) {
-    let placed = false, tries = 0;
+    let placed = false,
+      tries = 0;
     while (!placed && tries++ < 200) {
       const dir = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
       const row = Math.floor(Math.random() * gridSize);
@@ -457,7 +497,8 @@ export function generatePuzzle(words: string[]): {
   // Fill empty cells
   for (let r = 0; r < gridSize; r++) {
     for (let c = 0; c < gridSize; c++) {
-      if (!grid[r][c]) grid[r][c] = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+      if (!grid[r][c])
+        grid[r][c] = String.fromCharCode(65 + Math.floor(Math.random() * 26));
     }
   }
 
