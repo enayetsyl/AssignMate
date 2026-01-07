@@ -126,12 +126,14 @@ function generatePuzzle(words: string[]): {
 
 // ======= সুপার হার্ড পাজল কম্পোনেন্ট =======
 interface BanglaMultiWordPuzzleGeneratorStoneProps {
+  words?: string;
   studentName?: string;
   date?: string;
   studentClass?: string;
 }
 
 const BanglaMultiWordPuzzleGeneratorStone: React.FC<BanglaMultiWordPuzzleGeneratorStoneProps> = ({
+  words: wordsProp = '',
   studentName = '',
   date = '',
   studentClass = '',
@@ -147,6 +149,18 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC<BanglaMultiWordPuzzleGenerat
     setIsClient(true);
   }, []);
   if (!isClient) return null;
+
+  // Sync words prop to internal state
+  useEffect(() => {
+    if (wordsProp) {
+      const list = wordsProp
+        .split('\n')
+        .map((w) => w.trim())
+        .filter(Boolean)
+        .slice(0, MAX_WORDS);
+      setWords(list);
+    }
+  }, [wordsProp]);
 
   // Collect Bangla words from user input (no uppercase conversion)
   const handleWordChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

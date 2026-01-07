@@ -209,12 +209,14 @@ function getPositionClasses(pos: ImagePosition) {
 
 // =========== MAIN COMPONENT ===========
  interface MultiWordPuzzleGeneratorMediumProps {
+  words?: string;
   studentName?: string;
   date?: string;
   studentClass?: string;
 }
 
 const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumProps> = ({
+  words: wordsProp = '',
   studentName = '',
   date = '',
   studentClass = '',
@@ -241,6 +243,18 @@ const MultiWordPuzzleGeneratorMedium: React.FC<MultiWordPuzzleGeneratorMediumPro
 
   // Avoid hydration mismatch
   if (!isClient) return null;
+
+  // Sync words prop to internal state
+  useEffect(() => {
+    if (wordsProp) {
+      const list = wordsProp
+        .split('\n')
+        .map((w) => w.trim().toUpperCase())
+        .filter(Boolean)
+        .slice(0, MAX_WORDS);
+      setWords(list);
+    }
+  }, [wordsProp]);
 
   // Word list input
   const handleWordChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

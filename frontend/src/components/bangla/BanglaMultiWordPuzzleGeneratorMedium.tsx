@@ -236,12 +236,14 @@ function getPositionClasses(pos: ImagePosition) {
 
 // =========== MAIN COMPONENT ===========
 interface BanglaMultiWordPuzzleGeneratorMediumProps {
+  words?: string;
   studentName?: string;
   date?: string;
   studentClass?: string;
 }
 
 const BanglaMultiWordPuzzleGeneratorMedium: React.FC<BanglaMultiWordPuzzleGeneratorMediumProps> = ({
+  words: wordsProp = '',
   studentName = '',
   date = '',
   studentClass = '',
@@ -268,6 +270,18 @@ const BanglaMultiWordPuzzleGeneratorMedium: React.FC<BanglaMultiWordPuzzleGenera
 
   // Avoid hydration mismatch
   if (!isClient) return null;
+
+  // Sync words prop to internal state
+  useEffect(() => {
+    if (wordsProp) {
+      const list = wordsProp
+        .split('\n')
+        .map((w) => w.trim())
+        .filter(Boolean)
+        .slice(0, MAX_WORDS);
+      setWords(list);
+    }
+  }, [wordsProp]);
 
   // Word list input (do not convert to uppercase for Bangla)
   const handleWordChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

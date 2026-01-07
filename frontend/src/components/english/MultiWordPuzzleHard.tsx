@@ -7,12 +7,14 @@ import React, { useEffect, useState } from 'react';
 const MAX_WORDS = 20;
 
 interface MultiWordPuzzleGeneratorHardProps {
+  words?: string;
   studentName?: string;
   date?: string;
   studentClass?: string;
 }
 
 const MultiWordPuzzleGeneratorHard: React.FC<MultiWordPuzzleGeneratorHardProps> = ({
+  words: wordsProp = '',
   studentName = '',
   date = '',
   studentClass = '',
@@ -26,6 +28,18 @@ const MultiWordPuzzleGeneratorHard: React.FC<MultiWordPuzzleGeneratorHardProps> 
   const [printMode, setPrintMode] = useState<'puzzle' | 'answer' | 'two-page'>('puzzle');
 
   useEffect(() => setIsClient(true), []);
+
+  // Sync words prop to internal state
+  useEffect(() => {
+    if (wordsProp) {
+      const list = wordsProp
+        .split('\n')
+        .map((w) => w.trim().toUpperCase())
+        .filter(Boolean)
+        .slice(0, MAX_WORDS);
+      setWords(list);
+    }
+  }, [wordsProp]);
 
   const handleWordChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const list = e.target.value

@@ -1,12 +1,13 @@
-'use client';
+"use client";
 
-import { COLORS } from '@/constant';
-import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import { COLORS } from "@/constant";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
 
 const MAX_WORDS = 20;
 
 interface MultiWordPuzzleGeneratorEasyProps {
+  words?: string;
   studentName?: string;
   date?: string;
   studentClass?: string;
@@ -14,7 +15,12 @@ interface MultiWordPuzzleGeneratorEasyProps {
 
 const MultiWordPuzzleGeneratorEasy: React.FC<
   MultiWordPuzzleGeneratorEasyProps
-> = ({ studentName = '', date = '', studentClass = '' }) => {
+> = ({
+  words: wordsProp = "",
+  studentName = "",
+  date = "",
+  studentClass = "",
+}) => {
   const [words, setWords] = useState<string[]>([]);
   const [images, setImages] = useState<string[]>([]);
   const [grid, setGrid] = useState<string[][]>([]);
@@ -23,15 +29,27 @@ const MultiWordPuzzleGeneratorEasy: React.FC<
   );
   const [showAnswers, setShowAnswers] = useState(false);
   const [isClient, setIsClient] = useState(false);
-  const [printMode, setPrintMode] = useState<'puzzle' | 'answer' | 'two-page'>(
-    'puzzle'
+  const [printMode, setPrintMode] = useState<"puzzle" | "answer" | "two-page">(
+    "puzzle"
   );
 
   useEffect(() => setIsClient(true), []);
 
+  // Sync words prop to internal state
+  useEffect(() => {
+    if (wordsProp) {
+      const list = wordsProp
+        .split("\n")
+        .map((w) => w.trim().toUpperCase())
+        .filter(Boolean)
+        .slice(0, MAX_WORDS);
+      setWords(list);
+    }
+  }, [wordsProp]);
+
   const handleWordChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const list = e.target.value
-      .split('\n')
+      .split("\n")
       .map((w) => w.trim().toUpperCase())
       .filter(Boolean)
       .slice(0, MAX_WORDS);
@@ -51,7 +69,7 @@ const MultiWordPuzzleGeneratorEasy: React.FC<
     setShowAnswers(false);
   };
 
-  const handlePrint = (mode: 'puzzle' | 'answer') => {
+  const handlePrint = (mode: "puzzle" | "answer") => {
     setPrintMode(mode);
     setTimeout(() => window.print(), 100);
   };
@@ -59,35 +77,39 @@ const MultiWordPuzzleGeneratorEasy: React.FC<
   const handlePrintWithStudentInfo = () => {
     // Validate student name, date, and class
     if (!studentName || !studentName.trim()) {
-      alert('Please enter a student name');
+      alert("Please enter a student name");
       return;
     }
     if (!date || !date.trim()) {
-      alert('Please enter a date');
+      alert("Please enter a date");
       return;
     }
     if (!studentClass || !studentClass.trim()) {
-      alert('Please select a class');
+      alert("Please select a class");
       return;
     }
     if (grid.length === 0) {
-      alert('Please generate puzzle first');
+      alert("Please generate puzzle first");
       return;
     }
 
     // Set print mode for two-page layout
-    setPrintMode('two-page');
+    setPrintMode("two-page");
     setShowAnswers(false);
     setTimeout(() => window.print(), 100);
   };
 
-  const getCellColor = (row: number, col: number, isAnswerPage: boolean = false) => {
-    if (printMode === 'two-page' && !isAnswerPage) return '';
+  const getCellColor = (
+    row: number,
+    col: number,
+    isAnswerPage: boolean = false
+  ) => {
+    if (printMode === "two-page" && !isAnswerPage) return "";
     if (
-      (!showAnswers && printMode !== 'two-page') ||
-      (printMode !== 'answer' && printMode !== 'two-page')
+      (!showAnswers && printMode !== "two-page") ||
+      (printMode !== "answer" && printMode !== "two-page")
     )
-      return '';
+      return "";
     const entries = Object.entries(answers);
     for (let i = 0; i < entries.length; i++) {
       const [, positions] = entries[i];
@@ -95,7 +117,7 @@ const MultiWordPuzzleGeneratorEasy: React.FC<
         return COLORS[i % COLORS.length];
       }
     }
-    return '';
+    return "";
   };
 
   return (
@@ -160,7 +182,7 @@ const MultiWordPuzzleGeneratorEasy: React.FC<
           <button
             onClick={() => {
               setShowAnswers(true);
-              handlePrint('answer');
+              handlePrint("answer");
             }}
             className="bg-orange-500 text-white px-4 py-2 rounded"
           >
@@ -169,7 +191,7 @@ const MultiWordPuzzleGeneratorEasy: React.FC<
           <button
             onClick={() => {
               setShowAnswers(false);
-              handlePrint('puzzle');
+              handlePrint("puzzle");
             }}
             className="bg-green-600 text-white px-4 py-2 rounded"
           >
@@ -186,7 +208,7 @@ const MultiWordPuzzleGeneratorEasy: React.FC<
         {/* Printable Area */}
         {isClient && (
           <div id="printable-area" className="w-full px-4">
-            {printMode === 'two-page' ? (
+            {printMode === "two-page" ? (
               <>
                 {/* First Page - Puzzle */}
                 <div className="print-page">
@@ -308,7 +330,7 @@ const MultiWordPuzzleGeneratorEasy: React.FC<
                 </h2>
                 <div className="flex flex-row gap-4 justify-between items-start">
                   {/* Word List */}
-                  {printMode === 'puzzle' && (
+                  {printMode === "puzzle" && (
                     <div className="w-1/4 space-y-1">
                       <ul>
                         {words.map((word) => (
@@ -345,7 +367,7 @@ const MultiWordPuzzleGeneratorEasy: React.FC<
                   </div>
 
                   {/* Images */}
-                  {printMode === 'puzzle' && (
+                  {printMode === "puzzle" && (
                     <div className="w-1/4 grid grid-cols-2 gap-2">
                       {images.map((src, i) => (
                         <Image
@@ -389,7 +411,7 @@ export const DIRECTIONS: Direction[] = [
 
 // Create an empty grid of the given size.
 function createEmptyGrid(size: number): string[][] {
-  return Array.from({ length: size }, () => Array(size).fill(''));
+  return Array.from({ length: size }, () => Array(size).fill(""));
 }
 
 // Check if the word can be placed at the specified starting point and along the given direction.
@@ -404,7 +426,7 @@ function canPlace(
     c = col;
   for (let i = 0; i < word.length; i++) {
     if (r < 0 || r >= grid.length || c < 0 || c >= grid.length) return false;
-    if (grid[r][c] !== '' && grid[r][c] !== word[i]) return false;
+    if (grid[r][c] !== "" && grid[r][c] !== word[i]) return false;
     const [dr, dc] = path[i % path.length];
     r += dr;
     c += dc;

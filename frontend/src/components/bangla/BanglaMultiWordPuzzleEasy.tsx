@@ -14,12 +14,14 @@ const COLORS = [
 ];
 
 interface BanglaMultiWordPuzzleGeneratorEasyProps {
+  words?: string;
   studentName?: string;
   date?: string;
   studentClass?: string;
 }
 
 const BanglaMultiWordPuzzleGeneratorEasy: React.FC<BanglaMultiWordPuzzleGeneratorEasyProps> = ({
+  words: wordsProp = '',
   studentName = '',
   date = '',
   studentClass = '',
@@ -33,6 +35,18 @@ const BanglaMultiWordPuzzleGeneratorEasy: React.FC<BanglaMultiWordPuzzleGenerato
   const [printMode, setPrintMode] = useState<'puzzle' | 'answer' | 'two-page'>('puzzle');
 
   useEffect(() => setIsClient(true), []);
+
+  // Sync words prop to internal state
+  useEffect(() => {
+    if (wordsProp) {
+      const list = wordsProp
+        .split('\n')
+        .map((w) => w.trim())
+        .filter(Boolean)
+        .slice(0, MAX_WORDS);
+      setWords(list);
+    }
+  }, [wordsProp]);
 
   // For Bangla words, we do not convert to uppercase.
   const handleWordChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 const MAX_WORDS = 20;
 
 interface MultiWordPuzzleGeneratorStoneProps {
+  words?: string;
   studentName?: string;
   date?: string;
   studentClass?: string;
@@ -109,6 +110,7 @@ function generatePuzzle(words: string[]): {
 // ======= SUPER HARD PUZZLE COMPONENT =======
 
 const MultiWordPuzzleGeneratorStone: React.FC<MultiWordPuzzleGeneratorStoneProps> = ({
+  words: wordsProp = '',
   studentName = '',
   date = '',
   studentClass = '',
@@ -127,6 +129,18 @@ const MultiWordPuzzleGeneratorStone: React.FC<MultiWordPuzzleGeneratorStoneProps
     setIsClient(true);
   }, []);
   if (!isClient) return null;
+
+  // Sync words prop to internal state
+  useEffect(() => {
+    if (wordsProp) {
+      const list = wordsProp
+        .split('\n')
+        .map((w) => w.trim().toUpperCase())
+        .filter(Boolean)
+        .slice(0, MAX_WORDS);
+      setWords(list);
+    }
+  }, [wordsProp]);
 
   const handleWordChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const list = e.target.value
