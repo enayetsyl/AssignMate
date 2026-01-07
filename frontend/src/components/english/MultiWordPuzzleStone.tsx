@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { COLORS } from "@/constant";
-import React, { useEffect, useState } from "react";
+import { COLORS } from '@/constant';
+import React, { useEffect, useState } from 'react';
 
 // ======= CONSTANTS & TYPES =======
 const MAX_WORDS = 20;
@@ -25,7 +25,7 @@ export const DIRECTIONS: Direction[] = [
 // ======= PUZZLE HELPER FUNCTIONS =======
 
 function createEmptyGrid(size: number): string[][] {
-  return Array.from({ length: size }, () => Array(size).fill(""));
+  return Array.from({ length: size }, () => Array(size).fill(''));
 }
 
 function canPlace(
@@ -39,7 +39,7 @@ function canPlace(
   let c = col;
   for (let i = 0; i < word.length; i++) {
     if (r < 0 || r >= grid.length || c < 0 || c >= grid.length) return false;
-    if (grid[r][c] !== "" && grid[r][c] !== word[i]) return false;
+    if (grid[r][c] !== '' && grid[r][c] !== word[i]) return false;
     const [dr, dc] = path[i % path.length];
     r += dr;
     c += dc;
@@ -111,10 +111,10 @@ function generatePuzzle(words: string[]): {
 const MultiWordPuzzleGeneratorStone: React.FC<
   MultiWordPuzzleGeneratorStoneProps
 > = ({
-  words: wordsProp = "",
-  studentName = "",
-  date = "",
-  studentClass = "",
+  words: wordsProp = '',
+  studentName = '',
+  date = '',
+  studentClass = '',
 }) => {
   const [isClient, setIsClient] = useState(false);
   const [words, setWords] = useState<string[]>([]);
@@ -123,8 +123,8 @@ const MultiWordPuzzleGeneratorStone: React.FC<
     {}
   );
   const [printMode, setPrintMode] = useState<
-    "question" | "answer" | "two-page"
-  >("question");
+    'question' | 'answer' | 'two-page'
+  >('question');
   const [showAnswers, setShowAnswers] = useState(false);
 
   // Ensure the component renders client-side only.
@@ -136,7 +136,7 @@ const MultiWordPuzzleGeneratorStone: React.FC<
   useEffect(() => {
     if (wordsProp) {
       const list = wordsProp
-        .split("\n")
+        .split('\n')
         .map((w) => w.trim().toUpperCase())
         .filter(Boolean)
         .slice(0, MAX_WORDS);
@@ -148,7 +148,7 @@ const MultiWordPuzzleGeneratorStone: React.FC<
 
   const handleWordChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const list = e.target.value
-      .split("\n")
+      .split('\n')
       .map((w) => w.trim().toUpperCase())
       .filter(Boolean)
       .slice(0, MAX_WORDS);
@@ -162,30 +162,30 @@ const MultiWordPuzzleGeneratorStone: React.FC<
     setShowAnswers(false);
   };
 
-  const handlePrint = (mode: "question" | "answer") => {
+  const handlePrint = (mode: 'question' | 'answer') => {
     setPrintMode(mode);
-    setShowAnswers(mode === "answer");
+    setShowAnswers(mode === 'answer');
     setTimeout(() => window.print(), 100);
   };
 
   const handlePrintWithStudentInfo = () => {
     if (!studentName || !studentName.trim()) {
-      alert("Please enter a student name");
+      alert('Please enter a student name');
       return;
     }
     if (!date || !date.trim()) {
-      alert("Please enter a date");
+      alert('Please enter a date');
       return;
     }
     if (!studentClass || !studentClass.trim()) {
-      alert("Please select a class");
+      alert('Please select a class');
       return;
     }
     if (grid.length === 0) {
-      alert("Please generate puzzle first");
+      alert('Please generate puzzle first');
       return;
     }
-    setPrintMode("two-page");
+    setPrintMode('two-page');
     setShowAnswers(false);
     setTimeout(() => window.print(), 100);
   };
@@ -195,13 +195,13 @@ const MultiWordPuzzleGeneratorStone: React.FC<
     col: number,
     isAnswerPage: boolean = false
   ) => {
-    if (printMode === "two-page" && !isAnswerPage) return "";
+    if (printMode === 'two-page' && !isAnswerPage) return '';
     if (
-      (!showAnswers && printMode !== "two-page") ||
-      (printMode !== "answer" && printMode !== "two-page")
+      (!showAnswers && printMode !== 'two-page') ||
+      (printMode !== 'answer' && printMode !== 'two-page')
     )
-      return "";
-    if (!showAnswers || printMode !== "answer") return "";
+      return '';
+    if (!showAnswers || printMode !== 'answer') return '';
     const entries = Object.entries(answers);
     for (let i = 0; i < entries.length; i++) {
       const [, positions] = entries[i];
@@ -209,7 +209,7 @@ const MultiWordPuzzleGeneratorStone: React.FC<
         return COLORS[i % COLORS.length];
       }
     }
-    return "";
+    return '';
   };
 
   return (
@@ -232,13 +232,13 @@ const MultiWordPuzzleGeneratorStone: React.FC<
             Generate Puzzle
           </button>
           <button
-            onClick={() => handlePrint("question")}
+            onClick={() => handlePrint('question')}
             className="bg-green-600 text-white px-4 py-2 rounded"
           >
             Print Question
           </button>
           <button
-            onClick={() => handlePrint("answer")}
+            onClick={() => handlePrint('answer')}
             className="bg-orange-500 text-white px-4 py-2 rounded"
           >
             Print Answer
@@ -254,7 +254,7 @@ const MultiWordPuzzleGeneratorStone: React.FC<
 
       {/* Printable Area */}
       <div id="printable-area" className="mt-4">
-        {printMode === "two-page" ? (
+        {printMode === 'two-page' ? (
           <>
             {/* First Page - Puzzle */}
             <div className="print-page">

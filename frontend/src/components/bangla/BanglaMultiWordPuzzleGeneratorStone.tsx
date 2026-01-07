@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { splitIntoGraphemes } from "@/lib/bangla-utils";
+import React, { useEffect, useState } from 'react';
+import { splitIntoGraphemes } from '@/lib/bangla-utils';
 
 // ======= CONSTANTS & TYPES =======
 const MAX_WORDS = 20;
@@ -16,23 +16,23 @@ export const DIRECTIONS: Direction[] = [
 ];
 
 const COLORS = [
-  "bg-red-200",
-  "bg-blue-200",
-  "bg-green-200",
-  "bg-yellow-200",
-  "bg-pink-200",
-  "bg-purple-200",
-  "bg-orange-200",
-  "bg-teal-200",
-  "bg-cyan-200",
-  "bg-amber-200",
+  'bg-red-200',
+  'bg-blue-200',
+  'bg-green-200',
+  'bg-yellow-200',
+  'bg-pink-200',
+  'bg-purple-200',
+  'bg-orange-200',
+  'bg-teal-200',
+  'bg-cyan-200',
+  'bg-amber-200',
 ];
 
 // ======= PUZZLE HELPER FUNCTIONS =======
 
 // Create an empty grid of size x size
 function createEmptyGrid(size: number): string[][] {
-  return Array.from({ length: size }, () => Array(size).fill(""));
+  return Array.from({ length: size }, () => Array(size).fill(''));
 }
 
 /**
@@ -52,7 +52,7 @@ function canPlaceGraphemes(
     if (r < 0 || r >= grid.length || c < 0 || c >= grid.length) return false;
 
     // Conflict?
-    if (grid[r][c] !== "" && grid[r][c] !== graphemes[i]) return false;
+    if (grid[r][c] !== '' && grid[r][c] !== graphemes[i]) return false;
 
     // Move to next cell along the path
     const [dr, dc] = path[i % path.length];
@@ -121,7 +121,7 @@ function generatePuzzle(words: string[]): {
   }
 
   // Fill empty cells with random Bangla letters
-  const banglaAlphabets = "অআইঈউঊঋএঐওঔকখগঘঙচছজঝঞটঠডঢণতথদধনপফবভমযরলশষসহড়ঢ়য়";
+  const banglaAlphabets = 'অআইঈউঊঋএঐওঔকখগঘঙচছজঝঞটঠডঢণতথদধনপফবভমযরলশষসহড়ঢ়য়';
   for (let r = 0; r < gridSize; r++) {
     for (let c = 0; c < gridSize; c++) {
       if (!grid[r][c]) {
@@ -145,10 +145,10 @@ interface BanglaMultiWordPuzzleGeneratorStoneProps {
 const BanglaMultiWordPuzzleGeneratorStone: React.FC<
   BanglaMultiWordPuzzleGeneratorStoneProps
 > = ({
-  words: wordsProp = "",
-  studentName = "",
-  date = "",
-  studentClass = "",
+  words: wordsProp = '',
+  studentName = '',
+  date = '',
+  studentClass = '',
 }) => {
   const [isClient, setIsClient] = useState(false);
   const [words, setWords] = useState<string[]>([]);
@@ -157,8 +157,8 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC<
     {}
   );
   const [printMode, setPrintMode] = useState<
-    "question" | "answer" | "two-page"
-  >("question");
+    'question' | 'answer' | 'two-page'
+  >('question');
   const [showAnswers, setShowAnswers] = useState(false);
 
   useEffect(() => {
@@ -169,7 +169,7 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC<
   useEffect(() => {
     if (wordsProp) {
       const list = wordsProp
-        .split("\n")
+        .split('\n')
         .map((w) => w.trim())
         .filter(Boolean)
         .slice(0, MAX_WORDS);
@@ -182,7 +182,7 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC<
   // Collect Bangla words from user input (no uppercase conversion)
   const handleWordChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const list = e.target.value
-      .split("\n")
+      .split('\n')
       .map((w) => w.trim()) // Keep them as-is (Bangla)
       .filter(Boolean)
       .slice(0, MAX_WORDS);
@@ -196,30 +196,30 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC<
     setShowAnswers(false);
   };
 
-  const handlePrint = (mode: "question" | "answer") => {
+  const handlePrint = (mode: 'question' | 'answer') => {
     setPrintMode(mode);
-    setShowAnswers(mode === "answer");
+    setShowAnswers(mode === 'answer');
     setTimeout(() => window.print(), 100);
   };
 
   const handlePrintWithStudentInfo = () => {
     if (!studentName || !studentName.trim()) {
-      alert("Please enter a student name");
+      alert('Please enter a student name');
       return;
     }
     if (!date || !date.trim()) {
-      alert("Please enter a date");
+      alert('Please enter a date');
       return;
     }
     if (!studentClass || !studentClass.trim()) {
-      alert("Please select a class");
+      alert('Please select a class');
       return;
     }
     if (grid.length === 0) {
-      alert("Please generate puzzle first");
+      alert('Please generate puzzle first');
       return;
     }
-    setPrintMode("two-page");
+    setPrintMode('two-page');
     setShowAnswers(false);
     setTimeout(() => window.print(), 100);
   };
@@ -230,12 +230,12 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC<
     col: number,
     isAnswerPage: boolean = false
   ) => {
-    if (printMode === "two-page" && !isAnswerPage) return "";
+    if (printMode === 'two-page' && !isAnswerPage) return '';
     if (
-      (!showAnswers && printMode !== "two-page") ||
-      (printMode !== "answer" && printMode !== "two-page")
+      (!showAnswers && printMode !== 'two-page') ||
+      (printMode !== 'answer' && printMode !== 'two-page')
     )
-      return "";
+      return '';
     const entries = Object.entries(answers);
     for (let i = 0; i < entries.length; i++) {
       const [, positions] = entries[i];
@@ -243,7 +243,7 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC<
         return COLORS[i % COLORS.length];
       }
     }
-    return "";
+    return '';
   };
 
   return (
@@ -266,13 +266,13 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC<
             পাজল তৈরি করুন
           </button>
           <button
-            onClick={() => handlePrint("question")}
+            onClick={() => handlePrint('question')}
             className="bg-green-600 text-white px-4 py-2 rounded"
           >
             প্রশ্ন প্রিন্ট করুন
           </button>
           <button
-            onClick={() => handlePrint("answer")}
+            onClick={() => handlePrint('answer')}
             className="bg-orange-500 text-white px-4 py-2 rounded"
           >
             উত্তর প্রিন্ট করুন
@@ -288,7 +288,7 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC<
 
       {/* প্রিন্টের জন্য এলাকা */}
       <div id="printable-area" className="mt-4">
-        {printMode === "two-page" ? (
+        {printMode === 'two-page' ? (
           <>
             {/* First Page - Puzzle */}
             <div className="print-page">
@@ -310,9 +310,9 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC<
                 <table
                   className="border border-black border-collapse"
                   style={{
-                    fontSize: "12px",
+                    fontSize: '12px',
                     fontFamily:
-                      "'Noto Sans Bengali', 'Mukti', 'Kalpurush', 'Siyam Rupali', sans-serif",
+                      '\'Noto Sans Bengali\', \'Mukti\', \'Kalpurush\', \'Siyam Rupali\', sans-serif',
                   }}
                 >
                   <tbody>
@@ -323,10 +323,10 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC<
                             key={cIdx}
                             className="border border-black text-center font-bold"
                             style={{
-                              width: "0.6cm",
-                              height: "0.6cm",
-                              padding: "2px",
-                              fontSize: "12px",
+                              width: '0.6cm',
+                              height: '0.6cm',
+                              padding: '2px',
+                              fontSize: '12px',
                             }}
                           >
                             {cell}
@@ -360,9 +360,9 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC<
                 <table
                   className="border border-black border-collapse"
                   style={{
-                    fontSize: "12px",
+                    fontSize: '12px',
                     fontFamily:
-                      "'Noto Sans Bengali', 'Mukti', 'Kalpurush', 'Siyam Rupali', sans-serif",
+                      '\'Noto Sans Bengali\', \'Mukti\', \'Kalpurush\', \'Siyam Rupali\', sans-serif',
                   }}
                 >
                   <tbody>
@@ -377,10 +377,10 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC<
                               true
                             )}`}
                             style={{
-                              width: "0.6cm",
-                              height: "0.6cm",
-                              padding: "2px",
-                              fontSize: "12px",
+                              width: '0.6cm',
+                              height: '0.6cm',
+                              padding: '2px',
+                              fontSize: '12px',
                             }}
                           >
                             {cell}
@@ -402,9 +402,9 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC<
               <table
                 className="border border-black border-collapse"
                 style={{
-                  fontSize: "12px",
+                  fontSize: '12px',
                   fontFamily:
-                    "'Noto Sans Bengali', 'Mukti', 'Kalpurush', 'Siyam Rupali', sans-serif",
+                    '\'Noto Sans Bengali\', \'Mukti\', \'Kalpurush\', \'Siyam Rupali\', sans-serif',
                 }}
               >
                 <tbody>
@@ -418,10 +418,10 @@ const BanglaMultiWordPuzzleGeneratorStone: React.FC<
                             cIdx
                           )}`}
                           style={{
-                            width: "0.6cm",
-                            height: "0.6cm",
-                            padding: "2px",
-                            fontSize: "12px",
+                            width: '0.6cm',
+                            height: '0.6cm',
+                            padding: '2px',
+                            fontSize: '12px',
                           }}
                         >
                           {cell}
