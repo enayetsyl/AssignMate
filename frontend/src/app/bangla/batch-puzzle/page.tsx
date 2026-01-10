@@ -1,27 +1,27 @@
-"use client";
+'use client';
 
-import React, { useState, ChangeEvent, useEffect, useRef } from "react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import React, { useState, ChangeEvent, useEffect, useRef } from 'react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-} from "@/components/ui/card";
-import { COLORS } from "@/constant";
-import { splitIntoGraphemes } from "@/lib/bangla-utils";
+} from '@/components/ui/card';
+import { COLORS } from '@/constant';
+import { splitIntoGraphemes } from '@/lib/bangla-utils';
 
 type PuzzleType =
-  | "single-word"
-  | "multi-word-easy"
-  | "multi-word-medium"
-  | "multi-word-hard"
-  | "multi-word-stone";
+  | 'single-word'
+  | 'multi-word-easy'
+  | 'multi-word-medium'
+  | 'multi-word-hard'
+  | 'multi-word-stone';
 
-type Difficulty = "easy" | "medium" | "hard";
+type Difficulty = 'easy' | 'medium' | 'hard';
 
 // Direction definitions
 const DIRECTIONS: [number, number][] = [
@@ -43,7 +43,7 @@ const MULTI_WORD_DIRECTIONS: number[][][] = [
 ];
 
 // Bangla alphabets for filling empty cells
-const banglaAlphabets = "অআইঈউঊঋএঐওঔকখগঘঙচছজঝঞটঠডঢণতথদধনপফবভমযরলশষসহড়ঢ়য়";
+const banglaAlphabets = 'অআইঈউঊঋএঐওঔকখগঘঙচছজঝঞটঠডঢণতথদধনপফবভমযরলশষসহড়ঢ়য়';
 
 // Helper function to check if a string is a valid Bengali character (not a standalone diacritic)
 function isValidBengaliChar(str: string): boolean {
@@ -51,22 +51,22 @@ function isValidBengaliChar(str: string): boolean {
 
   // Standalone diacritics that should not appear alone
   const standaloneDiacritics = [
-    "়", // nukta
-    "্", // hasanta/virama
-    "া", // aa kar
-    "ি", // i kar
-    "ী", // ii kar
-    "ু", // u kar
-    "ূ", // uu kar
-    "ৃ", // ri kar
-    "ে", // e kar
-    "ৈ", // oi kar
-    "ো", // o kar
-    "ৌ", // ou kar
-    "ৗ", // long aa kar
-    "ঁ", // chandrabindu
-    "ং", // anusvara
-    "ঃ", // visarga
+    '়', // nukta
+    '্', // hasanta/virama
+    'া', // aa kar
+    'ি', // i kar
+    'ী', // ii kar
+    'ু', // u kar
+    'ূ', // uu kar
+    'ৃ', // ri kar
+    'ে', // e kar
+    'ৈ', // oi kar
+    'ো', // o kar
+    'ৌ', // ou kar
+    'ৗ', // long aa kar
+    'ঁ', // chandrabindu
+    'ং', // anusvara
+    'ঃ', // visarga
   ];
 
   // Remove all whitespace and check
@@ -81,7 +81,7 @@ function isValidBengaliChar(str: string): boolean {
 
   // Check if all characters in the string are diacritics
   const allDiacritics = trimmed
-    .split("")
+    .split('')
     .every((char) => standaloneDiacritics.includes(char));
   if (allDiacritics) return false;
 
@@ -96,22 +96,22 @@ function filterValidGraphemes(graphemes: string[]): string[] {
 // Clean grid to remove any invalid characters (standalone diacritics)
 function cleanGrid(grid: string[][]): void {
   const standaloneDiacritics = [
-    "়",
-    "্",
-    "া",
-    "ি",
-    "ী",
-    "ু",
-    "ূ",
-    "ৃ",
-    "ে",
-    "ৈ",
-    "ো",
-    "ৌ",
-    "ৗ",
-    "ঁ",
-    "ং",
-    "ঃ",
+    '়',
+    '্',
+    'া',
+    'ি',
+    'ী',
+    'ু',
+    'ূ',
+    'ৃ',
+    'ে',
+    'ৈ',
+    'ো',
+    'ৌ',
+    'ৗ',
+    'ঁ',
+    'ং',
+    'ঃ',
   ];
 
   for (let r = 0; r < grid.length; r++) {
@@ -132,7 +132,7 @@ function cleanGrid(grid: string[][]): void {
 
 // ============= Single Word Puzzle Generator =============
 function createEmptyGrid(size: number): string[][] {
-  return Array.from({ length: size }, () => Array(size).fill(""));
+  return Array.from({ length: size }, () => Array(size).fill(''));
 }
 
 function canPlaceWord(
@@ -148,7 +148,7 @@ function canPlaceWord(
     const r = startRow + i * dRow;
     const c = startCol + i * dCol;
     if (r < 0 || r >= size || c < 0 || c >= size) return false;
-    if (grid[r][c] !== "" && grid[r][c] !== graphemes[i]) return false;
+    if (grid[r][c] !== '' && grid[r][c] !== graphemes[i]) return false;
   }
   return true;
 }
@@ -206,7 +206,7 @@ function generateSingleWordPuzzle(
   // Fill empty cells with valid Bengali characters only
   for (let r = 0; r < gridSize; r++) {
     for (let c = 0; c < gridSize; c++) {
-      if (grid[r][c] === "" || !isValidBengaliChar(grid[r][c])) {
+      if (grid[r][c] === '' || !isValidBengaliChar(grid[r][c])) {
         const idx = Math.floor(Math.random() * banglaAlphabets.length);
         grid[r][c] = banglaAlphabets[idx];
       }
@@ -231,7 +231,7 @@ function canPlaceGraphemes(
     c = col;
   for (let i = 0; i < graphemes.length; i++) {
     if (r < 0 || r >= grid.length || c < 0 || c >= grid.length) return false;
-    if (grid[r][c] !== "" && grid[r][c] !== graphemes[i]) return false;
+    if (grid[r][c] !== '' && grid[r][c] !== graphemes[i]) return false;
     const [dr, dc] = path[i % path.length];
     r += dr;
     c += dc;
@@ -324,12 +324,12 @@ interface StudentPuzzleSet {
 }
 
 const BatchPuzzlePage = () => {
-  const [studentNames, setStudentNames] = useState<string>("");
-  const [date, setDate] = useState<string>("");
-  const [studentClass, setStudentClass] = useState<string>("");
-  const [puzzleType, setPuzzleType] = useState<PuzzleType>("single-word");
-  const [words, setWords] = useState<string>("");
-  const [difficulty, setDifficulty] = useState<Difficulty>("medium");
+  const [studentNames, setStudentNames] = useState<string>('');
+  const [date, setDate] = useState<string>('');
+  const [studentClass, setStudentClass] = useState<string>('');
+  const [puzzleType, setPuzzleType] = useState<PuzzleType>('single-word');
+  const [words, setWords] = useState<string>('');
+  const [difficulty, setDifficulty] = useState<Difficulty>('medium');
   const [generatedPuzzles, setGeneratedPuzzles] = useState<StudentPuzzleSet[]>(
     []
   );
@@ -339,7 +339,7 @@ const BatchPuzzlePage = () => {
 
   // Set today's date as default
   useEffect(() => {
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date().toISOString().split('T')[0];
     setDate(today);
   }, []);
 
@@ -357,14 +357,14 @@ const BatchPuzzlePage = () => {
 
   const getStudentNameList = () => {
     return studentNames
-      .split("\n")
+      .split('\n')
       .map((name) => name.trim())
       .filter(Boolean);
   };
 
   const getWordList = () => {
     return words
-      .split("\n")
+      .split('\n')
       .map((w) => w.trim())
       .filter(Boolean);
   };
@@ -374,27 +374,27 @@ const BatchPuzzlePage = () => {
     const wordList = getWordList();
 
     if (nameList.length === 0) {
-      alert("Please enter at least one student name");
+      alert('Please enter at least one student name');
       return;
     }
 
     if (nameList.length < 5 || nameList.length > 30) {
-      alert("Please enter between 5 and 30 student names");
+      alert('Please enter between 5 and 30 student names');
       return;
     }
 
     if (wordList.length === 0) {
-      alert("Please enter at least one word");
+      alert('Please enter at least one word');
       return;
     }
 
     if (!studentClass) {
-      alert("Please select a class");
+      alert('Please select a class');
       return;
     }
 
     if (!date) {
-      alert("Please select a date");
+      alert('Please select a date');
       return;
     }
 
@@ -407,22 +407,22 @@ const BatchPuzzlePage = () => {
     for (let i = 0; i < nameList.length; i++) {
       const studentName = nameList[i];
 
-      if (puzzleType === "single-word") {
+      if (puzzleType === 'single-word') {
         // Generate unique puzzles for each word for this student
         let minPlacement = 8;
         let maxPlacement = 12;
-        if (difficulty === "hard") {
+        if (difficulty === 'hard') {
           minPlacement = 14;
           maxPlacement = 20;
         }
 
         let allowedDirs: [number, number][];
-        if (difficulty === "easy") {
+        if (difficulty === 'easy') {
           allowedDirs = [
             [0, 1],
             [1, 0],
           ];
-        } else if (difficulty === "medium") {
+        } else if (difficulty === 'medium') {
           allowedDirs = [
             [0, 1],
             [1, 0],
@@ -476,7 +476,7 @@ const BatchPuzzlePage = () => {
 
   const handlePrint = () => {
     if (generatedPuzzles.length === 0) {
-      alert("Please generate puzzles first");
+      alert('Please generate puzzles first');
       return;
     }
     window.print();
@@ -488,14 +488,14 @@ const BatchPuzzlePage = () => {
     placements: [number, number][][],
     isAnswer: boolean
   ): string => {
-    if (!isAnswer) return "";
+    if (!isAnswer) return '';
     for (let i = 0; i < placements.length; i++) {
       const coords = placements[i];
       if (coords.some(([r, c]) => r === row && c === col)) {
         return COLORS[i % COLORS.length];
       }
     }
-    return "";
+    return '';
   };
 
   const getMultiWordCellColor = (
@@ -504,7 +504,7 @@ const BatchPuzzlePage = () => {
     answers: Record<string, [number, number][]>,
     isAnswer: boolean
   ): string => {
-    if (!isAnswer) return "";
+    if (!isAnswer) return '';
     const entries = Object.entries(answers);
     for (let i = 0; i < entries.length; i++) {
       const [, positions] = entries[i];
@@ -512,7 +512,7 @@ const BatchPuzzlePage = () => {
         return COLORS[i % COLORS.length];
       }
     }
-    return "";
+    return '';
   };
 
   // Calculate page counts
@@ -522,7 +522,7 @@ const BatchPuzzlePage = () => {
   const numWords = wordList.length;
 
   let pagesPerStudent = 0;
-  if (puzzleType === "single-word") {
+  if (puzzleType === 'single-word') {
     // 4 words per page for single word puzzles
     pagesPerStudent = Math.ceil(numWords / 4);
   } else {
@@ -711,7 +711,7 @@ const BatchPuzzlePage = () => {
             </div>
 
             {/* Difficulty (for single word only) */}
-            {puzzleType === "single-word" && (
+            {puzzleType === 'single-word' && (
               <div className="space-y-2">
                 <Label htmlFor="difficulty">Difficulty</Label>
                 <select
@@ -739,9 +739,9 @@ const BatchPuzzlePage = () => {
               <textarea
                 id="words"
                 placeholder={
-                  puzzleType === "single-word"
-                    ? "Enter words, one per line (any number of words)"
-                    : "Enter words, one per line (up to 20 words)"
+                  puzzleType === 'single-word'
+                    ? 'Enter words, one per line (any number of words)'
+                    : 'Enter words, one per line (up to 20 words)'
                 }
                 value={words}
                 onChange={handleWordsChange}
@@ -750,7 +750,7 @@ const BatchPuzzlePage = () => {
               />
               <p className="text-sm text-gray-500">
                 Words entered: {numWords}
-                {puzzleType !== "single-word" && " / 20"}
+                {puzzleType !== 'single-word' && ' / 20'}
               </p>
             </div>
 
@@ -763,7 +763,7 @@ const BatchPuzzlePage = () => {
                 <ul className="text-sm text-blue-700 mt-2 space-y-1">
                   <li>Students: {numStudents}</li>
                   <li>
-                    Pages per student: {pagesPerStudent} puzzle +{" "}
+                    Pages per student: {pagesPerStudent} puzzle +{' '}
                     {pagesPerStudent} answer = {pagesPerStudent * 2}
                   </li>
                   <li>Total puzzle pages: {totalPuzzlePages}</li>
@@ -782,7 +782,7 @@ const BatchPuzzlePage = () => {
               >
                 {isGenerating
                   ? `Generating... ${progress}%`
-                  : "Generate Puzzles"}
+                  : 'Generate Puzzles'}
               </Button>
               <Button
                 onClick={handlePrint}
@@ -812,7 +812,7 @@ const BatchPuzzlePage = () => {
               {/* ALL PUZZLE PAGES FIRST */}
               {generatedPuzzles.map((studentData, studentIndex) => (
                 <React.Fragment key={`puzzle-${studentIndex}`}>
-                  {puzzleType === "single-word" &&
+                  {puzzleType === 'single-word' &&
                     studentData.singleWordPuzzles && (
                       <>
                         {groupPuzzlesIntoPages(
@@ -824,7 +824,7 @@ const BatchPuzzlePage = () => {
                           >
                             <div className="student-info-header">
                               <p>
-                                Name: {studentData.studentName} | Class:{" "}
+                                Name: {studentData.studentName} | Class:{' '}
                                 {studentClass}
                               </p>
                               <p>Date: {new Date(date).toLocaleDateString()}</p>
@@ -832,12 +832,12 @@ const BatchPuzzlePage = () => {
                             <div
                               className={`puzzle-grid-container ${
                                 pagePuzzles.length === 1
-                                  ? "single-puzzle"
+                                  ? 'single-puzzle'
                                   : pagePuzzles.length === 2
-                                  ? "two-puzzles"
+                                  ? 'two-puzzles'
                                   : pagePuzzles.length === 3
-                                  ? "three-puzzles"
-                                  : ""
+                                  ? 'three-puzzles'
+                                  : ''
                               }`}
                             >
                               {pagePuzzles.map((puzzle, puzzleIndex) => (
@@ -869,7 +869,7 @@ const BatchPuzzlePage = () => {
                       </>
                     )}
 
-                  {puzzleType !== "single-word" &&
+                  {puzzleType !== 'single-word' &&
                     studentData.multiWordPuzzle && (
                       <div
                         key={`puzzle-page-${studentIndex}`}
@@ -877,7 +877,7 @@ const BatchPuzzlePage = () => {
                       >
                         <div className="student-info-header">
                           <p>
-                            Name: {studentData.studentName} | Class:{" "}
+                            Name: {studentData.studentName} | Class:{' '}
                             {studentClass}
                           </p>
                           <p>Date: {new Date(date).toLocaleDateString()}</p>
@@ -928,7 +928,7 @@ const BatchPuzzlePage = () => {
               {/* ALL ANSWER PAGES AFTER */}
               {generatedPuzzles.map((studentData, studentIndex) => (
                 <React.Fragment key={`answer-${studentIndex}`}>
-                  {puzzleType === "single-word" &&
+                  {puzzleType === 'single-word' &&
                     studentData.singleWordPuzzles && (
                       <>
                         {groupPuzzlesIntoPages(
@@ -940,7 +940,7 @@ const BatchPuzzlePage = () => {
                           >
                             <div className="student-info-header">
                               <p>
-                                Name: {studentData.studentName} | Class:{" "}
+                                Name: {studentData.studentName} | Class:{' '}
                                 {studentClass}
                               </p>
                               <p>Date: {new Date(date).toLocaleDateString()}</p>
@@ -949,12 +949,12 @@ const BatchPuzzlePage = () => {
                             <div
                               className={`puzzle-grid-container ${
                                 pagePuzzles.length === 1
-                                  ? "single-puzzle"
+                                  ? 'single-puzzle'
                                   : pagePuzzles.length === 2
-                                  ? "two-puzzles"
+                                  ? 'two-puzzles'
                                   : pagePuzzles.length === 3
-                                  ? "three-puzzles"
-                                  : ""
+                                  ? 'three-puzzles'
+                                  : ''
                               }`}
                             >
                               {pagePuzzles.map((puzzle, puzzleIndex) => (
@@ -991,7 +991,7 @@ const BatchPuzzlePage = () => {
                       </>
                     )}
 
-                  {puzzleType !== "single-word" &&
+                  {puzzleType !== 'single-word' &&
                     studentData.multiWordPuzzle && (
                       <div
                         key={`answer-page-${studentIndex}`}
@@ -999,7 +999,7 @@ const BatchPuzzlePage = () => {
                       >
                         <div className="student-info-header">
                           <p>
-                            Name: {studentData.studentName} | Class:{" "}
+                            Name: {studentData.studentName} | Class:{' '}
                             {studentClass}
                           </p>
                           <p>Date: {new Date(date).toLocaleDateString()}</p>
