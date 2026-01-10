@@ -7,6 +7,7 @@ export const menuItems: MenuItem[] = [
     href: '/bangla',
     items: [
       { label: 'Puzzle Generator', href: '/bangla/puzzle' },
+      { label: 'Batch Puzzle Generator', href: '/bangla/batch-puzzle' },
       { label: 'Single Word Puzzle', href: '/bangla/single-word-puzzle' },
       { label: 'Multi Word Puzzle Easy', href: '/bangla/multi-word-puzzle-easy' },
       { label: 'Multi Word Puzzle Medium', href: '/bangla/multi-word-puzzle-medium' },
@@ -27,6 +28,7 @@ export const menuItems: MenuItem[] = [
     href: '/english',
     items: [
       { label: 'Puzzle Generator', href: '/english/puzzle' },
+      { label: 'Batch Puzzle Generator', href: '/english/batch-puzzle' },
       { label: 'One Word Puzzle', href: '/english/single-word-puzzle' },
       { label: 'Multi Word Puzzle Easy', href: '/english/multi-word-puzzle-easy' },
       { label: 'Multi Word Puzzle Medium', href: '/english/multi-word-puzzle-medium' },
