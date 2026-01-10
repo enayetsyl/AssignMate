@@ -85,7 +85,7 @@ function placeWord(
 
 function generateSingleWordPuzzle(
   word: string,
-  gridSize = 12,
+  gridSize = 15,
   isUppercase = true,
   minPlacement: number = 8,
   maxPlacement: number = 12,
@@ -352,7 +352,7 @@ const BatchPuzzlePage = () => {
               : word.toLowerCase();
             const { grid, placements } = generateSingleWordPuzzle(
               finalWord,
-              12,
+              15,
               isUppercase,
               minPlacement,
               maxPlacement,
